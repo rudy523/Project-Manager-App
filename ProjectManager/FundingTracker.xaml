@@ -5,35 +5,21 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ProjectManager"
         xmlns:Model="clr-namespace:ProjectManager.Model"
+        xmlns:ViewModel="clr-namespace:ProjectManager.ViewModels"
         mc:Ignorable="d"
         Title="Funding Tracker" Height="500" Width="750">
+    
     <Window.Resources>
+
         <HierarchicalDataTemplate DataType="{x:Type Model:MIPR}" ItemsSource="{Binding Path=MIPRdetails}">
             <StackPanel Orientation="Horizontal">
                 <CheckBox Name="MIPRcheck" IsChecked="False" Checked="MIPRcheck_Checked"/>
                 <TextBlock Text="{Binding Path=MIPRnum}" Style="{StaticResource Compact}" />
             </StackPanel>
         </HierarchicalDataTemplate>
+
+
         
-        <HierarchicalDataTemplate DataType="{x:Type Model:ProjectNumber}">
-            <StackPanel Orientation="Horizontal">
-                <CheckBox IsChecked="{Binding MIPRchecked, Mode=TwoWay}"/>
-                <TextBlock Text="{Binding Path=Projnum}" Style="{StaticResource Compact}" />
-            </StackPanel>
-        </HierarchicalDataTemplate>
-
-        <CollectionViewSource x:Key="ProjectNumbers" Source="{Binding FilteredData}"/>
-
-        <ItemsControl x:Key="projnumControl" ItemsSource="{Binding Source={StaticResource ProjectNumbers}}">
-            <ItemsControl.Resources>
-                <DataTemplate DataType="{x:Type Model:MIPR}">
-                    <StackPanel Orientation="Horizontal">
-                        <CheckBox IsChecked="{Binding IsSelected}"/>
-                        <TextBlock Text="{Binding Path=MIPRnum}" Style="{StaticResource Compact}" />
-                    </StackPanel>
-                </DataTemplate>
-            </ItemsControl.Resources>
-        </ItemsControl>
 
 
 

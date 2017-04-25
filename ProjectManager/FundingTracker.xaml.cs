@@ -50,7 +50,7 @@ namespace ProjectManager
         {
             this.SearchCriteria = SearchBox.Text.Split(' ');
             _viewModel = new MainViewModel(SearchCriteria);
-            base.DataContext = _viewModel;
+            //base.DataContext = _viewModel;
 
             //MIPRdisplay.ItemsSource = FilteredData;
             MIPRdisplay.Visibility = Visibility.Visible;
