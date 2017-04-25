@@ -12,6 +12,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using ProjectManager.Model;
+using System.Collections.ObjectModel;
 
 namespace ProjectManager
 {
@@ -20,11 +22,17 @@ namespace ProjectManager
     /// </summary>
     public partial class MainWindow : Window
     {
-        private MainViewModel _viewModel = new MainViewModel();
+        public ObservableCollection<MIPRNumber> MyData { get; set; }
+
         public MainWindow()
         {
             InitializeComponent();
-            DataContext = _viewModel;
+        }
+
+        private void TrackFunding_Click(object sender, RoutedEventArgs e)
+        {
+            FundingTracker tracker = new FundingTracker();
+            tracker.Show();
         }
     }
 }

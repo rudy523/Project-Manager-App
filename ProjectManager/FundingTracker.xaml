@@ -1,0 +1,123 @@
+﻿<Window x:Class="ProjectManager.FundingTracker"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ProjectManager"
+        xmlns:Model="clr-namespace:ProjectManager.Model"
+        mc:Ignorable="d"
+        Title="Funding Tracker" Height="500" Width="750">
+    <Window.Resources>
+        <HierarchicalDataTemplate DataType="{x:Type Model:MIPR}" ItemsSource="{Binding Path=MIPRdetails}">
+            <StackPanel Orientation="Horizontal">
+                <CheckBox Name="MIPRcheck" IsChecked="False" Checked="MIPRcheck_Checked"/>
+                <TextBlock Text="{Binding Path=MIPRnum}" Style="{StaticResource Compact}" />
+            </StackPanel>
+        </HierarchicalDataTemplate>
+        
+        <HierarchicalDataTemplate DataType="{x:Type Model:ProjectNumber}">
+            <StackPanel Orientation="Horizontal">
+                <CheckBox IsChecked="{Binding MIPRchecked, Mode=TwoWay}"/>
+                <TextBlock Text="{Binding Path=Projnum}" Style="{StaticResource Compact}" />
+            </StackPanel>
+        </HierarchicalDataTemplate>
+
+        <CollectionViewSource x:Key="ProjectNumbers" Source="{Binding FilteredData}"/>
+
+        <ItemsControl x:Key="projnumControl" ItemsSource="{Binding Source={StaticResource ProjectNumbers}}">
+            <ItemsControl.Resources>
+                <DataTemplate DataType="{x:Type Model:MIPR}">
+                    <StackPanel Orientation="Horizontal">
+                        <CheckBox IsChecked="{Binding IsSelected}"/>
+                        <TextBlock Text="{Binding Path=MIPRnum}" Style="{StaticResource Compact}" />
+                    </StackPanel>
+                </DataTemplate>
+            </ItemsControl.Resources>
+        </ItemsControl>
+
+
+
+
+    </Window.Resources>
+
+    <Grid>
+        <Grid Background="#FF423B3B">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+           
+            <StackPanel Orientation="Vertical">
+                <TextBlock Style="{StaticResource DefaultTextStyle}" Foreground="CornflowerBlue" Grid.Row="1">Track Project Funding</TextBlock>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Grid.Row="2">
+                <TextBox Name="SearchBox" TextWrapping="Wrap" MaxLines="25" MinWidth="200" Margin="5,10,5,5" Background="#FFA29696" 
+                         Text="Enter Search Criteria" FontSize="14" HorizontalContentAlignment="Left" VerticalContentAlignment="Center"/>
+                <Button Style="{StaticResource DefaultButtonStyle}" Click="GetData_Click" Cursor="Hand" BorderBrush="#FF423B3B" Padding="2">Get Data</Button>
+            </StackPanel>
+            <ListBox Name="DetailsList" Grid.Row="3" Grid.Column="1" Margin="5" Style="{StaticResource ProjectNumberList}" 
+                     DataContext="{Binding ElementName=MIPRdisplay, Path=SelectedItem}" BorderBrush="#FF423B3B" Visibility="Hidden">
+                <TextBlock Text="{Binding Details[0], StringFormat= Billing Element: {0}}"/>
+                <TextBlock Text="{Binding Details[1], StringFormat= Network: {0}}"/>
+                <TextBlock Text="{Binding Details[2], StringFormat= Activity: {0}}"/>
+                <TextBlock Text="{Binding Details[3], StringFormat= Sub Elem: {0}}"/>
+                <TextBlock Text="{Binding Details[4], StringFormat= Appn: {0}}"/>
+                <TextBlock Text="{Binding Details[5], StringFormat= AppnNo: {0}}"/>
+                <TextBlock Text="{Binding Details[6], StringFormat= Doc Type: {0}}"/>
+                <TextBlock Text="{Binding Details[7], StringFormat= Program: {0}}"/>
+                <TextBlock Text="{Binding Details[8], StringFormat= Project: {0}}"/>
+                <TextBlock Text="{Binding Details[9], StringFormat= Title: {0}}"/>
+                <TextBlock Text="{Binding Details[10], StringFormat= Sponsor: {0}}"/>
+                <TextBlock Text="{Binding Details[11], StringFormat= Engineer: {0}}"/>
+                <TextBlock Text="{Binding Details[12], StringFormat= Labor Allocated: {0}}"/>
+                <TextBlock Text="{Binding Details[13], StringFormat= Material Allocated: {0}}"/>
+                <TextBlock Text="{Binding Details[14], StringFormat= Travel Allocated: {0}}"/>
+                <TextBlock Text="{Binding Details[15], StringFormat= Services Allocated: {0}}"/>
+                <TextBlock Text="{Binding Details[16], StringFormat= Division Allocated: {0}}"/>
+                <TextBlock Text="{Binding Details[17], StringFormat= CB Allocated: {0}}"/>
+                <TextBlock Text="{Binding Details[18], StringFormat= Other Allocated: {0}}"/>
+                <TextBlock Text="{Binding Details[19], StringFormat= Total Allocated: {0}}"/>
+                <TextBlock Text="{Binding Details[20], StringFormat= Labor Expended: {0}}"/>
+                <TextBlock Text="{Binding Details[21], StringFormat= Material Expended: {0}}"/>
+                <TextBlock Text="{Binding Details[22], StringFormat= Travel Expended: {0}}"/>
+                <TextBlock Text="{Binding Details[23], StringFormat= Services Expended: {0}}"/>
+                <TextBlock Text="{Binding Details[24], StringFormat= Division Expended: {0}}"/>
+                <TextBlock Text="{Binding Details[25], StringFormat= CB Expended: {0}}"/>
+                <TextBlock Text="{Binding Details[26], StringFormat= Other Expended: {0}}"/>
+                <TextBlock Text="{Binding Details[27], StringFormat= Total Expended: {0}}"/>
+                <TextBlock Text="{Binding Details[28], StringFormat= Labor Balance: {0}}"/>
+                <TextBlock Text="{Binding Details[29], StringFormat= Material Balance: {0}}"/>
+                <TextBlock Text="{Binding Details[30], StringFormat= Travel Balance: {0}}"/>
+                <TextBlock Text="{Binding Details[31], StringFormat= Services Balance: {0}}"/>
+                <TextBlock Text="{Binding Details[32], StringFormat= Division Balance: {0}}"/>
+                <TextBlock Text="{Binding Details[33], StringFormat= CB Balance: {0}}"/>
+                <TextBlock Text="{Binding Details[34], StringFormat= Other Balance: {0}}"/>
+                <TextBlock Text="{Binding Details[35], StringFormat= Total Balance: {0}}"/>
+                <TextBlock Text="{Binding Details[36], StringFormat= WCD: {0}}"/>
+                <TextBlock Text="{Binding Details[37], StringFormat= APPN Expiration: {0}}"/>
+                <TextBlock Text="{Binding Details[38], StringFormat= Accept Date: {0}}"/>
+            </ListBox>
+            <StackPanel Grid.Row="3" Orientation="Vertical" Margin="5">
+                <TreeView Name="MIPRdisplay" Background="#FF423B3B" BorderBrush="CornflowerBlue" 
+                          BorderThickness="2" Visibility="Hidden" SelectedItemChanged="MIPRdisplay_SelectedItemChanged" AlternationCount="2">
+                    <TreeView.ItemContainerStyle>
+                        <Style TargetType="{x:Type TreeViewItem}">
+                            <Setter Property="FontSize" Value="12" />
+                            <Setter Property="FontFamily" Value="Segoe UI"/>
+                            <Setter Property="Background" Value="#FF423B3B"/>
+                            <Setter Property="Foreground" Value="#FFFBFBFB"/>
+                        </Style>
+                    </TreeView.ItemContainerStyle>
+                </TreeView>
+            </StackPanel>
+        </Grid>
+    </Grid>
+</Window>

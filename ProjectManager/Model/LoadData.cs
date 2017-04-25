@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 using System.Collections.ObjectModel;
+using ProjectManager;
 
 namespace ProjectManager.Model
 {
@@ -15,21 +16,26 @@ namespace ProjectManager.Model
         public string TaskFeed { get; set; }
         public XElement FinanceRoot { get; set; }
         public XElement TaskRoot { get; set; }
+        public List<string> DistinctMIPRs { get; set; }
         public IEnumerable<XElement> ProjectNumbers { get; set; }
         public IEnumerable<XAttribute> ProjNumDetails { get; set; }
-        public ObservableCollection<ProjectNumber> ProjectNumbersView { get; set; }
+        public ObservableCollection<MIPRNumber> ProjectNumbersView { get; set; }
+        public ObservableCollection<MIPR> MIPRcollection { get; set; }
 
-        public LoadData()
+        public LoadData(string[] input)
         {
-            GetViewProjectNumbers();
+            GetViewProjectNumbers(input);
         }
 
         private void GetFinancialData()
         {
             FinancialFeed = @"\\Scrdata\bah\Rudy\Workbook Development\Programming\Financial Workbook Project Totals.xml";
-            XElement FinanceRoot = XElement.Load(FinancialFeed);
-            IEnumerable<XElement> ProjectNumbers = FinanceRoot.Descendants();
-            IEnumerable<XAttribute> ProjNumDetails = ProjectNumbers.Attributes();
+            this.FinanceRoot = XElement.Load(FinancialFeed);
+            this.ProjectNumbers = FinanceRoot.Descendants();
+            this.ProjNumDetails = ProjectNumbers.Attributes();
+            this.ProjectNumbersView = new ObservableCollection<MIPRNumber>();
+            this.DistinctMIPRs = new List<string>();
+            this.MIPRcollection = new ObservableCollection<MIPR>();
         }
 
         private void GetProjectNumberDetails(IEnumerable<XAttribute> source, List<string> output)
@@ -57,10 +63,10 @@ namespace ProjectManager.Model
             }          
         }
 
-        private ProjectNumber CreateProjectNumber(List<string> input)
+        private MIPRNumber CreateProjectNumber(List<string> input)
         {
-            ProjectNumber num = new ProjectNumber(input.ElementAt(0), input.ElementAt(1), input.ElementAt(2), int.Parse(input.ElementAt(3)), int.Parse(input.ElementAt(4)), int.Parse(input.ElementAt(5)),
-                input.ElementAt(6), int.Parse(input.ElementAt(7)), input.ElementAt(8), input.ElementAt(9), input.ElementAt(10), input.ElementAt(11), input.ElementAt(12), input.ElementAt(13),
+            MIPRNumber num = new MIPRNumber(input.ElementAt(0), input.ElementAt(1), input.ElementAt(2), input.ElementAt(3), input.ElementAt(4), input.ElementAt(5),
+                input.ElementAt(6), input.ElementAt(7), input.ElementAt(8), input.ElementAt(9), input.ElementAt(10), input.ElementAt(11), input.ElementAt(12), input.ElementAt(13),
                 decimal.Parse(input.ElementAt(14)), decimal.Parse(input.ElementAt(15)), decimal.Parse(input.ElementAt(16)), decimal.Parse(input.ElementAt(17)), decimal.Parse(input.ElementAt(18)),
                 decimal.Parse(input.ElementAt(19)), decimal.Parse(input.ElementAt(20)), decimal.Parse(input.ElementAt(21)), decimal.Parse(input.ElementAt(22)), decimal.Parse(input.ElementAt(23)),
                 decimal.Parse(input.ElementAt(24)), decimal.Parse(input.ElementAt(25)), decimal.Parse(input.ElementAt(26)), decimal.Parse(input.ElementAt(27)), decimal.Parse(input.ElementAt(28)),
@@ -71,42 +77,115 @@ namespace ProjectManager.Model
             return num;
         }
 
-        private void GetViewProjectNumbers()
+        private void DistinctMIPR()
         {
-            GetFinancialData();
-
-            foreach (var item in ProjectNumbers)
+            foreach (var item in ProjectNumbersView)
             {
-                    IEnumerable<XAttribute> rawData = item.Attributes();
-
-                    if (rawData.Count() < 40)
-                    {
-                        continue;
-                    }
-
-                    List<string> Data = new List<string>();
-
-                    GetProjectNumberDetails(rawData, Data);
-
-                    ProjectNumber num = CreateProjectNumber(Data);
-
-                    this.ProjectNumbersView.Add(num);
+                DistinctMIPRs.Add(item.MIPRnum);
             }
+
+            IEnumerable<string> nums = DistinctMIPRs.Distinct();
+            DistinctMIPRs = nums.ToList();
         }
 
-        private void SearchProjectNumbers(List<string> Criteria)
+        private void getMIPRcollection()
         {
-            
+            foreach (var item in this.DistinctMIPRs)
+            {
+                IEnumerable<MIPRNumber> matches = from match in this.ProjectNumbersView
+                                                  where match.MIPRnum == item
+                                                  select match;
+
+                ObservableCollection<ProjectNumber> ProjNum = new ObservableCollection<ProjectNumber>();
+
+                foreach (var num in matches)
+                {
+                    List<string> info = new List<string>();
+              
+                    info.Add(num.BillingElem);
+                    info.Add(num.Network);
+                    info.Add(num.Activity);
+                    info.Add(num.SubElem);
+                    info.Add(num.Appn);
+                    info.Add(num.AppnNo);
+                    info.Add(num.DocType);
+                    info.Add(num.Program);
+                    info.Add(num.Project);
+                    info.Add(num.Title);
+                    info.Add(num.Sponsor);
+                    info.Add(num.Engineer);  
+                    string LabAlloc = string.Format("{0:C}", num.LabAlloc);
+                    info.Add(LabAlloc);
+                    string MatAlloc = string.Format("{0:C}", num.MatAlloc);
+                    info.Add(MatAlloc);
+                    string TrvAlloc = string.Format("{0:C}", num.TrvAlloc);
+                    info.Add(TrvAlloc);
+                    string SvcAlloc = string.Format("{0:C}", num.SvcAlloc);
+                    info.Add(SvcAlloc);
+                    string DivAlloc = string.Format("{0:C}", num.DivAlloc);
+                    info.Add(num.DivAlloc.ToString());
+                    string CBAlloc = string.Format("{0:C}", num.CBAlloc);
+                    info.Add(CBAlloc);
+                    string OtherAlloc = string.Format("{0:C}", num.OtherAlloc);
+                    info.Add(OtherAlloc);
+                    string TotalAlloc = string.Format("{0:C}", num.TotalAlloc);
+                    info.Add(TotalAlloc);
+                    string LabExp = string.Format("{0:C}", num.LabExp);
+                    info.Add(LabExp);
+                    string MatExp = string.Format("{0:C}", num.MatExp);
+                    info.Add(MatExp);
+                    string TrvExp = string.Format("{0:C}", num.TrvExp);
+                    info.Add(TrvExp);
+                    string SvcExp = string.Format("{0:C}", num.SvcExp);
+                    info.Add(SvcExp);
+                    string DivExp = string.Format("{0:C}", num.DivExp);
+                    info.Add(DivExp);
+                    string CBExp = string.Format("{0:C}", num.CBExp);
+                    info.Add(CBExp);
+                    string OtherExp = string.Format("{0:C}", num.OtherExp);
+                    info.Add(OtherExp);
+                    string TotalExp = string.Format("{0:C}", num.TotalExp);
+                    info.Add(TotalExp);
+                    string LabBal = string.Format("{0:C}", num.LabBal);
+                    info.Add(LabBal);
+                    string MatBal = string.Format("{0:C}", num.MatBal);
+                    info.Add(MatBal);
+                    string TrvBal = string.Format("{0:C}", num.TrvBal);
+                    info.Add(TrvBal);
+                    string SvcBal = string.Format("{0:C}", num.SvcBal);
+                    info.Add(SvcBal);
+                    string DivBal = string.Format("{0:C}", num.DivBal);
+                    info.Add(DivBal);
+                    string CBBal = string.Format("{0:C}", num.CBBal);
+                    info.Add(CBBal);
+                    string OtherBal = string.Format("{0:C}", num.OtherBal);
+                    info.Add(OtherBal);
+                    string TotalBal = string.Format("{0:C}", num.TotalBal);
+                    info.Add(TotalBal);
+                    info.Add(num.WCD.ToString());
+                    info.Add(num.AppnExp.ToString());
+                    info.Add(num.AcceptDate.ToString());
+                    ProjectNumber number = new ProjectNumber(num.Projnum, info);
+                    ProjNum.Add(number);
+                }              
+                MIPR mipr = new MIPR(item, ProjNum);
+                this.MIPRcollection.Add(mipr);
+            }
+        }
+        
+        private void GetViewProjectNumbers(string[] criteria)
+        {
             GetFinancialData();
 
-            foreach (var item in Criteria)
+            foreach (var item in criteria)
             {
-                IEnumerable<XElement> matches = from number in ProjectNumbers
-                                                where number.Value == item
-                                                select number.Parent;
-                foreach (var line in matches)
+                IEnumerable<XElement> matches = from match in ProjNumDetails
+                                                where match.Value == item
+                                                select match.Parent;
+
+                foreach (var elem in matches)
                 {
-                    IEnumerable<XAttribute> rawData = line.Attributes();
+                    IEnumerable<XAttribute> rawData = elem.Attributes();
 
                     if (rawData.Count() < 40)
                     {
@@ -117,12 +196,16 @@ namespace ProjectManager.Model
 
                     GetProjectNumberDetails(rawData, Data);
 
-                    ProjectNumber num = CreateProjectNumber(Data);
+                    MIPRNumber num = CreateProjectNumber(Data);
 
-                    ProjectNumbersView.Add(num);
-
+                    this.ProjectNumbersView.Add(num);
                 }
+
+                DistinctMIPR();
+
+                getMIPRcollection();
             }
+
         }
 
     }

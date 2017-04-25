@@ -3,18 +3,14 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:ProjectManager"
+        xmlns:src="clr-namespace:ProjectManager.Model"
         mc:Ignorable="d"
-        Title="MainWindow" Height="350" Width="525">
+        Title="Project Manager" Height="350" Width="525">
 
-    <Grid>
-        <Grid.Background>
-            <LinearGradientBrush EndPoint="0.5,1" Opacity="0.75" StartPoint="0.5,0">
-                <GradientStop Color="Black"/>
-                <GradientStop Color="#FF1717FA" Offset="0.509"/>
-            </LinearGradientBrush>
-        </Grid.Background>
+
+    <Grid Background="#FF423B3B">
         <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
@@ -22,18 +18,14 @@
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto"/>
             <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="Auto"/>
         </Grid.ColumnDefinitions>
-        <TextBlock Text="Main Menu" Grid.Row="0" Grid.Column="0" Margin="3,10,3,10" FontSize="16" Foreground="#FFCFD4E6"/>
-        <StackPanel Grid.Row="1">
-            <Image Name="FundingImage" Width="56" Height="58" Source="{StaticResource Money}"/>
-            <Rectangle Style="{StaticResource CustomRectangles}" />
-            <Rectangle Style="{StaticResource CustomRectangles}" />
-            <Rectangle Style="{StaticResource CustomRectangles}" />
-        </StackPanel>
-        <StackPanel Grid.Row="1" Grid.Column="1">
-            <TextBlock Style="{StaticResource DefaultText}" Text="Enter Project Funding" Margin="3,20,3,20"/>
-            <TextBlock Style="{StaticResource DefaultText}" Text="Enter Service Contract Tasks" Margin="3,25,3,25"/>
+        <TextBlock Style="{StaticResource DefaultTextStyle}" Foreground="#FF8ED1F7" FontSize="22">Main Menu</TextBlock>
+        <StackPanel Grid.Row="1" Orientation="Vertical">
+            <TextBlock Name="TrackFundingText" Style="{StaticResource DefaultTextStyle}" Text="Track Project Funding" Margin="10,10,10,5"/>
+            <Button Name="TrackFunding" Height="75" Width="75" Margin="10,5,10,5" Click="TrackFunding_Click"/>
+
         </StackPanel>
     </Grid>
-
 </Window>

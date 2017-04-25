@@ -3,24 +3,45 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Collections.ObjectModel;
+using ProjectManager.Model;
 using System.ComponentModel;
 
-namespace ProjectManager.Model
+namespace ProjectManager.ViewModels
 {
-    public class ProjectNumber : INotifyPropertyChanged
+    public class MIPRViewModel : INotifyPropertyChanged
     {
-        public string Projnum { get; set; }
-        public List<string> Details { get; set; }
+        // Properties
+        readonly IReadOnlyCollection<ProjectNumberViewModel> _MIPRchildren;
+        public IReadOnlyCollection<ProjectNumberViewModel> MIPRchildren
+        {
+            get { return _MIPRchildren; }
+        }
+        readonly MIPR _MIPR;
+        public MIPR MIPR
+        {
+            get { return _MIPR; }
+        }
+        public string MIPRName
+        {
+            get { return MIPR.MIPRnum; }
+        }
         bool _isExpanded;
         bool _isSelected;
 
-        public ProjectNumber(string projnum, List<string> details)
+        // Constructor
+        public MIPRViewModel(MIPR mipr)
         {
-            Projnum = projnum;
-            Details = details;
+            List<ProjectNumberViewModel> nums = new List<ProjectNumberViewModel>();
+            foreach (var item in mipr.MIPRdetails)
+            {
+                ProjectNumberViewModel num = new ProjectNumberViewModel(item, MIPR);
+                nums.Add(num);
+            }
+            _MIPRchildren = nums;
+            _MIPR = mipr;
         }
 
+        // Methods
         public bool IsExpanded
         {
             get { return _isExpanded; }
@@ -53,6 +74,5 @@ namespace ProjectManager.Model
         {
             PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
         }
-
     }
 }

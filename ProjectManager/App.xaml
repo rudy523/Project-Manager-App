@@ -6,20 +6,45 @@
     <Application.Resources>
         <Style x:Key="CustomRectangles"  TargetType="Rectangle">
             <Setter Property="HorizontalAlignment" Value="Center" />
-            <Setter Property="Height" Value="58"/>
+            <Setter Property="MinHeight" Value="50"/>
             <Setter Property="Stroke" Value="Black" />
             <Setter Property ="VerticalAlignment" Value="Top"/>
-            <Setter Property ="Width" Value="56"/>
-            <Setter Property ="Margin" Value="0,10,0,0" /> 
+            <Setter Property ="MinWidth" Value="50"/>
+            <Setter Property ="Margin" Value="10,10,10,10" /> 
         </Style>
-        <Style x:Key="DefaultText" TargetType="TextBlock">
+        <Style x:Key="DefaultTextStyle" TargetType="TextBlock">
             <Setter Property="FontSize" Value="14" />
-            <Setter Property="Foreground" Value="#FFCFD4E6"/>
             <Setter Property="FontFamily" Value="Segoe UI"/>
+            <Setter Property="Background" Value="#FF423B3B"/>
+            <Setter Property="Foreground" Value="#FFFBFBFB"/>
+            <Setter Property="Margin" Value="5,10,5,5"/>
         </Style>
-        <BitmapImage x:Key="Money" UriSource="/Images/coin-us-dollar-icon.png"/>
-        <
+        <Style x:Key="Compact" TargetType="TextBlock">
+            <Setter Property="FontSize" Value="12" />
+            <Setter Property="FontFamily" Value="Segoe UI"/>
+            <Setter Property="Background" Value="#FF423B3B"/>
+            <Setter Property="Foreground" Value="#FFFBFBFB"/>
+            <Setter Property="Margin" Value="5,2,0,0"/>
+        </Style>
+        <Style x:Key="DefaultButtonStyle" TargetType="Button">
+            <Setter Property="FontSize" Value="14" />
+            <Setter Property="FontFamily" Value="Segoe UI"/>
+            <Setter Property="Background" Value="#FF423B3B"/>
+            <Setter Property="Foreground" Value="#FFFBFBFB"/>
+            <Setter Property="BorderBrush" Value="#FF423B3B"/>
+            <Setter Property="Margin" Value="10,5,5,5"/>
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+        </Style>
+        <Style x:Key="ProjectNumberList" TargetType="ListBox">
+            <Setter Property="FontSize" Value="12" />
+            <Setter Property="FontFamily" Value="Segoe UI"/>
+            <Setter Property="Background" Value="#FF423B3B"/>
+            <Setter Property="Foreground" Value="#FFFBFBFB"/>
+        </Style>
         
-      
+        
+        <BitmapImage x:Key="Money" UriSource="/Images/coin-us-dollar-icon.png"/>
+        
     </Application.Resources>
 </Application>

@@ -3,24 +3,41 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Collections.ObjectModel;
+using ProjectManager.Model;
 using System.ComponentModel;
 
-namespace ProjectManager.Model
+namespace ProjectManager.ViewModels
 {
-    public class ProjectNumber : INotifyPropertyChanged
+    public class ProjectNumberViewModel : INotifyPropertyChanged
     {
-        public string Projnum { get; set; }
-        public List<string> Details { get; set; }
+        // Properties
+        readonly IReadOnlyCollection<string> _children;
+        public IReadOnlyCollection<string> Children
+        {
+            get { return _children; }
+        }
+        readonly MIPR _Parent;
+        public MIPR Parent
+        {
+            get { return _Parent; }
+        }
+        readonly ProjectNumber _projectnumber;
+        public string ParentName
+        {
+            get { return Parent.MIPRnum; }
+        }
         bool _isExpanded;
         bool _isSelected;
 
-        public ProjectNumber(string projnum, List<string> details)
+        // Constructor
+        public ProjectNumberViewModel(ProjectNumber projectnumber, MIPR Parent)
         {
-            Projnum = projnum;
-            Details = details;
+            _projectnumber = projectnumber;
+            _Parent = Parent;
+            _children = _projectnumber.Details;
         }
 
+        // Methods
         public bool IsExpanded
         {
             get { return _isExpanded; }
@@ -55,4 +72,6 @@ namespace ProjectManager.Model
         }
 
     }
+
+    
 }
