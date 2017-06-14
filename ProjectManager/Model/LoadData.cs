@@ -83,37 +83,35 @@ namespace ProjectManager.Model
             {
                 DistinctMIPRs.Add(item.MIPRnum);
             }
-
             IEnumerable<string> nums = DistinctMIPRs.Distinct();
             DistinctMIPRs = nums.ToList();
         }
 
-        private void getMIPRcollection()
+        private void GetMIPRcollection()
         {
             foreach (var item in this.DistinctMIPRs)
             {
                 IEnumerable<MIPRNumber> matches = from match in this.ProjectNumbersView
                                                   where match.MIPRnum == item
                                                   select match;
-
                 ObservableCollection<ProjectNumber> ProjNum = new ObservableCollection<ProjectNumber>();
-
                 foreach (var num in matches)
                 {
-                    List<string> info = new List<string>();
-              
-                    info.Add(num.BillingElem);
-                    info.Add(num.Network);
-                    info.Add(num.Activity);
-                    info.Add(num.SubElem);
-                    info.Add(num.Appn);
-                    info.Add(num.AppnNo);
-                    info.Add(num.DocType);
-                    info.Add(num.Program);
-                    info.Add(num.Project);
-                    info.Add(num.Title);
-                    info.Add(num.Sponsor);
-                    info.Add(num.Engineer);  
+                    ObservableCollection<string> info = new ObservableCollection<string>
+                    {
+                        num.BillingElem,
+                        num.Network,
+                        num.Activity,
+                        num.SubElem,
+                        num.Appn,
+                        num.AppnNo,
+                        num.DocType,
+                        num.Program,
+                        num.Project,
+                        num.Title,
+                        num.Sponsor,
+                        num.Engineer
+                    };
                     string LabAlloc = string.Format("{0:C}", num.LabAlloc);
                     info.Add(LabAlloc);
                     string MatAlloc = string.Format("{0:C}", num.MatAlloc);
@@ -123,7 +121,7 @@ namespace ProjectManager.Model
                     string SvcAlloc = string.Format("{0:C}", num.SvcAlloc);
                     info.Add(SvcAlloc);
                     string DivAlloc = string.Format("{0:C}", num.DivAlloc);
-                    info.Add(num.DivAlloc.ToString());
+                    info.Add(DivAlloc);
                     string CBAlloc = string.Format("{0:C}", num.CBAlloc);
                     info.Add(CBAlloc);
                     string OtherAlloc = string.Format("{0:C}", num.OtherAlloc);
@@ -203,7 +201,7 @@ namespace ProjectManager.Model
 
                 DistinctMIPR();
 
-                getMIPRcollection();
+                GetMIPRcollection();
             }
 
         }

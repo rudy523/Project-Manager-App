@@ -3,107 +3,527 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:ProjectManager"
+        xmlns:DVC="clr-namespace:System.Windows.Controls.DataVisualization.Charting;assembly=System.Windows.Controls.DataVisualization.Toolkit"
+        xmlns:Visualization="clr-namespace:System.Windows.Controls.DataVisualization;assembly=System.Windows.Controls.DataVisualization.Toolkit"
+        xmlns:Primitives="clr-namespace:System.Windows.Controls.DataVisualization.Charting.Primitives;assembly=System.Windows.Controls.DataVisualization.Toolkit"
+        xmlns:ModernUI="http://modernwpf"
         xmlns:Model="clr-namespace:ProjectManager.Model"
-        xmlns:ViewModel="clr-namespace:ProjectManager.ViewModels"
-        mc:Ignorable="d"
         Title="Funding Tracker" Height="500" Width="750">
-    
-    <Window.Resources>
-
-        <HierarchicalDataTemplate DataType="{x:Type Model:MIPR}" ItemsSource="{Binding Path=MIPRdetails}">
-            <StackPanel Orientation="Horizontal">
-                <CheckBox Name="MIPRcheck" IsChecked="False" Checked="MIPRcheck_Checked"/>
-                <TextBlock Text="{Binding Path=MIPRnum}" Style="{StaticResource Compact}" />
-            </StackPanel>
-        </HierarchicalDataTemplate>
-
-
         
-
-
-
-
+    <Window.Resources>
+        
     </Window.Resources>
 
-    <Grid>
-        <Grid Background="#FF423B3B">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="*"/>
-            </Grid.RowDefinitions>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition Width="Auto"/>
-            </Grid.ColumnDefinitions>
-           
-            <StackPanel Orientation="Vertical">
-                <TextBlock Style="{StaticResource DefaultTextStyle}" Foreground="CornflowerBlue" Grid.Row="1">Track Project Funding</TextBlock>
-            </StackPanel>
-            <StackPanel Orientation="Horizontal" Grid.Row="2">
-                <TextBox Name="SearchBox" TextWrapping="Wrap" MaxLines="25" MinWidth="200" Margin="5,10,5,5" Background="#FFA29696" 
+    <Window.CommandBindings>
+        <CommandBinding Command="Save" Executed="SaveCommand_Executed"/>
+        <CommandBinding Command="SaveAs" Executed="SaveAsCommand_Executed"/>
+        <CommandBinding Command="Open" Executed="OpenCommand_Executed"/>
+        <CommandBinding Command="Refresh" Executed="Refresh_Executed"/>
+    </Window.CommandBindings>
+    
+    <Grid Background="{StaticResource StandardBackground}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/> 
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Menu Style="{StaticResource StandardMenu}">
+            <MenuItem Template="{DynamicResource MenuItemControlTemplate1}" Header="File">
+                <MenuItem Header="New" />
+                <MenuItem Command="Open"/>
+                <MenuItem Command="Save"/>
+                <MenuItem Command="SaveAs"/>
+            </MenuItem>
+        </Menu>
+        <StackPanel Orientation="Horizontal" Grid.Row="1" Grid.ColumnSpan="2">
+            <TextBox Name="SearchBox" TextWrapping="Wrap" MaxLines="25" MinWidth="200" Margin="10,5,5,5" Background="White" Foreground="Black"
                          Text="Enter Search Criteria" FontSize="14" HorizontalContentAlignment="Left" VerticalContentAlignment="Center"/>
-                <Button Style="{StaticResource DefaultButtonStyle}" Click="GetData_Click" Cursor="Hand" BorderBrush="#FF423B3B" Padding="2">Get Data</Button>
-            </StackPanel>
-            <ListBox Name="DetailsList" Grid.Row="3" Grid.Column="1" Margin="5" Style="{StaticResource ProjectNumberList}" 
-                     DataContext="{Binding ElementName=MIPRdisplay, Path=SelectedItem}" BorderBrush="#FF423B3B" Visibility="Hidden">
-                <TextBlock Text="{Binding Details[0], StringFormat= Billing Element: {0}}"/>
-                <TextBlock Text="{Binding Details[1], StringFormat= Network: {0}}"/>
-                <TextBlock Text="{Binding Details[2], StringFormat= Activity: {0}}"/>
-                <TextBlock Text="{Binding Details[3], StringFormat= Sub Elem: {0}}"/>
-                <TextBlock Text="{Binding Details[4], StringFormat= Appn: {0}}"/>
-                <TextBlock Text="{Binding Details[5], StringFormat= AppnNo: {0}}"/>
-                <TextBlock Text="{Binding Details[6], StringFormat= Doc Type: {0}}"/>
-                <TextBlock Text="{Binding Details[7], StringFormat= Program: {0}}"/>
-                <TextBlock Text="{Binding Details[8], StringFormat= Project: {0}}"/>
-                <TextBlock Text="{Binding Details[9], StringFormat= Title: {0}}"/>
-                <TextBlock Text="{Binding Details[10], StringFormat= Sponsor: {0}}"/>
-                <TextBlock Text="{Binding Details[11], StringFormat= Engineer: {0}}"/>
-                <TextBlock Text="{Binding Details[12], StringFormat= Labor Allocated: {0}}"/>
-                <TextBlock Text="{Binding Details[13], StringFormat= Material Allocated: {0}}"/>
-                <TextBlock Text="{Binding Details[14], StringFormat= Travel Allocated: {0}}"/>
-                <TextBlock Text="{Binding Details[15], StringFormat= Services Allocated: {0}}"/>
-                <TextBlock Text="{Binding Details[16], StringFormat= Division Allocated: {0}}"/>
-                <TextBlock Text="{Binding Details[17], StringFormat= CB Allocated: {0}}"/>
-                <TextBlock Text="{Binding Details[18], StringFormat= Other Allocated: {0}}"/>
-                <TextBlock Text="{Binding Details[19], StringFormat= Total Allocated: {0}}"/>
-                <TextBlock Text="{Binding Details[20], StringFormat= Labor Expended: {0}}"/>
-                <TextBlock Text="{Binding Details[21], StringFormat= Material Expended: {0}}"/>
-                <TextBlock Text="{Binding Details[22], StringFormat= Travel Expended: {0}}"/>
-                <TextBlock Text="{Binding Details[23], StringFormat= Services Expended: {0}}"/>
-                <TextBlock Text="{Binding Details[24], StringFormat= Division Expended: {0}}"/>
-                <TextBlock Text="{Binding Details[25], StringFormat= CB Expended: {0}}"/>
-                <TextBlock Text="{Binding Details[26], StringFormat= Other Expended: {0}}"/>
-                <TextBlock Text="{Binding Details[27], StringFormat= Total Expended: {0}}"/>
-                <TextBlock Text="{Binding Details[28], StringFormat= Labor Balance: {0}}"/>
-                <TextBlock Text="{Binding Details[29], StringFormat= Material Balance: {0}}"/>
-                <TextBlock Text="{Binding Details[30], StringFormat= Travel Balance: {0}}"/>
-                <TextBlock Text="{Binding Details[31], StringFormat= Services Balance: {0}}"/>
-                <TextBlock Text="{Binding Details[32], StringFormat= Division Balance: {0}}"/>
-                <TextBlock Text="{Binding Details[33], StringFormat= CB Balance: {0}}"/>
-                <TextBlock Text="{Binding Details[34], StringFormat= Other Balance: {0}}"/>
-                <TextBlock Text="{Binding Details[35], StringFormat= Total Balance: {0}}"/>
-                <TextBlock Text="{Binding Details[36], StringFormat= WCD: {0}}"/>
-                <TextBlock Text="{Binding Details[37], StringFormat= APPN Expiration: {0}}"/>
-                <TextBlock Text="{Binding Details[38], StringFormat= Accept Date: {0}}"/>
-            </ListBox>
-            <StackPanel Grid.Row="3" Orientation="Vertical" Margin="5">
-                <TreeView Name="MIPRdisplay" Background="#FF423B3B" BorderBrush="CornflowerBlue" 
-                          BorderThickness="2" Visibility="Hidden" SelectedItemChanged="MIPRdisplay_SelectedItemChanged" AlternationCount="2">
-                    <TreeView.ItemContainerStyle>
-                        <Style TargetType="{x:Type TreeViewItem}">
-                            <Setter Property="FontSize" Value="12" />
-                            <Setter Property="FontFamily" Value="Segoe UI"/>
-                            <Setter Property="Background" Value="#FF423B3B"/>
-                            <Setter Property="Foreground" Value="#FFFBFBFB"/>
-                        </Style>
-                    </TreeView.ItemContainerStyle>
-                </TreeView>
-            </StackPanel>
-        </Grid>
+            <Button Style="{StaticResource DefaultButtonStyle}" BorderThickness="1" Click="GetData_Click" Cursor="Hand">Query</Button>
+            <Button Style="{StaticResource DefaultButtonStyle}" BorderThickness="1" Cursor="Hand" Click="Clear_Click">Clear</Button>
+            <Button Style="{StaticResource DefaultButtonStyle}" BorderThickness="1" Cursor="Hand" Click="TrackFunding_Click">Track Funding</Button>
+            <Button Style="{StaticResource DefaultButtonStyle}" BorderThickness="1" Click="GetData_Click" Cursor="Hand">Refresh Data</Button>
+            <Button Style="{StaticResource DefaultButtonStyle}" BorderThickness="1" Cursor="Hand" Click="ShowTree_Click">Show Visual Tree</Button>
+        </StackPanel>
+        <ListBox Name="DetailsList" Grid.Row="2" Grid.Column="1" Margin="5" Style="{StaticResource ProjectNumberList}" 
+                     DataContext="{Binding ElementName=MIPRdisplay, Path=SelectedItem}" BorderBrush="#FF423B3B" Visibility="Hidden" Grid.RowSpan="3">
+            <TextBlock Text="{Binding Children[0], StringFormat= Billing Element: {0}}"/>
+            <TextBlock Text="{Binding Children[1], StringFormat= Network: {0}}"/>
+            <TextBlock Text="{Binding Children[2], StringFormat= Activity: {0}}"/>
+            <TextBlock Text="{Binding Children[3], StringFormat= Sub Elem: {0}}"/>
+            <TextBlock Text="{Binding Children[4], StringFormat= Appn: {0}}"/>
+            <TextBlock Text="{Binding Children[5], StringFormat= AppnNo: {0}}"/>
+            <TextBlock Text="{Binding Children[6], StringFormat= Doc Type: {0}}"/>
+            <TextBlock Text="{Binding Children[7], StringFormat= Program: {0}}"/>
+            <TextBlock Text="{Binding Children[8], StringFormat= Project: {0}}"/>
+            <TextBlock Text="{Binding Children[9], StringFormat= Title: {0}}"/>
+            <TextBlock Text="{Binding Children[10], StringFormat= Sponsor: {0}}"/>
+            <TextBlock Text="{Binding Children[11], StringFormat= Engineer: {0}}"/>
+            <TextBlock Text="{Binding Children[12], StringFormat= Labor Allocated {0}}"/>
+            <TextBlock Text="{Binding Children[13], StringFormat= Material Allocated: {0}}"/>
+            <TextBlock Text="{Binding Children[14], StringFormat= Travel Allocated: {0}}"/>
+            <TextBlock Text="{Binding Children[15], StringFormat= Services Allocated: {0}}"/>
+            <TextBlock Text="{Binding Children[16], StringFormat= Division Allocated: {0}}"/>
+            <TextBlock Text="{Binding Children[17], StringFormat= CB Allocated: {0}}"/>
+            <TextBlock Text="{Binding Children[18], StringFormat= Other Allocated: {0}}"/>
+            <TextBlock Text="{Binding Children[19], StringFormat= Total Allocated: {0}}"/>
+            <TextBlock Text="{Binding Children[20], StringFormat= Labor Expended: {0}}"/>
+            <TextBlock Text="{Binding Children[21], StringFormat= Material Expended: {0}}"/>
+            <TextBlock Text="{Binding Children[22], StringFormat= Travel Expended: {0}}"/>
+            <TextBlock Text="{Binding Children[23], StringFormat= Services Expended: {0}}"/>
+            <TextBlock Text="{Binding Children[24], StringFormat= Division Expended: {0}}"/>
+            <TextBlock Text="{Binding Children[25], StringFormat= CB Expended: {0}}"/>
+            <TextBlock Text="{Binding Children[26], StringFormat= Other Expended: {0}}"/>
+            <TextBlock Text="{Binding Children[27], StringFormat= Total Expended: {0}}"/>
+            <TextBlock Text="{Binding Children[28], StringFormat= Labor Balance: {0}}"/>
+            <TextBlock Text="{Binding Children[29], StringFormat= Material Balance: {0}}"/>
+            <TextBlock Text="{Binding Children[30], StringFormat= Travel Balance: {0}}"/>
+            <TextBlock Text="{Binding Children[31], StringFormat= Services Balance: {0}}"/>
+            <TextBlock Text="{Binding Children[32], StringFormat= Division Balance: {0}}"/>
+            <TextBlock Text="{Binding Children[33], StringFormat= CB Balance: {0}}"/>
+            <TextBlock Text="{Binding Children[34], StringFormat= Other Balance: {0}}"/>
+            <TextBlock Text="{Binding Children[35], StringFormat= Total Balance: {0}}"/>
+            <TextBlock Text="{Binding Children[36], StringFormat= WCD: {0}}"/>
+            <TextBlock Text="{Binding Children[37], StringFormat= APPN Expiration: {0}}"/>
+            <TextBlock Text="{Binding Children[38], StringFormat= Accept Date: {0}}"/>
+        </ListBox>
+        <TreeView Name="MIPRdisplay" Background="Black" BorderBrush="Transparent"  Visibility="Hidden" AlternationCount="2" 
+                        ItemsSource="{Binding MIPRnums}" ScrollViewer.VerticalScrollBarVisibility="Auto" Grid.Row="2" Margin="10,5,5,5" Grid.RowSpan="3">
+            <TreeView.ItemContainerStyle>
+                <Style TargetType="{x:Type TreeViewItem}">
+                    <Setter Property="IsExpanded" Value="{Binding IsExpanded, Mode=TwoWay}"/>
+                    <Setter Property="IsSelected" Value="{Binding IsSelected, Mode=TwoWay}"/>
+                    <Setter Property="FontSize" Value="12" />
+                    <Setter Property="FontFamily" Value="Segoe UI"/>
+                    <Setter Property="Background" Value="Black"/>
+                    <Setter Property="Foreground" Value="White"/>
+                    <Style.Triggers>
+                        <Trigger Property="IsSelected" Value="True">
+                            <Setter Property="FontWeight" Value="Bold"/>
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </TreeView.ItemContainerStyle>
+            <TreeView.ItemTemplate>
+                <HierarchicalDataTemplate ItemsSource="{Binding MIPRchildren}">
+                    <StackPanel Orientation="Horizontal">
+                        <CheckBox IsChecked="{Binding IsChecked}"/>
+                        <TextBlock Text="{Binding MIPRName}" MouseLeftButtonDown="ProjectNumberDeselected"/>
+                    </StackPanel>
+                    <HierarchicalDataTemplate.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <CheckBox IsChecked="{Binding IsChecked}"/>
+                                <TextBlock Text="{Binding ProjNum}" MouseLeftButtonDown="ProjectNumberSelected"/>
+                            </StackPanel>
+                        </DataTemplate>
+                    </HierarchicalDataTemplate.ItemTemplate>
+                </HierarchicalDataTemplate>
+            </TreeView.ItemTemplate>
+        </TreeView>
+        <DVC:Chart Grid.Column="2" Grid.Row="2" Name="FundingChart" Margin="10,5,5,5" Title="Current Project Funding" Style="{StaticResource LineChart}" PlotAreaStyle="{StaticResource LineChartPlotArea}"
+                   LegendStyle="{StaticResource ChartLegend}" TitleStyle="{StaticResource LineChartTitle}" Background="#FF3A3838" Padding="25,20,25,5">
+            <DVC:Chart.Axes>
+                <DVC:LinearAxis AxisLabelStyle="{StaticResource LineChartAxisLabel}" Orientation="Y" ShowGridLines="True"/>
+                <DVC:DateTimeAxis AxisLabelStyle="{StaticResource LineChartAxisLabel}" Orientation="X" Interval="1" IntervalType="Months"/>
+            </DVC:Chart.Axes>
+            <DVC:LineSeries x:Name="FundingSeries" ItemsSource="{Binding ChartDataModel}" IndependentValueBinding="{Binding Date}" DependentValueBinding="{Binding FundedPointValue}" 
+                                Title="Funded Amount" DataPointStyle="{StaticResource FundedDataPointStyle}" LegendItemStyle="{StaticResource FundedLineChartLegendItem}"/>
+            <DVC:LineSeries x:Name="ExpendedSeries" ItemsSource="{Binding ChartDataModel}" IndependentValueBinding="{Binding Date}" DependentValueBinding="{Binding ExpendedPointValue}" 
+                            Title="Expended Amount" LegendItemStyle="{StaticResource ExpendedLineChartLegendItem}" DataPointStyle="{StaticResource ExpendedDataPointStyle}"/>
+            <DVC:LineSeries x:Name="BalanceSeries" ItemsSource="{Binding ChartDataModel}" IndependentValueBinding="{Binding Date}" DependentValueBinding="{Binding BalancePointValue}" 
+                            Title="Balance Amount" LegendItemStyle="{StaticResource BalanceLineChartLegendItem}" DataPointStyle="{StaticResource BalanceDataPointStyle}"/>
+         </DVC:Chart>
+
+        <DataGrid Grid.Column="2" Grid.Row="3" Name="FundingGrid"  Background="Black" BorderBrush="Transparent" AutoGenerateColumns="False" ItemsSource="{Binding GridData}" Visibility="Hidden">
+            <DataGrid.Resources>
+                <Style TargetType="{x:Type DataGridColumnHeader}">
+                    <Setter Property="Background" Value="Black"/>
+                    <Setter Property="Foreground" Value="White"/>
+                    <Setter Property="FontSize" Value="12" />
+                    <Setter Property="FontFamily" Value="Segoe UI"/>
+                    <Setter Property="Margin" Value="10,5,5,5"/>
+                </Style>
+                <Style TargetType="{x:Type DataGridCell}">
+                    <Setter Property="Background" Value="Black"/>
+                </Style>
+            </DataGrid.Resources>
+            <DataGrid.Columns>
+                <DataGridTemplateColumn Header="MIPR Number">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <DataGridCell>
+                                <TextBlock Text="{Binding MIPRnum}" Style="{StaticResource NormalText}"/>
+                            </DataGridCell>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="Project Number">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <DataGridCell>
+                                <TextBlock Text="{Binding ProjNum}" Style="{StaticResource NormalText}"/>
+                            </DataGridCell>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="Billing Element">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <DataGridCell>
+                                <TextBlock Text="{Binding BillingElem}" Style="{StaticResource NormalText}"/>
+                            </DataGridCell>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="Network">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <DataGridCell>
+                                <TextBlock Text="{Binding Network}" Style="{StaticResource NormalText}"/>
+                            </DataGridCell>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="Activity">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <DataGridCell>
+                                <TextBlock Text="{Binding Activity}" Style="{StaticResource NormalText}"/>
+                            </DataGridCell>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="Sub Element">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <DataGridCell>
+                                <TextBlock Text="{Binding SubElem}" Style="{StaticResource NormalText}"/>
+                            </DataGridCell>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="APPN">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <DataGridCell>
+                                <TextBlock Text="{Binding Appn}" Style="{StaticResource NormalText}"/>
+                            </DataGridCell>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="APPN No.">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <DataGridCell>
+                                <TextBlock Text="{Binding AppnNo}" Style="{StaticResource NormalText}"/>
+                            </DataGridCell>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="Doc Type">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <DataGridCell>
+                                <TextBlock Text="{Binding DocType}" Style="{StaticResource NormalText}"/>
+                            </DataGridCell>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="Program">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <DataGridCell>
+                                <TextBlock Text="{Binding Program}" Style="{StaticResource NormalText}"/>
+                            </DataGridCell>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="Project">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <DataGridCell>
+                                <TextBlock Text="{Binding Project}" Style="{StaticResource NormalText}"/>
+                            </DataGridCell>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="Title">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <DataGridCell>
+                                <TextBlock Text="{Binding Title}" Style="{StaticResource NormalText}"/>
+                            </DataGridCell>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="Sponsor">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <DataGridCell>
+                                <TextBlock Text="{Binding Sponsor}" Style="{StaticResource NormalText}"/>
+                            </DataGridCell>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="Engineer">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <DataGridCell>
+                                <TextBlock Text="{Binding Engineer}" Style="{StaticResource NormalText}"/>
+                            </DataGridCell>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="Labor Allocated">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <DataGridCell>
+                                <TextBlock Text="{Binding LabAlloc}" Style="{StaticResource NormalText}"/>
+                            </DataGridCell>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="Material Allocated">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <DataGridCell>
+                                <TextBlock Text="{Binding MatAlloc}" Style="{StaticResource NormalText}"/>
+                            </DataGridCell>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="Travel Allocated">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <DataGridCell>
+                                <TextBlock Text="{Binding TrvAlloc}" Style="{StaticResource NormalText}"/>
+                            </DataGridCell>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="Services Allocated">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <DataGridCell>
+                                <TextBlock Text="{Binding SvcAlloc}" Style="{StaticResource NormalText}"/>
+                            </DataGridCell>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="Division Allocated">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <DataGridCell>
+                                <TextBlock Text="{Binding DivAlloc}" Style="{StaticResource NormalText}"/>
+                            </DataGridCell>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="CB Allocated">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <DataGridCell>
+                                <TextBlock Text="{Binding CBAlloc}" Style="{StaticResource NormalText}"/>
+                            </DataGridCell>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="Other Allocated">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <DataGridCell>
+                                <TextBlock Text="{Binding OtherAlloc}" Style="{StaticResource NormalText}"/>
+                            </DataGridCell>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="Total Allocated">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <DataGridCell>
+                                <TextBlock Text="{Binding TotalAlloc}" Style="{StaticResource NormalText}"/>
+                            </DataGridCell>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="Labor Expended">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <DataGridCell>
+                                <TextBlock Text="{Binding LabExp}" Style="{StaticResource NormalText}"/>
+                            </DataGridCell>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="Material Expended">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <DataGridCell>
+                                <TextBlock Text="{Binding MatExp}" Style="{StaticResource NormalText}"/>
+                            </DataGridCell>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="Travel Expended">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <DataGridCell>
+                                <TextBlock Text="{Binding TrvExp}" Style="{StaticResource NormalText}"/>
+                            </DataGridCell>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="Services Expended">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <DataGridCell>
+                                <TextBlock Text="{Binding SvcExp}" Style="{StaticResource NormalText}"/>
+                            </DataGridCell>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="Division Expended">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <DataGridCell>
+                                <TextBlock Text="{Binding DivExp}" Style="{StaticResource NormalText}"/>
+                            </DataGridCell>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="CB Expended">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <DataGridCell>
+                                <TextBlock Text="{Binding CBExp}" Style="{StaticResource NormalText}"/>
+                            </DataGridCell>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="Other Expended">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <DataGridCell>
+                                <TextBlock Text="{Binding OtherExp}" Style="{StaticResource NormalText}"/>
+                            </DataGridCell>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="Total Expended">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <DataGridCell>
+                                <TextBlock Text="{Binding TotalExp}" Style="{StaticResource NormalText}"/>
+                            </DataGridCell>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="Labor Balance">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <DataGridCell>
+                                <TextBlock Text="{Binding LabBal}" Style="{StaticResource NormalText}"/>
+                            </DataGridCell>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="Material Balance">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <DataGridCell>
+                                <TextBlock Text="{Binding MatBal}" Style="{StaticResource NormalText}"/>
+                            </DataGridCell>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="Travel Balance">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <DataGridCell>
+                                <TextBlock Text="{Binding TrvBal}" Style="{StaticResource NormalText}"/>
+                            </DataGridCell>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="Services Balance">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <DataGridCell>
+                                <TextBlock Text="{Binding SvcBal}" Style="{StaticResource NormalText}"/>
+                            </DataGridCell>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="Division Balance">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <DataGridCell>
+                                <TextBlock Text="{Binding DivBal}" Style="{StaticResource NormalText}"/>
+                            </DataGridCell>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="CB Balance">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <DataGridCell>
+                                <TextBlock Text="{Binding CBBal}" Style="{StaticResource NormalText}"/>
+                            </DataGridCell>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="Other Balance">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <DataGridCell>
+                                <TextBlock Text="{Binding OtherBal}" Style="{StaticResource NormalText}"/>
+                            </DataGridCell>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="Total Balance">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <DataGridCell>
+                                <TextBlock Text="{Binding TotalBal}" Style="{StaticResource NormalText}"/>
+                            </DataGridCell>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="WCD">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <DataGridCell>
+                                <TextBlock Text="{Binding WCD}" Style="{StaticResource NormalText}"/>
+                            </DataGridCell>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="APPN Expiration">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <DataGridCell>
+                                <TextBlock Text="{Binding AppnExp}" Style="{StaticResource NormalText}"/>
+                            </DataGridCell>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="Acceptance Date">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <DataGridCell>
+                                <TextBlock Text="{Binding AcceptDate}" Style="{StaticResource NormalText}"/>
+                            </DataGridCell>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+            </DataGrid.Columns>
+        </DataGrid>
     </Grid>
 </Window>

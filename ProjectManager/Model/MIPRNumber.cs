@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace ProjectManager
 {
+    [Serializable]
     public class MIPRNumber
     {
         public string MIPRnum { get; set; }
@@ -51,8 +52,6 @@ namespace ProjectManager
         public DateTime AcceptDate { get; set; }
 
         public bool IsSelected { get; set; }
-
-
 
         public MIPRNumber(string _MIPRnum, string _Projnum, string _BillingElem, string _Network, string _Activity, string _SubElem, string _Appn, string _AppnNo, string _DocType, string _Program, string _Project, 
             string _Title, string _Sponsor, string _Engineer, decimal _LabAlloc, decimal _MatAlloc, decimal _TrvAlloc, decimal _SvcAlloc, decimal _DivAlloc, decimal _CBAlloc, decimal _OtherAlloc,

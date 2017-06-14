@@ -10,11 +10,12 @@ using ProjectManager;
 
 namespace ProjectManager.Model
 {
+    [Serializable]
     public class MIPR 
     {
         public string MIPRnum { get; set; }
         public ObservableCollection<ProjectNumber> MIPRdetails { get; set; }
-
+        public MIPR() { }
         public MIPR(string miprNum, ObservableCollection<ProjectNumber> miprDetails)
         {
             MIPRnum = miprNum;

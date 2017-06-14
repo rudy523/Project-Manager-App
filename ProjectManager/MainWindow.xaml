@@ -24,7 +24,7 @@
         <TextBlock Style="{StaticResource DefaultTextStyle}" Foreground="#FF8ED1F7" FontSize="22">Main Menu</TextBlock>
         <StackPanel Grid.Row="1" Orientation="Vertical">
             <TextBlock Name="TrackFundingText" Style="{StaticResource DefaultTextStyle}" Text="Track Project Funding" Margin="10,10,10,5"/>
-            <Button Name="TrackFunding" Height="75" Width="75" Margin="10,5,10,5" Click="TrackFunding_Click"/>
+            <Button Name="TrackFunding" Height="75" Width="75" Margin="10,5,10,5" Click="TrackFunding_Click" Background="#FFACE3F7"/>
 
         </StackPanel>
     </Grid>

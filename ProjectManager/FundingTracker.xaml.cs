@@ -8,66 +8,120 @@ using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
-using System.Collections.ObjectModel;
-using ProjectManager.Model;
-using System.ComponentModel;
 using ProjectManager.ViewModels;
+using System.Windows.Forms.DataVisualization;
+using System.Windows.Forms.DataVisualization.Charting;
+using Microsoft.Win32;
+using System.Xml.Serialization;
+using AmCharts.Windows.QuickCharts;
+using ProjectManager.Model;
+using System.Runtime.Serialization;
+
+
 
 namespace ProjectManager
 {
     /// <summary>
     /// Interaction logic for FundingTracker.xaml
     /// </summary>
+    [Serializable]
     public partial class FundingTracker : Window
     {
         public string[] SearchCriteria { get; set; }
-        //public ObservableCollection<MIPR> FilteredData { get; set; }
-        //public ObservableCollection<MIPRNumber> SearchData { get; set; }
-        public bool MIPRchecked { get; set; }
         public MainViewModel _viewModel { get; set; }
 
         public FundingTracker()
         {
             InitializeComponent();
-
-            //Command Bindings
-            CommandBinding newBinding = new CommandBinding(ApplicationCommands.New);
-            newBinding.Executed += NewCommand_Executed;
-            this.CommandBindings.Add(newBinding);
-
+            _viewModel = new MainViewModel();
         }
 
-        private void NewCommand_Executed(object sender, ExecutedRoutedEventArgs e)
+        private void SaveCommand_Executed(object sender, ExecutedRoutedEventArgs e)
         {
-            FundingTracker newFund = new FundingTracker();
-            newFund.Show();
+            SaveLoadState.Save("ChartData.xml", _viewModel.ChartDataModel);
+            SaveLoadState.Save("GridData.xml", _viewModel.GridData);
+            SaveLoadState.Save("MIPRData.xml", _viewModel.MIPRnums);
+        }
+
+        private void SaveAsCommand_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            SaveFileDialog saveDlg = new SaveFileDialog();
+            saveDlg.ShowDialog();
+        }
+
+        private void OpenCommand_Executed(object sender, ExecutedRoutedEventArgs e)
+        {           
+                _viewModel.ChartDataModel = SaveLoadState.Load("ChartData.xml");
+                _viewModel.GridData = SaveLoadState.GridLoad("GridData.xml");
+                _viewModel.MIPRnums = SaveLoadState.MIPRload("MIPRData.xml");
+                _viewModel.ReinstateParentObjects();
+                DataContext = _viewModel;
+                FundingGrid.Visibility = Visibility.Visible;
+                MIPRdisplay.Visibility = Visibility.Visible;
+        }
+
+        private void Refresh_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            
         }
 
         private void GetData_Click(object sender, RoutedEventArgs e)
         {
             this.SearchCriteria = SearchBox.Text.Split(' ');
             _viewModel = new MainViewModel(SearchCriteria);
-            //base.DataContext = _viewModel;
+            base.DataContext = _viewModel;
 
-            //MIPRdisplay.ItemsSource = FilteredData;
-            MIPRdisplay.Visibility = Visibility.Visible;
-            
+            //MIPRdisplay.ItemsSource = _viewModel.MIPRnums;
+            MIPRdisplay.Visibility = Visibility.Visible;         
         }
 
-        private void MIPRdisplay_SelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
+        private void ProjectNumberSelected(object sender, MouseButtonEventArgs e)
         {
             DetailsList.Visibility = Visibility.Visible;
         }
 
-        private void MIPRcheck_Checked(object sender, RoutedEventArgs e)
+        private void ProjectNumberDeselected(object sender, MouseButtonEventArgs e)
         {
-           
-  
+            DetailsList.Visibility = Visibility.Hidden;
         }
 
-       
+        /*
+        private void ScrollViewer_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
+        {
+            if (e.Delta < 0)
+            {
+                DataGridScroller.LineDown();
+            }
+            else
+            {
+                DataGridScroller.LineUp();
+            }
+            e.Handled = true;
+        }
+        */
+
+        private void TrackFunding_Click(object sender, RoutedEventArgs e)
+        {
+            _viewModel.TrackFunding();
+            if (base.DataContext != null)
+            {
+                FundingGrid.Visibility = Visibility.Visible;
+            }
+        }
+
+        private void Clear_Click(object sender, RoutedEventArgs e)
+        {
+            base.DataContext = null;
+            SearchBox.Clear();
+            FundingGrid.Visibility = Visibility.Hidden;
+            DetailsList.Visibility = Visibility.Hidden;
+        }
+
+        private void ShowTree_Click(object sender, RoutedEventArgs e)
+        {
+            VisualTreeDisplay treeDisplay = new VisualTreeDisplay();
+            treeDisplay.ShowVisualTree(this);
+            treeDisplay.Show();
+        }
     }
 }

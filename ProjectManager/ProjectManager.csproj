@@ -35,8 +35,28 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="AmCharts.Windows.QuickCharts">
+      <HintPath>G:\Visual Studio 2017\Projects\ProjectManager\packages\Quick.Charts.WPF.1.2\lib\net40\AmCharts.Windows.QuickCharts.dll</HintPath>
+    </Reference>
+    <Reference Include="CommonWin32, Version=2.0.0.0, Culture=neutral, PublicKeyToken=a0a4edcfe233918d, processorArchitecture=MSIL">
+      <HintPath>..\packages\CommonWin32.2.1.0.3\lib\net35-Client\CommonWin32.dll</HintPath>
+    </Reference>
+    <Reference Include="MetroFramework, Version=1.4.0.0, Culture=neutral, PublicKeyToken=5f91a84759bf584a, processorArchitecture=MSIL">
+      <HintPath>..\packages\MetroModernUI.1.4.0.0\lib\net\MetroFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="MetroFramework.Design, Version=1.4.0.0, Culture=neutral, PublicKeyToken=5f91a84759bf584a, processorArchitecture=MSIL">
+      <HintPath>..\packages\MetroModernUI.1.4.0.0\lib\net\MetroFramework.Design.dll</HintPath>
+    </Reference>
+    <Reference Include="MetroFramework.Fonts, Version=1.4.0.0, Culture=neutral, PublicKeyToken=5f91a84759bf584a, processorArchitecture=MSIL">
+      <HintPath>..\packages\MetroModernUI.1.4.0.0\lib\net\MetroFramework.Fonts.dll</HintPath>
+    </Reference>
+    <Reference Include="PresentationFramework.Aero2" />
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Windows.Controls.DataVisualization.Toolkit, Version=4.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Windows.Controls.DataVisualization.Toolkit.4.0.0.0\lib\net40-Client\System.Windows.Controls.DataVisualization.Toolkit.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Windows.Forms.DataVisualization" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -55,25 +75,25 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="TreeViewDemo\AssemblyInfo.cs" />
-    <Compile Include="TreeViewDemo\City.cs" />
-    <Compile Include="TreeViewDemo\Database.cs" />
     <Compile Include="FundingTracker.xaml.cs">
       <DependentUpon>FundingTracker.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Model\SaveLoadState.cs" />
     <Compile Include="Model\ProjectNumProperties.cs" />
     <Compile Include="Model\LoadData.cs" />
     <Compile Include="Model\MIPR.cs" />
     <Compile Include="Model\MIPRNumber.cs" />
     <Compile Include="Model\ProjectNumber.cs" />
-    <Compile Include="TreeViewDemo\FamilyTreeViewModel.cs" />
-    <Compile Include="TreeViewDemo\Person.cs" />
-    <Compile Include="TreeViewDemo\PersonViewModel.cs" />
-    <Compile Include="TreeViewDemo\Region.cs" />
-    <Compile Include="TreeViewDemo\State.cs" />
+    <Compile Include="Model\ResourceDictionaryCollection.cs" />
+    <Compile Include="ViewModels\ChartDataViewModel.cs" />
+    <Compile Include="ViewModels\DataGridViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="ViewModels\MIPRViewModel.cs" />
     <Compile Include="ViewModels\ProjectNumberViewModel.cs" />
+    <Compile Include="ViewModels\TestingClass.cs" />
+    <Compile Include="VisualTreeDisplay.xaml.cs">
+      <DependentUpon>VisualTreeDisplay.xaml</DependentUpon>
+    </Compile>
     <Page Include="FundingTracker.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -90,6 +110,14 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="ProjectManagerResources.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="VisualTreeDisplay.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -109,6 +137,7 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -119,6 +148,9 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\coin-us-dollar-icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Connected Services\" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
