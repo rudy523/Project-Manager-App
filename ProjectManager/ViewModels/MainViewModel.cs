@@ -30,7 +30,6 @@ namespace ProjectManager.ViewModels
             this.ChartData = new ChartDataViewModel();
             this.ChartDataModel = new ObservableCollection<ChartDataViewModel>();
             this.MIPRnums = new ObservableCollection<MIPRViewModel>();
-            List<MIPRViewModel> nums = new List<MIPRViewModel>();
             foreach (var item in this.ProjectNumbers)
             {
                 MIPRViewModel num = new MIPRViewModel(item);
@@ -40,7 +39,34 @@ namespace ProjectManager.ViewModels
 
         public void UpdateFunding()
         {
-            
+            List<string> updateMIPRs = new List<string>();
+            foreach (var item in GridData)
+            {
+                updateMIPRs.Add(item.MIPRnum);
+            }
+            string[] input = updateMIPRs.ToArray();
+            MyData = new LoadData(input);
+            this.ProjectNumbers = this.MyData.MIPRcollection;
+            foreach (var item in this.ProjectNumbers)
+            {
+                MIPRViewModel num = new MIPRViewModel(item);
+                MIPRnums.Add(num);
+            }
+            this.TrackFunding();
+        }
+
+        private void UpdateGrid()
+        {
+            GridData.Clear();
+            foreach (var item in MIPRnums)
+            {
+                foreach (var num in item.MIPRchildren)
+                {
+                    DataGridViewModel updatedLine = new DataGridViewModel(num.ParentNumber, num.ProjNum, num);
+                    GridData.Add(updatedLine);
+                }
+            }
+            this.UpdateGraph();
         }
 
         public void TrackFunding()
@@ -54,10 +80,14 @@ namespace ProjectManager.ViewModels
                     {
                         DataGridViewModel selection = new DataGridViewModel(number.ParentNumber, number.ProjNum, number);
                         GridData.Add(selection);
-                    }                                                                    
-                }      
+                    }
+                }
             }
+            this.UpdateGraph();
+        }
 
+        private void UpdateGraph()
+        { 
             ChartDataViewModel results = DataGridViewModel.GetTotals(GridData);
 
             if (ChartDataModel.Count == 0)

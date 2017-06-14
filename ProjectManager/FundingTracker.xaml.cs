@@ -60,9 +60,9 @@ namespace ProjectManager
                 MIPRdisplay.Visibility = Visibility.Visible;
         }
 
-        private void Refresh_Executed(object sender, ExecutedRoutedEventArgs e)
+        private void Refresh_Click(object sender, RoutedEventArgs e)
         {
-            
+            _viewModel.UpdateFunding();
         }
 
         private void GetData_Click(object sender, RoutedEventArgs e)
@@ -123,5 +123,7 @@ namespace ProjectManager
             treeDisplay.ShowVisualTree(this);
             treeDisplay.Show();
         }
+
+       
     }
 }
