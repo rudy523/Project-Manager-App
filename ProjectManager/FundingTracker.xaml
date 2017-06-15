@@ -46,8 +46,7 @@
                          Text="Enter Search Criteria" FontSize="14" HorizontalContentAlignment="Left" VerticalContentAlignment="Center"/>
             <Button Style="{StaticResource DefaultButtonStyle}" BorderThickness="1" Click="GetData_Click" Cursor="Hand">Query</Button>
             <Button Style="{StaticResource DefaultButtonStyle}" BorderThickness="1" Cursor="Hand" Click="Clear_Click">Clear</Button>
-            <Button Style="{StaticResource DefaultButtonStyle}" BorderThickness="1" Cursor="Hand" Click="TrackFunding_Click">Track Funding</Button>
-            <Button Style="{StaticResource DefaultButtonStyle}" BorderThickness="1" Click="Refresh_Click" Cursor="Hand">Refresh Data</Button>
+            <Button Style="{StaticResource DefaultButtonStyle}" BorderThickness="1" Cursor="Hand" Click="TrackFunding_Click">Add / Update Funding</Button>
             <Button Style="{StaticResource DefaultButtonStyle}" BorderThickness="1" Cursor="Hand" Click="ShowTree_Click">Show Visual Tree</Button>
         </StackPanel>
         <ListBox Name="DetailsList" Grid.Row="2" Grid.Column="1" Margin="5" Style="{StaticResource ProjectNumberList}" 

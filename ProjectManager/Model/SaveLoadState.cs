@@ -23,14 +23,16 @@ namespace ProjectManager.Model
             }
         }
 
-        public static ObservableCollection<ChartDataViewModel> Load(string Filename)
+        public static MainViewModel Load(string Filename)
         {
             using (var loader = new StreamReader(Filename))
             {
-                var serializer = new XmlSerializer(typeof(ObservableCollection<ChartDataViewModel>));
-                return serializer.Deserialize(loader) as ObservableCollection<ChartDataViewModel>;
+                var serializer = new XmlSerializer(typeof(MainViewModel));
+                return serializer.Deserialize(loader) as MainViewModel;
             }
         }
+
+  
 
         public static ObservableCollection<DataGridViewModel> GridLoad(string Filename)
         {

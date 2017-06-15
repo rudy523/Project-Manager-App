@@ -2,9 +2,10 @@
 using System.Runtime.CompilerServices;
 using ProjectManager.Model;
 using System.Collections.ObjectModel;
-using System.Xml.Serialization;
 using System.IO;
 using System.Collections.Generic;
+using System.Linq;
+using System.Xml.Serialization;
 using System;
 
 namespace ProjectManager.ViewModels
@@ -12,12 +13,14 @@ namespace ProjectManager.ViewModels
     [Serializable]
     public class MainViewModel 
     {
-        public LoadData MyData { get; set; }
-        public ObservableCollection<MIPR> ProjectNumbers { get; set; }
-        public event PropertyChangedEventHandler PropertyChanged;        
+        private LoadData MyData { get; set; }
+        private ObservableCollection<MIPR> ProjectNumbers { get; set; }
+        private event PropertyChangedEventHandler PropertyChanged;
+        [XmlElement]
         public ObservableCollection<MIPRViewModel> MIPRnums { get; set; }
+        [XmlElement]
         public ObservableCollection<DataGridViewModel> GridData { get; set; }
-        public ChartDataViewModel ChartData { get; set; }
+        [XmlElement]
         public ObservableCollection<ChartDataViewModel> ChartDataModel { get; set; }
 
         public MainViewModel() { }
@@ -27,7 +30,6 @@ namespace ProjectManager.ViewModels
             this.MyData = new LoadData(input);
             this.ProjectNumbers = this.MyData.MIPRcollection;        
             this.GridData = new ObservableCollection<DataGridViewModel>();
-            this.ChartData = new ChartDataViewModel();
             this.ChartDataModel = new ObservableCollection<ChartDataViewModel>();
             this.MIPRnums = new ObservableCollection<MIPRViewModel>();
             foreach (var item in this.ProjectNumbers)
@@ -36,39 +38,7 @@ namespace ProjectManager.ViewModels
                 MIPRnums.Add(num);
             }
         }
-
-        public void UpdateFunding()
-        {
-            List<string> updateMIPRs = new List<string>();
-            foreach (var item in GridData)
-            {
-                updateMIPRs.Add(item.MIPRnum);
-            }
-            string[] input = updateMIPRs.ToArray();
-            MyData = new LoadData(input);
-            this.ProjectNumbers = this.MyData.MIPRcollection;
-            foreach (var item in this.ProjectNumbers)
-            {
-                MIPRViewModel num = new MIPRViewModel(item);
-                MIPRnums.Add(num);
-            }
-            this.TrackFunding();
-        }
-
-        private void UpdateGrid()
-        {
-            GridData.Clear();
-            foreach (var item in MIPRnums)
-            {
-                foreach (var num in item.MIPRchildren)
-                {
-                    DataGridViewModel updatedLine = new DataGridViewModel(num.ParentNumber, num.ProjNum, num);
-                    GridData.Add(updatedLine);
-                }
-            }
-            this.UpdateGraph();
-        }
-
+     
         public void TrackFunding()
         {
             GridData.Clear();
@@ -107,11 +77,6 @@ namespace ProjectManager.ViewModels
                     ChartDataModel.Add(results);
                 }
             }
-
-            /*
-            DataGridViewModel.GetTotals(GridData, ChartDataModel);
-            ChartData = ChartDataModel[0];
-            */
         }
 
         public void ReinstateParentObjects()

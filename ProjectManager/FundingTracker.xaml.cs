@@ -38,31 +38,23 @@ namespace ProjectManager
 
         private void SaveCommand_Executed(object sender, ExecutedRoutedEventArgs e)
         {
-            SaveLoadState.Save("ChartData.xml", _viewModel.ChartDataModel);
-            SaveLoadState.Save("GridData.xml", _viewModel.GridData);
-            SaveLoadState.Save("MIPRData.xml", _viewModel.MIPRnums);
+            SaveLoadState.Save("SaveData.xml", _viewModel);
         }
 
         private void SaveAsCommand_Executed(object sender, ExecutedRoutedEventArgs e)
         {
             SaveFileDialog saveDlg = new SaveFileDialog();
+            saveDlg.RestoreDirectory = true;
             saveDlg.ShowDialog();
         }
 
         private void OpenCommand_Executed(object sender, ExecutedRoutedEventArgs e)
         {           
-                _viewModel.ChartDataModel = SaveLoadState.Load("ChartData.xml");
-                _viewModel.GridData = SaveLoadState.GridLoad("GridData.xml");
-                _viewModel.MIPRnums = SaveLoadState.MIPRload("MIPRData.xml");
+                _viewModel = SaveLoadState.Load("SaveData.xml");
                 _viewModel.ReinstateParentObjects();
                 DataContext = _viewModel;
                 FundingGrid.Visibility = Visibility.Visible;
                 MIPRdisplay.Visibility = Visibility.Visible;
-        }
-
-        private void Refresh_Click(object sender, RoutedEventArgs e)
-        {
-            _viewModel.UpdateFunding();
         }
 
         private void GetData_Click(object sender, RoutedEventArgs e)
