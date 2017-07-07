@@ -59,10 +59,11 @@ namespace ProjectManager
 
         private void GetData_Click(object sender, RoutedEventArgs e)
         {
+   
             this.SearchCriteria = SearchBox.Text.Split(' ');
-            _viewModel = new MainViewModel(SearchCriteria);
+            _viewModel.SearchData(SearchCriteria);
             base.DataContext = _viewModel;
-
+          
             //MIPRdisplay.ItemsSource = _viewModel.MIPRnums;
             MIPRdisplay.Visibility = Visibility.Visible;         
         }

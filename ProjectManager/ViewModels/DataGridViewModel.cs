@@ -10,7 +10,7 @@ using System.Text.RegularExpressions;
 namespace ProjectManager.ViewModels
 {
     [Serializable]
-    public class DataGridViewModel
+    public class DataGridViewModel 
     {
         public string MIPRnum { get; set; }       
         public string ProjNum { get; set; }      
@@ -52,7 +52,9 @@ namespace ProjectManager.ViewModels
         public string TotalBal { get; set; }      
         public string WCD { get; set; }      
         public string AppnExp { get; set; }      
-        public string AcceptDate { get; set; }      
+        public string AcceptDate { get; set; }
+
+#region Constructors
 
         public DataGridViewModel(string _MIPRnum, string _ProjNum, string _BillingElem, string _Network, string _Activity, string _SubElem, string _Appn, string _AppnNo, string _DocType, string _Program,
             string _Project, string _Title, string _Sponsor, string _Engineer, string _LabAlloc, string _MatAlloc, string _TrvAlloc, string _SvcAlloc, string _DivAlloc, string _CBAlloc,
@@ -148,7 +150,8 @@ namespace ProjectManager.ViewModels
         }
 
         public DataGridViewModel() { }
-
+        #endregion
+#region Methods
         private static decimal Parse(string input)
         {
             string pattern = @"[\$\,]";
@@ -156,7 +159,7 @@ namespace ProjectManager.ViewModels
         }
 
         public static ChartDataViewModel GetTotals(ObservableCollection<DataGridViewModel> input)
-        {          
+        {
             decimal[] totals = new decimal[24];
 
             foreach (var item in input)
@@ -216,15 +219,38 @@ namespace ProjectManager.ViewModels
             {
                 stringTotals[i] = string.Format("{0:C}", totals[i]);
             }
-  
-            DataGridViewModel totalRow = new DataGridViewModel(null, null, null, null, null, null, null, null, null, null, null, null, null, "TOTALS:", stringTotals[0],
-                stringTotals[1], stringTotals[2], stringTotals[3], stringTotals[4], stringTotals[5], stringTotals[6], stringTotals[7], stringTotals[8], stringTotals[9], stringTotals[10], 
-                stringTotals[11], stringTotals[12], stringTotals[13], stringTotals[14], stringTotals[15], stringTotals[16], stringTotals[17], stringTotals[18], stringTotals[19], 
-                stringTotals[20], stringTotals[21], stringTotals[22], stringTotals[23], null, null, null);
 
+            DataGridViewModel totalRow = new DataGridViewModel(null, null, null, null, null, null, null, null, null, null, null, null, null, "TOTALS:", stringTotals[0],
+                stringTotals[1], stringTotals[2], stringTotals[3], stringTotals[4], stringTotals[5], stringTotals[6], stringTotals[7], stringTotals[8], stringTotals[9], stringTotals[10],
+                stringTotals[11], stringTotals[12], stringTotals[13], stringTotals[14], stringTotals[15], stringTotals[16], stringTotals[17], stringTotals[18], stringTotals[19],
+                stringTotals[20], stringTotals[21], stringTotals[22], stringTotals[23], null, null, null);
+            
             input.Add(totalRow);
 
-            return new ChartDataViewModel(Parse(totalRow.TotalAlloc), Parse(totalRow.TotalExp), Parse(totalRow.TotalBal), DateTime.Now); 
+            return new ChartDataViewModel(Parse(totalRow.TotalAlloc), Parse(totalRow.TotalExp), Parse(totalRow.TotalBal), DateTime.Now);
         }
+
+        /*
+        public bool Equals(DataGridViewModel other)
+        {
+            // check whether compared object is null
+            if (Object.ReferenceEquals(other, null)) return false;
+
+            // check whether the compared object references the same data
+            if (Object.ReferenceEquals(this, other)) return true;
+
+            // check whether the objects project numbers are equal
+            return ProjNum.Equals(other.ProjNum);
+        }
+
+        // If Equals method returns true for pair of objects, then GetHashCode must return same value for both objects
+        public override int GetHashCode()
+        {
+            int hashProjNum = ProjNum.GetHashCode();
+            return hashProjNum;
+        }
+        */
+
+        #endregion Methods
     }
 }

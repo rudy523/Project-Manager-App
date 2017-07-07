@@ -24,7 +24,64 @@ namespace ProjectManager.Model
 
         public LoadData(string[] input)
         {
+            this.ProjectNumbersView = new ObservableCollection<MIPRNumber>();
+            this.DistinctMIPRs = new List<string>();
+            this.MIPRcollection = new ObservableCollection<MIPR>();
             GetViewProjectNumbers(input);
+        }
+
+        public void UpdateFunding(string [] input)
+        {
+            GetFinancialData();
+
+            foreach (var item in input)
+            {
+                IEnumerable<XElement> matches = from match in ProjNumDetails
+                                                where match.Value == item
+                                                select match.Parent;
+                foreach (var elem in matches)
+                {
+                    IEnumerable<XAttribute> rawData = elem.Attributes();
+                    foreach (var att in rawData)
+                    {
+                        if (att == null)
+                        {
+                            att.Value = att.Name.ToString();
+                        }
+                    }
+                }
+            }
+        }
+
+        private void GetViewProjectNumbers(string[] criteria)
+        {
+            GetFinancialData();
+
+            foreach (var item in criteria)
+            {
+                IEnumerable<XElement> matches = from match in ProjNumDetails
+                                                  where match.Value == item
+                                                select match.Parent;
+
+                foreach (var elem in matches)
+                {
+                    IEnumerable<XAttribute> attData = elem.Attributes();
+                    List<XAttribute> rawData = attData.ToList();
+
+                    List<string> Data = new List<string>();
+
+                    GetProjectNumberDetails(rawData, Data);
+
+                    MIPRNumber num = CreateProjectNumber(Data);
+
+                    this.ProjectNumbersView.Add(num);
+                }
+
+                DistinctMIPR();
+
+                GetMIPRcollection();
+            }
+
         }
 
         private void GetFinancialData()
@@ -33,34 +90,336 @@ namespace ProjectManager.Model
             this.FinanceRoot = XElement.Load(FinancialFeed);
             this.ProjectNumbers = FinanceRoot.Descendants();
             this.ProjNumDetails = ProjectNumbers.Attributes();
-            this.ProjectNumbersView = new ObservableCollection<MIPRNumber>();
-            this.DistinctMIPRs = new List<string>();
-            this.MIPRcollection = new ObservableCollection<MIPR>();
+            DistinctMIPRs.Clear();
+            ProjectNumbersView.Clear();
+            MIPRcollection.Clear();
         }
 
-        private void GetProjectNumberDetails(IEnumerable<XAttribute> source, List<string> output)
+        private void GetProjectNumberDetails(List<XAttribute> source, List<string> output)
         {
-            if (source.Count() == 41)
+            switch (source.Count())
             {
-                for (int i = 0; i < source.Count(); i++)
-                {
-                    string value = source.ElementAt(i).Value.ToString();
-                    output.Add(value);
-                }
+                case 41:
+                    for (int i = 0; i < source.Count(); i++)
+                    {
+                        output.Add(source.ElementAt(i).Value);
+                    }
+                    break;
+                case 40:
+                    {
+                        for (int n = 0; n < 40; n++)
+                        {
+                            output.Add(source.ElementAt(n).Value);
+                        }
+                        output.Insert(5, "0");
+                    }
+                    break;
+                default:
+                    int difference = 41 - source.Count();
+                    for (int i = 0; i < difference; i++)
+                    {
+                        source.Insert(source.Count(), new XAttribute("NULL", (string)"NULL"));
+                    }
+
+                    for (int i = 0; i < 41; i++)
+                    {
+                        switch (i)
+                        {
+                            case 0:
+                                if (source.ElementAt(i).Name == "MIPR")
+                                {
+                                    break;
+                                }
+                                source.Insert(i, new XAttribute("MIPR", (string)"NULL"));
+                                break;
+                            case 1:
+                                if (source.ElementAt(i).Name == "PROJECT_NO")
+                                {
+                                    break;
+                                }
+                                source.Insert(i, new XAttribute("PROJECT_NO", (string)"NULL"));
+                                break;
+                            case 2:
+                                if (source.ElementAt(i).Name == "BILLING_ELEMENT")
+                                {
+                                    break;
+                                }
+                                source.Insert(i, new XAttribute("BILLING_ELEMENT", (string)"NULL"));
+                                break;
+                            case 3:
+                                if (source.ElementAt(i).Name == "NETWORK")
+                                {
+                                    break;
+                                }
+                                source.Insert(i, new XAttribute("NETWORK", (string)"NULL"));
+                                break;
+                            case 4:
+                                if (source.ElementAt(i).Name == "ACTIVITY")
+                                {
+                                    break;
+                                }
+                                source.Insert(i, new XAttribute("ACTIVITY", (string)"NULL"));
+                                break;
+                            case 5:
+                                if (source.ElementAt(i).Name == "SUB_ELEMENT")
+                                {
+                                    break;
+                                }
+                                source.Insert(i, new XAttribute("SUB_ELEMENT", (string)"NULL"));
+                                break;
+                            case 6:
+                                if (source.ElementAt(i).Name == "APPN")
+                                {
+                                    break;
+                                }
+                                source.Insert(i, new XAttribute("APPN", (string)"NULL"));
+                                break;
+                            case 7:
+                                if (source.ElementAt(i).Name == "APPN_NO")
+                                {
+                                    break;
+                                }
+                                source.Insert(i, new XAttribute("APPN_NO", (string)"NULL"));
+                                break;
+                            case 8:
+                                if (source.ElementAt(i).Name == "DOC_TYPE")
+                                {
+                                    break;
+                                }
+                                source.Insert(i, new XAttribute("DOC_TYPE", (string)"NULL"));
+                                break;
+                            case 9:
+                                if (source.ElementAt(i).Name == "MIS_PROGRAM")
+                                {
+                                    break;
+                                }
+                                source.Insert(i, new XAttribute("MIS_PROGRAM", (string)"NULL"));
+                                break;
+                            case 10:
+                                if (source.ElementAt(i).Name == "MIS_PROJECT")
+                                {
+                                    break;
+                                }
+                                source.Insert(i, new XAttribute("MIS_PROJECT", (string)"NULL"));
+                                break;
+                            case 11:
+                                if (source.ElementAt(i).Name == "TITLE")
+                                {
+                                    break;
+                                }
+                                source.Insert(i, new XAttribute("TITLE", (string)"NULL"));
+                                break;
+                            case 12:
+                                if (source.ElementAt(i).Name == "SPONSOR")
+                                {
+                                    break;
+                                }
+                                source.Insert(i, new XAttribute("SPONSOR", (string)"NULL"));
+                                break;
+                            case 13:
+                                if (source.ElementAt(i).Name == "ENGINEER")
+                                {
+                                    break;
+                                }
+                                source.Insert(i, new XAttribute("ENGINEER", (string)"NULL"));
+                                break;
+                            case 14:
+                                if (source.ElementAt(i).Name == "LAB_ALLOC")
+                                {
+                                    break;
+                                }
+                                source.Insert(i, new XAttribute("LAB_ALLOC", (string)"0"));
+                                break;
+                            case 15:
+                                if (source.ElementAt(i).Name == "MAT_ALLOC")
+                                {
+                                    break;
+                                }
+                                source.Insert(i, new XAttribute("MAT_ALLOC", (string)"0"));
+                                break;
+                            case 16:
+                                if (source.ElementAt(i).Name == "TRV_ALLOC")
+                                {
+                                    break;
+                                }
+                                source.Insert(i, new XAttribute("TRV_ALLOC", (string)"0"));
+                                break;
+                            case 17:
+                                if (source.ElementAt(i).Name == "SVC_ALLOC")
+                                {
+                                    break;
+                                }
+                                source.Insert(i, new XAttribute("SVC_ALLOC", (string)"0"));
+                                break;
+                            case 18:
+                                if (source.ElementAt(i).Name == "DIV_ALLOC")
+                                {
+                                    break;
+                                }
+                                source.Insert(i, new XAttribute("DIV_ALLOC", (string)"0"));
+                                break;
+                            case 19:
+                                if (source.ElementAt(i).Name == "CB_ALLOC")
+                                {
+                                    break;
+                                }
+                                source.Insert(i, new XAttribute("CB_ALLOC", (string)"0"));
+                                break;
+                            case 20:
+                                if (source.ElementAt(i).Name == "OTHER_ALLOC")
+                                {
+                                    break;
+                                }
+                                source.Insert(i, new XAttribute("OTHER_ALLOC", (string)"0"));
+                                break;
+                            case 21:
+                                if (source.ElementAt(i).Name == "TOTAL_ALLOCATED")
+                                {
+                                    break;
+                                }
+                                source.Insert(i, new XAttribute("TOTAL_ALLOCATED", (string)"0"));
+                                break;
+                            case 22:
+                                if (source.ElementAt(i).Name == "LAB_EXP")
+                                {
+                                    break;
+                                }
+                                source.Insert(i, new XAttribute("LAB_EXP", (string)"0"));
+                                break;
+                            case 23:
+                                if (source.ElementAt(i).Name == "MAT_EXP")
+                                {
+                                    break;
+                                }
+                                source.Insert(i, new XAttribute("MAT_EXP", (string)"0"));
+                                break;
+                            case 24:
+                                if (source.ElementAt(i).Name == "TRV_EXP")
+                                {
+                                    break;
+                                }
+                                source.Insert(i, new XAttribute("TRV_EXP", (string)"0"));
+                                break;
+                            case 25:
+                                if (source.ElementAt(i).Name == "SVC_EXP")
+                                {
+                                    break;
+                                }
+                                source.Insert(i, new XAttribute("SVC_EXP", (string)"0"));
+                                break;
+                            case 26:
+                                if (source.ElementAt(i).Name == "DIV_EXP")
+                                {
+                                    break;
+                                }
+                                source.Insert(i, new XAttribute("DIV_EXP", (string)"0"));
+                                break;
+                            case 27:
+                                if (source.ElementAt(i).Name == "CB_EXP")
+                                {
+                                    break;
+                                }
+                                source.Insert(i, new XAttribute("CB_EXP", (string)"0"));
+                                break;
+                            case 28:
+                                if (source.ElementAt(i).Name == "OTHER_EXP")
+                                {
+                                    break;
+                                }
+                                source.Insert(i, new XAttribute("OTHER_EXP", (string)"0"));
+                                break;
+                            case 29:
+                                if (source.ElementAt(i).Name == "TOTAL_EXPENDED")
+                                {
+                                    break;
+                                }
+                                source.Insert(i, new XAttribute("TOTAL_EXP", (string)"0"));
+                                break;
+                            case 30:
+                                if (source.ElementAt(i).Name == "LAB_BAL")
+                                {
+                                    break;
+                                }
+                                source.Insert(i, new XAttribute("LAB_BAL", (string)"0"));
+                                break;
+                            case 31:
+                                if (source.ElementAt(i).Name == "MAT_BAL")
+                                {
+                                    break;
+                                }
+                                source.Insert(i, new XAttribute("MAT_BAL", (string)"0"));
+                                break;
+                            case 32:
+                                if (source.ElementAt(i).Name == "TRV_BAL")
+                                {
+                                    break;
+                                }
+                                source.Insert(i, new XAttribute("TRV_BAL", (string)"0"));
+                                break;
+                            case 33:
+                                if (source.ElementAt(i).Name == "SVC_BAL")
+                                {
+                                    break;
+                                }
+                                source.Insert(i, new XAttribute("SVC_BAL", (string)"0"));
+                                break;
+                            case 34:
+                                if (source.ElementAt(i).Name == "DIV_BAL")
+                                {
+                                    break;
+                                }
+                                source.Insert(i, new XAttribute("DIV_BAL", (string)"0"));
+                                break;
+                            case 35:
+                                if (source.ElementAt(i).Name == "CB_BAL")
+                                {
+                                    break;
+                                }
+                                source.Insert(i, new XAttribute("CB_BAL", (string)"0"));
+                                break;
+                            case 36:
+                                if (source.ElementAt(i).Name == "OTHER_BAL")
+                                {
+                                    break;
+                                }
+                                source.Insert(i, new XAttribute("OTHER_BAL", (string)"0"));
+                                break;
+                            case 37:
+                                if (source.ElementAt(i).Name == "TOTAL_BAL")
+                                {
+                                    break;
+                                }
+                                source.Insert(i, new XAttribute("TOTAL_BAL", (string)"0"));
+                                break;
+                            case 38:
+                                if (source.ElementAt(i).Name == "WCD")
+                                {
+                                    break;
+                                }
+                                source.Insert(i, new XAttribute("WCD", (string)"1/1/1900"));
+                                break;
+                            case 39:
+                                if (source.ElementAt(i).Name == "APPN_EXP_DT")
+                                {
+                                    break;
+                                }
+                                source.Insert(i, new XAttribute("APPN_EXP_DT", (string)"1/1/1900"));
+                                break;
+                            case 40:
+                                if (source.ElementAt(i).Name == "FUNDS_ACCEPT_DT")
+                                {
+                                    break;
+                                }
+                                source.Insert(i, new XAttribute("FUNDS_ACCEPT_DT", (string)"1/1/1900"));
+                                break;
+                        }
+                    }
+                    foreach (var item in source)
+                    {
+                        output.Add(item.Value);
+                    }
+                    break;
             }
-            else if (source.Count() == 40)
-            {
-                for (int n = 0; n < 40; n++)
-                {
-                    string value = source.ElementAt(n).Value.ToString();
-                    output.Add(value);
-                }
-                output.Insert(5, "0");
-            }
-            else
-            {
-                throw new IndexOutOfRangeException();
-            }          
         }
 
         private MIPRNumber CreateProjectNumber(List<string> input)
@@ -170,41 +529,5 @@ namespace ProjectManager.Model
                 this.MIPRcollection.Add(mipr);
             }
         }
-        
-        private void GetViewProjectNumbers(string[] criteria)
-        {
-            GetFinancialData();
-
-            foreach (var item in criteria)
-            {
-                IEnumerable<XElement> matches = from match in ProjNumDetails
-                                                where match.Value == item
-                                                select match.Parent;
-
-                foreach (var elem in matches)
-                {
-                    IEnumerable<XAttribute> rawData = elem.Attributes();
-
-                    if (rawData.Count() < 40)
-                    {
-                        continue;
-                    }
-
-                    List<string> Data = new List<string>();
-
-                    GetProjectNumberDetails(rawData, Data);
-
-                    MIPRNumber num = CreateProjectNumber(Data);
-
-                    this.ProjectNumbersView.Add(num);
-                }
-
-                DistinctMIPR();
-
-                GetMIPRcollection();
-            }
-
-        }
-
     }
 }

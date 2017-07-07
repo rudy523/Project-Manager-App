@@ -23,37 +23,78 @@ namespace ProjectManager.ViewModels
         [XmlElement]
         public ObservableCollection<ChartDataViewModel> ChartDataModel { get; set; }
 
-        public MainViewModel() { }
-
-        public MainViewModel(string[] input)    
+        public MainViewModel()    
         {
-            this.MyData = new LoadData(input);
-            this.ProjectNumbers = this.MyData.MIPRcollection;        
+            this.ProjectNumbers = new ObservableCollection<MIPR>();
             this.GridData = new ObservableCollection<DataGridViewModel>();
             this.ChartDataModel = new ObservableCollection<ChartDataViewModel>();
             this.MIPRnums = new ObservableCollection<MIPRViewModel>();
+        }
+
+        public void SearchData(string[] input)
+        {
+            ProjectNumbers.Clear();
+            MIPRnums.Clear();
+            this.MyData = new LoadData(input);
+            foreach (var item in MyData.MIPRcollection)
+            {
+                ProjectNumbers.Add(item);
+            }
             foreach (var item in this.ProjectNumbers)
             {
                 MIPRViewModel num = new MIPRViewModel(item);
                 MIPRnums.Add(num);
             }
         }
-     
+
         public void TrackFunding()
         {
-            GridData.Clear();
+            if (GridData.Count() != 0)
+            {
+                GridData.RemoveAt(GridData.Count() - 1);
+            }
             foreach (var item in MIPRnums)
             {
                 foreach (var number in item.MIPRchildren)
                 {
                     if (number.IsChecked == true)
                     {
+                        int counter = 0;
                         DataGridViewModel selection = new DataGridViewModel(number.ParentNumber, number.ProjNum, number);
-                        GridData.Add(selection);
+                        foreach (var data in GridData)
+                        {
+                            if (selection.ProjNum == data.ProjNum)
+                            {
+                                counter++;
+                            }
+                        }
+                        if (counter == 0)
+                        {
+                            GridData.Add(selection);
+                        }
                     }
                 }
             }
+
+            /*
+            IEnumerable<DataGridViewModel> cleanData = GridData.Distinct();
+            GridData.Clear();
+
+            foreach (var item in cleanData.ToArray())
+            {
+                GridData.Add(item);
+            }
+            */
             this.UpdateGraph();
+        }
+
+        public void UpdateFunding()
+        {
+            string[] updateNums = new string[GridData.Count()];
+            for (int i = 0; i < GridData.Count(); i++)
+            {
+                updateNums[i] = GridData.ElementAt(i).ProjNum;
+            }
         }
 
         private void UpdateGraph()
