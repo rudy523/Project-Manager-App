@@ -86,6 +86,7 @@
     <Compile Include="Model\MIPRNumber.cs" />
     <Compile Include="Model\ProjectNumber.cs" />
     <Compile Include="Model\ResourceDictionaryCollection.cs" />
+    <Compile Include="Model\UpdateData.cs" />
     <Compile Include="ViewModels\ChartDataViewModel.cs" />
     <Compile Include="ViewModels\DataGridViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />

@@ -17,39 +17,150 @@ namespace ProjectManager.Model
         public XElement FinanceRoot { get; set; }
         public XElement TaskRoot { get; set; }
         public List<string> DistinctMIPRs { get; set; }
+        public List<string> UpdateNumbers { get; set; }
+        public List<string> UpdateMIPRs { get; set; }
         public IEnumerable<XElement> ProjectNumbers { get; set; }
         public IEnumerable<XAttribute> ProjNumDetails { get; set; }
         public ObservableCollection<MIPRNumber> ProjectNumbersView { get; set; }
+        public ObservableCollection<MIPRNumber> UpdateProjectNumbersView { get; set; }
         public ObservableCollection<MIPR> MIPRcollection { get; set; }
+        public ObservableCollection<MIPR> UpdateMIPRcollection { get; set; }
 
         public LoadData(string[] input)
-        {
-            this.ProjectNumbersView = new ObservableCollection<MIPRNumber>();
+        { 
             this.DistinctMIPRs = new List<string>();
+            this.UpdateNumbers = new List<string>();
+            this.UpdateMIPRs = new List<string>();
+            this.ProjectNumbersView = new ObservableCollection<MIPRNumber>();
+            this.UpdateProjectNumbersView = new ObservableCollection<MIPRNumber>();
             this.MIPRcollection = new ObservableCollection<MIPR>();
+            this.UpdateMIPRcollection = new ObservableCollection<MIPR>();
+            DistinctMIPRs.Clear();
+            ProjectNumbersView.Clear();
+            MIPRcollection.Clear();
             GetViewProjectNumbers(input);
         }
 
-        public void UpdateFunding(string [] input)
+        public void UpdateFunding()
         {
             GetFinancialData();
+            UpdateProjectNumbersView.Clear();
+            UpdateMIPRcollection.Clear();
+            UpdateMIPRs.Clear();
+            //IEnumerable<string> nums = UpdateMIPRs.Distinct();
+            //UpdateMIPRs = nums.ToList();
+            GetUpdateNumbers();
+            UpdateMIPRs = DistinctMIPR(UpdateProjectNumbersView);
+            GetUpdateMIPRs();
+        }
 
-            foreach (var item in input)
+        private void GetUpdateNumbers()
+        {
+            foreach (var item in this.UpdateNumbers)
             {
                 IEnumerable<XElement> matches = from match in ProjNumDetails
                                                 where match.Value == item
                                                 select match.Parent;
                 foreach (var elem in matches)
                 {
-                    IEnumerable<XAttribute> rawData = elem.Attributes();
-                    foreach (var att in rawData)
-                    {
-                        if (att == null)
-                        {
-                            att.Value = att.Name.ToString();
-                        }
-                    }
+                    IEnumerable<XAttribute> attData = elem.Attributes();
+
+                    List<XAttribute> rawData = attData.ToList();
+
+                    List<string> Data = new List<string>();
+
+                    GetProjectNumberDetails(rawData, Data);
+
+                    MIPRNumber num = CreateProjectNumber(Data);
+
+                    this.UpdateProjectNumbersView.Add(num);
                 }
+            }
+        }
+
+        private void GetUpdateMIPRs()
+        {
+            foreach (var item in this.UpdateMIPRs)
+            {
+                IEnumerable<MIPRNumber> matches = from match in this.UpdateProjectNumbersView
+                                                  where match.MIPRnum == item
+                                                  select match;
+
+                ObservableCollection<ProjectNumber> ProjNum = new ObservableCollection<ProjectNumber>();
+
+                foreach (var num in matches)
+                {
+                    ObservableCollection<string> info = new ObservableCollection<string>
+                    {
+                        num.BillingElem,
+                        num.Network,
+                        num.Activity,
+                        num.SubElem,
+                        num.Appn,
+                        num.AppnNo,
+                        num.DocType,
+                        num.Program,
+                        num.Project,
+                        num.Title,
+                        num.Sponsor,
+                        num.Engineer
+                    };
+                    string LabAlloc = string.Format("{0:C}", num.LabAlloc);
+                    info.Add(LabAlloc);
+                    string MatAlloc = string.Format("{0:C}", num.MatAlloc);
+                    info.Add(MatAlloc);
+                    string TrvAlloc = string.Format("{0:C}", num.TrvAlloc);
+                    info.Add(TrvAlloc);
+                    string SvcAlloc = string.Format("{0:C}", num.SvcAlloc);
+                    info.Add(SvcAlloc);
+                    string DivAlloc = string.Format("{0:C}", num.DivAlloc);
+                    info.Add(DivAlloc);
+                    string CBAlloc = string.Format("{0:C}", num.CBAlloc);
+                    info.Add(CBAlloc);
+                    string OtherAlloc = string.Format("{0:C}", num.OtherAlloc);
+                    info.Add(OtherAlloc);
+                    string TotalAlloc = string.Format("{0:C}", num.TotalAlloc);
+                    info.Add(TotalAlloc);
+                    string LabExp = string.Format("{0:C}", num.LabExp);
+                    info.Add(LabExp);
+                    string MatExp = string.Format("{0:C}", num.MatExp);
+                    info.Add(MatExp);
+                    string TrvExp = string.Format("{0:C}", num.TrvExp);
+                    info.Add(TrvExp);
+                    string SvcExp = string.Format("{0:C}", num.SvcExp);
+                    info.Add(SvcExp);
+                    string DivExp = string.Format("{0:C}", num.DivExp);
+                    info.Add(DivExp);
+                    string CBExp = string.Format("{0:C}", num.CBExp);
+                    info.Add(CBExp);
+                    string OtherExp = string.Format("{0:C}", num.OtherExp);
+                    info.Add(OtherExp);
+                    string TotalExp = string.Format("{0:C}", num.TotalExp);
+                    info.Add(TotalExp);
+                    string LabBal = string.Format("{0:C}", num.LabBal);
+                    info.Add(LabBal);
+                    string MatBal = string.Format("{0:C}", num.MatBal);
+                    info.Add(MatBal);
+                    string TrvBal = string.Format("{0:C}", num.TrvBal);
+                    info.Add(TrvBal);
+                    string SvcBal = string.Format("{0:C}", num.SvcBal);
+                    info.Add(SvcBal);
+                    string DivBal = string.Format("{0:C}", num.DivBal);
+                    info.Add(DivBal);
+                    string CBBal = string.Format("{0:C}", num.CBBal);
+                    info.Add(CBBal);
+                    string OtherBal = string.Format("{0:C}", num.OtherBal);
+                    info.Add(OtherBal);
+                    string TotalBal = string.Format("{0:C}", num.TotalBal);
+                    info.Add(TotalBal);
+                    info.Add(num.WCD.ToString());
+                    info.Add(num.AppnExp.ToString());
+                    info.Add(num.AcceptDate.ToString());
+                    ProjectNumber number = new ProjectNumber(num.Projnum, info);
+                    ProjNum.Add(number);
+                }
+                MIPR mipr = new MIPR(item, ProjNum);
+                this.UpdateMIPRcollection.Add(mipr);
             }
         }
 
@@ -76,12 +187,10 @@ namespace ProjectManager.Model
 
                     this.ProjectNumbersView.Add(num);
                 }
-
-                DistinctMIPR();
-
-                GetMIPRcollection();
             }
+            DistinctMIPRs = DistinctMIPR(ProjectNumbersView);
 
+            GetMIPRcollection();
         }
 
         private void GetFinancialData()
@@ -90,9 +199,6 @@ namespace ProjectManager.Model
             this.FinanceRoot = XElement.Load(FinancialFeed);
             this.ProjectNumbers = FinanceRoot.Descendants();
             this.ProjNumDetails = ProjectNumbers.Attributes();
-            DistinctMIPRs.Clear();
-            ProjectNumbersView.Clear();
-            MIPRcollection.Clear();
         }
 
         private void GetProjectNumberDetails(List<XAttribute> source, List<string> output)
@@ -436,14 +542,16 @@ namespace ProjectManager.Model
             return num;
         }
 
-        private void DistinctMIPR()
+        private List<string> DistinctMIPR(ObservableCollection<MIPRNumber> input)
         {
-            foreach (var item in ProjectNumbersView)
+            List<string> output = new List<string>();
+            foreach (var item in input)
             {
-                DistinctMIPRs.Add(item.MIPRnum);
+                output.Add(item.MIPRnum);
             }
-            IEnumerable<string> nums = DistinctMIPRs.Distinct();
-            DistinctMIPRs = nums.ToList();
+            IEnumerable<string> nums = output.Distinct();
+            output = nums.ToList();
+            return output;
         }
 
         private void GetMIPRcollection()

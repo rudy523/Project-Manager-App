@@ -22,6 +22,7 @@ namespace ProjectManager.ViewModels
         public ObservableCollection<DataGridViewModel> GridData { get; set; }
         [XmlElement]
         public ObservableCollection<ChartDataViewModel> ChartDataModel { get; set; }
+        private ObservableCollection<MIPRViewModel> UpdateMIPRnums { get; set; }
 
         public MainViewModel()    
         {
@@ -29,6 +30,7 @@ namespace ProjectManager.ViewModels
             this.GridData = new ObservableCollection<DataGridViewModel>();
             this.ChartDataModel = new ObservableCollection<ChartDataViewModel>();
             this.MIPRnums = new ObservableCollection<MIPRViewModel>();
+            this.UpdateMIPRnums = new ObservableCollection<MIPRViewModel>();
         }
 
         public void SearchData(string[] input)
@@ -91,10 +93,28 @@ namespace ProjectManager.ViewModels
         public void UpdateFunding()
         {
             string[] updateNums = new string[GridData.Count()];
+            MyData.UpdateNumbers.Clear();
             for (int i = 0; i < GridData.Count(); i++)
             {
-                updateNums[i] = GridData.ElementAt(i).ProjNum;
+                MyData.UpdateNumbers.Add(GridData.ElementAt(i).ProjNum);
             }
+            MyData.UpdateFunding();
+            GridData.Clear();
+            foreach (var item in MyData.UpdateMIPRcollection)
+            {
+                MIPRViewModel num = new MIPRViewModel(item);
+                UpdateMIPRnums.Add(num);
+            }
+            foreach (var item in UpdateMIPRnums)
+            {
+                foreach (var number in item.MIPRchildren)
+                {
+                    DataGridViewModel selection = new DataGridViewModel(number.ParentNumber, number.ProjNum, number);
+                    GridData.Add(selection);
+                }
+            }
+            this.UpdateGraph();
+
         }
 
         private void UpdateGraph()

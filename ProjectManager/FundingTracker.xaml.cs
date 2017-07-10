@@ -117,6 +117,9 @@ namespace ProjectManager
             treeDisplay.Show();
         }
 
-       
+        private void UpdateButton_Click(object sender, RoutedEventArgs e)
+        {
+            _viewModel.UpdateFunding();
+        }
     }
 }
