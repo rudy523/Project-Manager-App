@@ -86,7 +86,9 @@
     <Compile Include="Model\MIPRNumber.cs" />
     <Compile Include="Model\ProjectNumber.cs" />
     <Compile Include="Model\ResourceDictionaryCollection.cs" />
-    <Compile Include="Model\UpdateData.cs" />
+    <Compile Include="TestWindow.xaml.cs">
+      <DependentUpon>TestWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ViewModels\ChartDataViewModel.cs" />
     <Compile Include="ViewModels\DataGridViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
@@ -113,6 +115,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="ProjectManagerResources.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="TestWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

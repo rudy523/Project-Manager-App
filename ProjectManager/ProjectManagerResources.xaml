@@ -29,7 +29,12 @@
         <Setter Property="Background" Value="Transparent"/>
         <Setter Property="Foreground" Value="AntiqueWhite"/>
     </Style>
-
+    <Style x:Key="TabButton" TargetType="TabItem">
+        <Setter Property="Background" Value="{StaticResource StandardBackground}"/>
+        <Setter Property="Foreground" Value="AntiqueWhite"/>
+        <Setter Property="FontSize" Value="18"/>
+        <Setter Property="BorderBrush" Value="{StaticResource StandardBackground}"/>
+    </Style>
     <Style x:Key="CustomRectangles"  TargetType="Rectangle">
         <Setter Property="HorizontalAlignment" Value="Center" />
         <Setter Property="MinHeight" Value="50"/>
@@ -145,7 +150,6 @@
         </Border>
     </ControlTemplate>
 
-    
     <Style x:Key="LineChartLegend" TargetType="Visualization:Legend">
         <Setter Property="Template">
             <Setter.Value>
@@ -167,8 +171,6 @@
             </Setter.Value>
         </Setter>
     </Style>
-
-
 
     <Style x:Key="LineChartTitle" TargetType="Visualization:Title">
         <Setter Property="FontSize" Value="26"/>

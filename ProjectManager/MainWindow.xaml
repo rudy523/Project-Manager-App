@@ -25,7 +25,8 @@
         <StackPanel Grid.Row="1" Orientation="Vertical">
             <TextBlock Name="TrackFundingText" Style="{StaticResource DefaultTextStyle}" Text="Track Project Funding" Margin="10,10,10,5"/>
             <Button Name="TrackFunding" Height="75" Width="75" Margin="10,5,10,5" Click="TrackFunding_Click" Background="#FFACE3F7"/>
-
+            <TextBlock Name="TestWindowText" Style="{StaticResource DefaultTextStyle}" Text="TestWindow" Margin="10,10,10,5"/>
+            <Button Name="TestWindow" Height="75" Width="75" Margin="10,5,10,5" Click="TestWindow_Click"  Background="#FFACE3F7"/>
         </StackPanel>
     </Grid>
 </Window>

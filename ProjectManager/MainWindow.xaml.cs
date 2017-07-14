@@ -34,5 +34,11 @@ namespace ProjectManager
             FundingTracker tracker = new FundingTracker();
             tracker.Show();
         }
+
+        private void TestWindow_Click(object sender, RoutedEventArgs e)
+        {
+            TestWindow Test = new TestWindow();
+            Test.Show();
+        }
     }
 }
