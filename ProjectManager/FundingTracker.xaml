@@ -99,6 +99,7 @@
                                     <Trigger Property="IsSelected" Value="True">
                                         <Setter Property="FontWeight" Value="Bold"/>
                                     </Trigger>
+                                   
                                 </Style.Triggers>
                             </Style>
                         </TreeView.ItemContainerStyle>
@@ -106,62 +107,66 @@
                             <HierarchicalDataTemplate ItemsSource="{Binding MIPRchildren}">
                                 <StackPanel Orientation="Horizontal">
                                     <CheckBox IsChecked="{Binding IsChecked}"/>
-                                    <TextBlock Text="{Binding MIPRName}" MouseLeftButtonDown="ProjectNumberDeselected"/>
+                                    <TextBlock Text="{Binding MIPRName}"/>
                                 </StackPanel>
                                 <HierarchicalDataTemplate.ItemTemplate>
                                     <DataTemplate>
                                         <StackPanel Orientation="Horizontal">
                                             <CheckBox IsChecked="{Binding IsChecked}"/>
-                                            <TextBlock Text="{Binding ProjNum}" MouseLeftButtonDown="ProjectNumberSelected"/>
+                                            <TextBlock Text="{Binding ProjNum}" MouseLeftButtonDown="ProjectNumberSelected" />
                                         </StackPanel>
                                     </DataTemplate>
                                 </HierarchicalDataTemplate.ItemTemplate>
                             </HierarchicalDataTemplate>
                         </TreeView.ItemTemplate>
                     </TreeView>
+                    
+                    <Popup Name="ProjectNumPopup" StaysOpen="False" Placement="MousePoint" PopupAnimation="Fade" AllowsTransparency="True">
+                        <ListBox Name="DetailsList" Margin="5" Style="{StaticResource ProjectNumberList}" 
+                             DataContext="{Binding ElementName=MIPRdisplay, Path=SelectedItem}" BorderBrush="#FF423B3B">
+                            <TextBlock Text="{Binding Children[0], StringFormat= Billing Element: {0}}"/>
+                            <TextBlock Text="{Binding Children[1], StringFormat= Network: {0}}"/>
+                            <TextBlock Text="{Binding Children[2], StringFormat= Activity: {0}}"/>
+                            <TextBlock Text="{Binding Children[3], StringFormat= Sub Elem: {0}}"/>
+                            <TextBlock Text="{Binding Children[4], StringFormat= Appn: {0}}"/>
+                            <TextBlock Text="{Binding Children[5], StringFormat= AppnNo: {0}}"/>
+                            <TextBlock Text="{Binding Children[6], StringFormat= Doc Type: {0}}"/>
+                            <TextBlock Text="{Binding Children[7], StringFormat= Program: {0}}"/>
+                            <TextBlock Text="{Binding Children[8], StringFormat= Project: {0}}"/>
+                            <TextBlock Text="{Binding Children[9], StringFormat= Title: {0}}"/>
+                            <TextBlock Text="{Binding Children[10], StringFormat= Sponsor: {0}}"/>
+                            <TextBlock Text="{Binding Children[11], StringFormat= Engineer: {0}}"/>
+                            <TextBlock Text="{Binding Children[12], StringFormat= Labor Allocated {0}}"/>
+                            <TextBlock Text="{Binding Children[13], StringFormat= Material Allocated: {0}}"/>
+                            <TextBlock Text="{Binding Children[14], StringFormat= Travel Allocated: {0}}"/>
+                            <TextBlock Text="{Binding Children[15], StringFormat= Services Allocated: {0}}"/>
+                            <TextBlock Text="{Binding Children[16], StringFormat= Division Allocated: {0}}"/>
+                            <TextBlock Text="{Binding Children[17], StringFormat= CB Allocated: {0}}"/>
+                            <TextBlock Text="{Binding Children[18], StringFormat= Other Allocated: {0}}"/>
+                            <TextBlock Text="{Binding Children[19], StringFormat= Total Allocated: {0}}"/>
+                            <TextBlock Text="{Binding Children[20], StringFormat= Labor Expended: {0}}"/>
+                            <TextBlock Text="{Binding Children[21], StringFormat= Material Expended: {0}}"/>
+                            <TextBlock Text="{Binding Children[22], StringFormat= Travel Expended: {0}}"/>
+                            <TextBlock Text="{Binding Children[23], StringFormat= Services Expended: {0}}"/>
+                            <TextBlock Text="{Binding Children[24], StringFormat= Division Expended: {0}}"/>
+                            <TextBlock Text="{Binding Children[25], StringFormat= CB Expended: {0}}"/>
+                            <TextBlock Text="{Binding Children[26], StringFormat= Other Expended: {0}}"/>
+                            <TextBlock Text="{Binding Children[27], StringFormat= Total Expended: {0}}"/>
+                            <TextBlock Text="{Binding Children[28], StringFormat= Labor Balance: {0}}"/>
+                            <TextBlock Text="{Binding Children[29], StringFormat= Material Balance: {0}}"/>
+                            <TextBlock Text="{Binding Children[30], StringFormat= Travel Balance: {0}}"/>
+                            <TextBlock Text="{Binding Children[31], StringFormat= Services Balance: {0}}"/>
+                            <TextBlock Text="{Binding Children[32], StringFormat= Division Balance: {0}}"/>
+                            <TextBlock Text="{Binding Children[33], StringFormat= CB Balance: {0}}"/>
+                            <TextBlock Text="{Binding Children[34], StringFormat= Other Balance: {0}}"/>
+                            <TextBlock Text="{Binding Children[35], StringFormat= Total Balance: {0}}"/>
+                            <TextBlock Text="{Binding Children[36], StringFormat= WCD: {0}}"/>
+                            <TextBlock Text="{Binding Children[37], StringFormat= APPN Expiration: {0}}"/>
+                            <TextBlock Text="{Binding Children[38], StringFormat= Accept Date: {0}}"/>
+                        </ListBox>
+                    </Popup>
 
-                    <ListBox Name="DetailsList" Margin="5" Style="{StaticResource ProjectNumberList}" 
-                     DataContext="{Binding ElementName=MIPRdisplay, Path=SelectedItem}" BorderBrush="#FF423B3B" Visibility="Hidden" Grid.Row ="1" Grid.Column="1">
-                        <TextBlock Text="{Binding Children[0], StringFormat= Billing Element: {0}}"/>
-                        <TextBlock Text="{Binding Children[1], StringFormat= Network: {0}}"/>
-                        <TextBlock Text="{Binding Children[2], StringFormat= Activity: {0}}"/>
-                        <TextBlock Text="{Binding Children[3], StringFormat= Sub Elem: {0}}"/>
-                        <TextBlock Text="{Binding Children[4], StringFormat= Appn: {0}}"/>
-                        <TextBlock Text="{Binding Children[5], StringFormat= AppnNo: {0}}"/>
-                        <TextBlock Text="{Binding Children[6], StringFormat= Doc Type: {0}}"/>
-                        <TextBlock Text="{Binding Children[7], StringFormat= Program: {0}}"/>
-                        <TextBlock Text="{Binding Children[8], StringFormat= Project: {0}}"/>
-                        <TextBlock Text="{Binding Children[9], StringFormat= Title: {0}}"/>
-                        <TextBlock Text="{Binding Children[10], StringFormat= Sponsor: {0}}"/>
-                        <TextBlock Text="{Binding Children[11], StringFormat= Engineer: {0}}"/>
-                        <TextBlock Text="{Binding Children[12], StringFormat= Labor Allocated {0}}"/>
-                        <TextBlock Text="{Binding Children[13], StringFormat= Material Allocated: {0}}"/>
-                        <TextBlock Text="{Binding Children[14], StringFormat= Travel Allocated: {0}}"/>
-                        <TextBlock Text="{Binding Children[15], StringFormat= Services Allocated: {0}}"/>
-                        <TextBlock Text="{Binding Children[16], StringFormat= Division Allocated: {0}}"/>
-                        <TextBlock Text="{Binding Children[17], StringFormat= CB Allocated: {0}}"/>
-                        <TextBlock Text="{Binding Children[18], StringFormat= Other Allocated: {0}}"/>
-                        <TextBlock Text="{Binding Children[19], StringFormat= Total Allocated: {0}}"/>
-                        <TextBlock Text="{Binding Children[20], StringFormat= Labor Expended: {0}}"/>
-                        <TextBlock Text="{Binding Children[21], StringFormat= Material Expended: {0}}"/>
-                        <TextBlock Text="{Binding Children[22], StringFormat= Travel Expended: {0}}"/>
-                        <TextBlock Text="{Binding Children[23], StringFormat= Services Expended: {0}}"/>
-                        <TextBlock Text="{Binding Children[24], StringFormat= Division Expended: {0}}"/>
-                        <TextBlock Text="{Binding Children[25], StringFormat= CB Expended: {0}}"/>
-                        <TextBlock Text="{Binding Children[26], StringFormat= Other Expended: {0}}"/>
-                        <TextBlock Text="{Binding Children[27], StringFormat= Total Expended: {0}}"/>
-                        <TextBlock Text="{Binding Children[28], StringFormat= Labor Balance: {0}}"/>
-                        <TextBlock Text="{Binding Children[29], StringFormat= Material Balance: {0}}"/>
-                        <TextBlock Text="{Binding Children[30], StringFormat= Travel Balance: {0}}"/>
-                        <TextBlock Text="{Binding Children[31], StringFormat= Services Balance: {0}}"/>
-                        <TextBlock Text="{Binding Children[32], StringFormat= Division Balance: {0}}"/>
-                        <TextBlock Text="{Binding Children[33], StringFormat= CB Balance: {0}}"/>
-                        <TextBlock Text="{Binding Children[34], StringFormat= Other Balance: {0}}"/>
-                        <TextBlock Text="{Binding Children[35], StringFormat= Total Balance: {0}}"/>
-                        <TextBlock Text="{Binding Children[36], StringFormat= WCD: {0}}"/>
-                        <TextBlock Text="{Binding Children[37], StringFormat= APPN Expiration: {0}}"/>
-                        <TextBlock Text="{Binding Children[38], StringFormat= Accept Date: {0}}"/>
-                    </ListBox>
+
 
                     <DataGrid Name="FundingGrid"  Background="Black" BorderBrush="Transparent" AutoGenerateColumns="False" ItemsSource="{Binding GridData}" Visibility="Hidden" 
                               Grid.Row ="1" Grid.Column="1" Margin="0,5,5,5" >

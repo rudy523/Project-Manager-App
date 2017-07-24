@@ -70,13 +70,14 @@ namespace ProjectManager
 
         private void ProjectNumberSelected(object sender, MouseButtonEventArgs e)
         {
-            DetailsList.Visibility = Visibility.Visible;
+            ProjectNumPopup.IsOpen = true;
         }
 
+        /*
         private void ProjectNumberDeselected(object sender, MouseButtonEventArgs e)
         {
             DetailsList.Visibility = Visibility.Hidden;
-        }
+        */
 
         /*
         private void ScrollViewer_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
@@ -120,6 +121,11 @@ namespace ProjectManager
         private void UpdateButton_Click(object sender, RoutedEventArgs e)
         {
             _viewModel.UpdateFunding();
+        }
+
+        private void ProjNum_MouseEnter(object sender, MouseEventArgs e)
+        {
+
         }
     }
 }
