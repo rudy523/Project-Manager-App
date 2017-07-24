@@ -11,6 +11,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using ProjectManager.ViewModels;
 
 namespace ProjectManager
 {
@@ -19,9 +20,14 @@ namespace ProjectManager
     /// </summary>
     public partial class TestWindow : Window
     {
+        public List<int> TestNumbers { get; set; }
+
         public TestWindow()
         {
             InitializeComponent();
+            TestingClass test = new TestingClass();
+            TestNumbers = test.myNumbers;
+            DataContext = this;
         }
     }
 }

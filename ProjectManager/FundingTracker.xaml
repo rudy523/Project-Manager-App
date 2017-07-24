@@ -8,8 +8,8 @@
         xmlns:Primitives="clr-namespace:System.Windows.Controls.DataVisualization.Charting.Primitives;assembly=System.Windows.Controls.DataVisualization.Toolkit"
         xmlns:ModernUI="http://modernwpf"
         xmlns:Model="clr-namespace:ProjectManager.Model"
-        Title="Funding Tracker" Height="500" Width="750">
-        
+        Title="Funding Tracker" Height="1000" Width="750">
+
     <Window.Resources>
         
     </Window.Resources>
@@ -19,17 +19,15 @@
         <CommandBinding Command="SaveAs" Executed="SaveAsCommand_Executed"/>
         <CommandBinding Command="Open" Executed="OpenCommand_Executed"/>
     </Window.CommandBindings>
-    
+
     <Grid Background="{StaticResource StandardBackground}">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
-        </Grid.RowDefinitions>
+            </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="Auto"/>
         </Grid.ColumnDefinitions>
         <Menu Style="{StaticResource StandardMenu}">
             <MenuItem Template="{DynamicResource MenuItemControlTemplate1}" Header="File">
@@ -68,15 +66,16 @@
             <TabItem Header="Project Funding" Style="{StaticResource TabButton}" >
                 <Grid>
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="AUTO"/>
+                        <RowDefinition Height="Auto"/>
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition Width="Auto"/>
-    
+                        <ColumnDefinition Width="*"/>
+
                     </Grid.ColumnDefinitions>
-                    <StackPanel Orientation="Horizontal" Grid.ColumnSpan="2">
+                    
+                    <StackPanel Orientation="Horizontal">
                         <TextBox Name="SearchBox" TextWrapping="Wrap" MaxLines="25" MinWidth="200" Margin="10,5,5,5" Background="White" Foreground="Black"
                          Text="Enter Search Criteria" FontSize="14" HorizontalContentAlignment="Left" VerticalContentAlignment="Center"/>
                         <Button Style="{StaticResource DefaultButtonStyle}" BorderThickness="1" Click="GetData_Click" Cursor="Hand">Query</Button>
@@ -86,8 +85,43 @@
                         <Button Style="{StaticResource DefaultButtonStyle}" BorderThickness="1" Cursor="Hand" Click="ShowTree_Click">Show Visual Tree</Button>
                     </StackPanel>
 
-                    <ListBox Name="DetailsList" Grid.Row="2" Grid.Column="1" Margin="5" Style="{StaticResource ProjectNumberList}" 
-                     DataContext="{Binding ElementName=MIPRdisplay, Path=SelectedItem}" BorderBrush="#FF423B3B" Visibility="Hidden" Grid.RowSpan="3">
+                    <TreeView Name="MIPRdisplay" Background="Black" BorderBrush="Transparent"  Visibility="Hidden" AlternationCount="2" 
+                        ItemsSource="{Binding MIPRnums}" ScrollViewer.VerticalScrollBarVisibility="Auto" Margin="10,5,5,5" Grid.Row="1">
+                        <TreeView.ItemContainerStyle>
+                            <Style TargetType="{x:Type TreeViewItem}">
+                                <Setter Property="IsExpanded" Value="{Binding IsExpanded, Mode=TwoWay}"/>
+                                <Setter Property="IsSelected" Value="{Binding IsSelected, Mode=TwoWay}"/>
+                                <Setter Property="FontSize" Value="14" />
+                                <Setter Property="FontFamily" Value="Segoe UI"/>
+                                <Setter Property="Background" Value="Transparent"/>
+                                <Setter Property="Foreground" Value="AntiqueWhite"/>
+                                <Style.Triggers>
+                                    <Trigger Property="IsSelected" Value="True">
+                                        <Setter Property="FontWeight" Value="Bold"/>
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </TreeView.ItemContainerStyle>
+                        <TreeView.ItemTemplate>
+                            <HierarchicalDataTemplate ItemsSource="{Binding MIPRchildren}">
+                                <StackPanel Orientation="Horizontal">
+                                    <CheckBox IsChecked="{Binding IsChecked}"/>
+                                    <TextBlock Text="{Binding MIPRName}" MouseLeftButtonDown="ProjectNumberDeselected"/>
+                                </StackPanel>
+                                <HierarchicalDataTemplate.ItemTemplate>
+                                    <DataTemplate>
+                                        <StackPanel Orientation="Horizontal">
+                                            <CheckBox IsChecked="{Binding IsChecked}"/>
+                                            <TextBlock Text="{Binding ProjNum}" MouseLeftButtonDown="ProjectNumberSelected"/>
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </HierarchicalDataTemplate.ItemTemplate>
+                            </HierarchicalDataTemplate>
+                        </TreeView.ItemTemplate>
+                    </TreeView>
+
+                    <ListBox Name="DetailsList" Margin="5" Style="{StaticResource ProjectNumberList}" 
+                     DataContext="{Binding ElementName=MIPRdisplay, Path=SelectedItem}" BorderBrush="#FF423B3B" Visibility="Hidden" Grid.Row ="1" Grid.Column="1">
                         <TextBlock Text="{Binding Children[0], StringFormat= Billing Element: {0}}"/>
                         <TextBlock Text="{Binding Children[1], StringFormat= Network: {0}}"/>
                         <TextBlock Text="{Binding Children[2], StringFormat= Activity: {0}}"/>
@@ -129,42 +163,8 @@
                         <TextBlock Text="{Binding Children[38], StringFormat= Accept Date: {0}}"/>
                     </ListBox>
 
-                    <TreeView Name="MIPRdisplay" Background="Transparent" BorderBrush="Transparent"  Visibility="Hidden" AlternationCount="2" 
-                        ItemsSource="{Binding MIPRnums}" ScrollViewer.VerticalScrollBarVisibility="Auto" Grid.Row="1" Margin="10,5,5,5" Grid.RowSpan="3">
-                        <TreeView.ItemContainerStyle>
-                            <Style TargetType="{x:Type TreeViewItem}">
-                                <Setter Property="IsExpanded" Value="{Binding IsExpanded, Mode=TwoWay}"/>
-                                <Setter Property="IsSelected" Value="{Binding IsSelected, Mode=TwoWay}"/>
-                                <Setter Property="FontSize" Value="14" />
-                                <Setter Property="FontFamily" Value="Segoe UI"/>
-                                <Setter Property="Background" Value="Transparent"/>
-                                <Setter Property="Foreground" Value="AntiqueWhite"/>
-                                <Style.Triggers>
-                                    <Trigger Property="IsSelected" Value="True">
-                                        <Setter Property="FontWeight" Value="Bold"/>
-                                    </Trigger>
-                                </Style.Triggers>
-                            </Style>
-                        </TreeView.ItemContainerStyle>
-                        <TreeView.ItemTemplate>
-                            <HierarchicalDataTemplate ItemsSource="{Binding MIPRchildren}">
-                                <StackPanel Orientation="Horizontal">
-                                    <CheckBox IsChecked="{Binding IsChecked}"/>
-                                    <TextBlock Text="{Binding MIPRName}" MouseLeftButtonDown="ProjectNumberDeselected"/>
-                                </StackPanel>
-                                <HierarchicalDataTemplate.ItemTemplate>
-                                    <DataTemplate>
-                                        <StackPanel Orientation="Horizontal">
-                                            <CheckBox IsChecked="{Binding IsChecked}"/>
-                                            <TextBlock Text="{Binding ProjNum}" MouseLeftButtonDown="ProjectNumberSelected"/>
-                                        </StackPanel>
-                                    </DataTemplate>
-                                </HierarchicalDataTemplate.ItemTemplate>
-                            </HierarchicalDataTemplate>
-                        </TreeView.ItemTemplate>
-                    </TreeView>
-
-                    <DataGrid Grid.Column="1" Grid.Row="1" Name="FundingGrid"  Background="Black" BorderBrush="Transparent" AutoGenerateColumns="False" ItemsSource="{Binding GridData}" Visibility="Hidden">
+                    <DataGrid Name="FundingGrid"  Background="Black" BorderBrush="Transparent" AutoGenerateColumns="False" ItemsSource="{Binding GridData}" Visibility="Hidden" 
+                              Grid.Row ="1" Grid.Column="1" Margin="0,5,5,5" >
                         <DataGrid.Resources>
                             <Style TargetType="{x:Type DataGridColumnHeader}">
                                 <Setter Property="Background" Value="Black"/>

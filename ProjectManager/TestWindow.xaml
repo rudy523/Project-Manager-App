@@ -9,17 +9,39 @@
         Title="TestWindow" Height="300" Width="300">
     <Grid Background="{StaticResource StandardBackground}">
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="*"/>
+
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
+
             <ColumnDefinition Width="Auto"/>
             <ColumnDefinition Width="Auto"/>
         </Grid.ColumnDefinitions>
-        <TabControl Background="{StaticResource StandardBackground}" Margin="10,5,20,5">
+        <StackPanel Orientation="Horizontal">
+            <TextBox Text="Test"/>
+        </StackPanel>
+        <TabControl Background="{StaticResource StandardBackground}" Margin="10,5,20,5" Grid.Row="1">
+            
             <TabItem Header ="Dashboard" Style="{StaticResource TabButton}" Padding="5" Width="125">
-                
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="*"/>
+
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    
+                    <StackPanel Orientation="Horizontal">
+                        <TextBox Text="Test"/>
+                    </StackPanel>
+                    
+                <TreeView Name="TestView" ItemsSource="{Binding TestNumbers}" ScrollViewer.VerticalScrollBarVisibility="Auto" Grid.Row="1"/>
+                </Grid>
             </TabItem>
             <TabItem Header="Raw Data" Style="{StaticResource TabButton}" >
                 

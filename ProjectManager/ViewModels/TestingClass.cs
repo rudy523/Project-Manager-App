@@ -9,17 +9,15 @@ namespace ProjectManager.ViewModels
     [Serializable]
     public class TestingClass
     {
-        public decimal Age { get; set; }
-        public string Name { get; set; }
-        public DateTime currentDate { get; set; }
-        //public TestingClass() { }
+        public List<int> myNumbers;
 
         public TestingClass()
         {
-            Age = (decimal)33.35;
-            Name = "James";
-            currentDate = DateTime.Today;
-            
+            myNumbers = new List<int>();
+            for (int i = 0; i < 101; i++)
+            {
+                myNumbers.Add(i);
+            }
         }
     }
 }
