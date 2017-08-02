@@ -29,12 +29,85 @@
         <Setter Property="Background" Value="Transparent"/>
         <Setter Property="Foreground" Value="AntiqueWhite"/>
     </Style>
+
+    <Style x:Key="TabHeader" TargetType="TextBlock">
+        <Setter Property="Background" Value="{StaticResource StandardBackground}"/>
+        <Setter Property="Foreground" Value="Red"/>
+        <Setter Property="FontSize" Value="18"/>
+    </Style>
+
     <Style x:Key="TabButton" TargetType="TabItem">
         <Setter Property="Background" Value="{StaticResource StandardBackground}"/>
         <Setter Property="Foreground" Value="AntiqueWhite"/>
         <Setter Property="FontSize" Value="18"/>
-        <Setter Property="BorderBrush" Value="{StaticResource StandardBackground}"/>
+        <Setter Property="BorderBrush" Value="Transparent"/>
     </Style>
+
+    <Style x:Key="TabTest" TargetType="HeaderedContentControl">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type HeaderedContentControl}">
+                    <StackPanel>
+                        <Grid>
+                            <Rectangle Stroke="{TemplateBinding Background}"/>
+                            <ContentPresenter ContentSource="Header"/>
+                        </Grid>
+                        <Grid>
+                            <Rectangle Fill="{TemplateBinding Background}"/>
+                            <ContentPresenter ContentSource="Content"/>
+                        </Grid>
+                    </StackPanel>
+                </ControlTemplate>               
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="FundingTabItem" TargetType="TabItem">
+        <Setter Property="Background"  Value="{StaticResource StandardBackground}"/>
+        <Setter Property="BorderBrush" Value="{StaticResource StandardBackground}"/>
+        <Setter Property="HeaderTemplate">
+            <Setter.Value>
+                <DataTemplate DataType="{x:Type TabItem}">
+                    <TextBlock x:Name="TabTextBlock" Foreground="AntiqueWhite" Background="{StaticResource StandardBackground}" FontSize="18" Text="{TemplateBinding Content}" Grid.Row="0" Grid.Column="0"/>
+                    <DataTemplate.Triggers>
+                        <DataTrigger Binding="{Binding Path=IsSelected, RelativeSource={RelativeSource TemplatedParent}}" Value="True">
+                            <Setter TargetName="TabTextBlock" Property="Background" Value="White"/>
+                            <Setter TargetName="TabTextBlock" Property="Foreground" Value="Black"/>
+                        </DataTrigger>
+                    </DataTemplate.Triggers>
+                </DataTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="TabItemTemplate" TargetType="TabItem">
+        <Setter Property="FontSize" Value="18"/>
+        <Setter Property="Foreground" Value="AntiqueWhite"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type TabItem}">
+                    <Grid>
+                        <Border Name="TabItemBorder" Background="{StaticResource StandardBackground}"  BorderBrush="{StaticResource StandardBackground}"  BorderThickness="0,0,0,2">
+                            <ContentPresenter x:Name="ContentSite" VerticalAlignment="Center"
+                                    HorizontalAlignment="Center"
+                                    ContentSource="Header"
+                                    Margin="12,2,12,2"
+                                    RecognizesAccessKey="True"/>
+                        </Border>
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsSelected" Value="True">
+                            <Setter TargetName="TabItemBorder" Property="BorderBrush" Value="AntiqueWhite" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    
+    
+    
     <Style x:Key="CustomRectangles"  TargetType="Rectangle">
         <Setter Property="HorizontalAlignment" Value="Center" />
         <Setter Property="MinHeight" Value="50"/>
@@ -43,6 +116,7 @@
         <Setter Property ="MinWidth" Value="50"/>
         <Setter Property ="Margin" Value="10,10,10,10" />
     </Style>
+    
     <Style x:Key="DefaultTextStyle" TargetType="TextBlock">
         <Setter Property="FontSize" Value="14" />
         <Setter Property="FontFamily" Value="Segoe UI"/>
@@ -50,13 +124,15 @@
         <Setter Property="Foreground" Value="#FFFBFBFB"/>
         <Setter Property="Margin" Value="10,5,5,5"/>
     </Style>
+    
     <Style x:Key="NormalText" TargetType="TextBlock">
         <Setter Property="FontSize" Value="12" />
         <Setter Property="FontFamily" Value="Segoe UI"/>
-        <Setter Property="Background" Value="Black"/>
+        <Setter Property="Background" Value="{StaticResource StandardBackground}"/>
         <Setter Property="Foreground" Value="White"/>
         <Setter Property="Margin" Value="10,5,5,5"/>
     </Style>
+    
     <Style x:Key="DefaultButtonStyle" TargetType="Button">
         <Setter Property="FontSize" Value="12" />
         <Setter Property="FontFamily" Value="Segoe UI"/>
@@ -67,12 +143,14 @@
         <Setter Property="HorizontalContentAlignment" Value="Center"/>
         <Setter Property="VerticalContentAlignment" Value="Center"/>
     </Style>
+    
     <Style x:Key="ProjectNumberList" TargetType="ListBox">
         <Setter Property="FontSize" Value="12" />
         <Setter Property="FontFamily" Value="Segoe UI"/>
         <Setter Property="Background" Value="Black"/>
         <Setter Property="Foreground" Value="White"/>
     </Style>
+    
     <Style x:Key="TreeViewList" TargetType="TreeViewItem">
         <Setter Property="FontSize" Value="12" />
         <Setter Property="FontFamily" Value="Segoe UI"/>

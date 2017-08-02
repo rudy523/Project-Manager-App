@@ -37,8 +37,10 @@
                 <MenuItem Command="SaveAs"/>
             </MenuItem>
         </Menu>
-        <TabControl Grid.Row="1" Background="{StaticResource StandardBackground}" BorderBrush="Transparent">
-            <TabItem Header ="Dashboard" Style="{StaticResource TabButton}" Width="125">
+        
+        <TabControl x:Name="FundingTabControl" Grid.Row="1" Background="{StaticResource StandardBackground}"  BorderBrush="Transparent">
+
+            <TabItem Header="Dashboard" Style="{StaticResource TabItemTemplate}">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="AUTO"/>
@@ -46,7 +48,6 @@
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
-
                     <DVC:Chart Name="FundingChart" Margin="10,5,5,5" Title="Current Project Funding" Style="{StaticResource LineChart}" PlotAreaStyle="{StaticResource LineChartPlotArea}"
                    LegendStyle="{StaticResource ChartLegend}" TitleStyle="{StaticResource LineChartTitle}" Background="#FF3A3838" Padding="25,20,25,5">
                         <DVC:Chart.Axes>
@@ -60,10 +61,9 @@
                         <DVC:LineSeries x:Name="BalanceSeries" ItemsSource="{Binding ChartDataModel}" IndependentValueBinding="{Binding Date}" DependentValueBinding="{Binding BalancePointValue}" 
                             Title="Balance Amount" LegendItemStyle="{StaticResource BalanceLineChartLegendItem}" DataPointStyle="{StaticResource BalanceDataPointStyle}"/>
                     </DVC:Chart>
-
                 </Grid>
             </TabItem>
-            <TabItem Header="Project Funding" Style="{StaticResource TabButton}" >
+            <TabItem Header="Project Funding" Style="{StaticResource TabItemTemplate}">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
@@ -72,10 +72,9 @@
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto"/>
                         <ColumnDefinition Width="*"/>
-
                     </Grid.ColumnDefinitions>
                     
-                    <StackPanel Orientation="Horizontal">
+                    <StackPanel Orientation="Horizontal" Grid.ColumnSpan="1">
                         <TextBox Name="SearchBox" TextWrapping="Wrap" MaxLines="25" MinWidth="200" Margin="10,5,5,5" Background="White" Foreground="Black"
                          Text="Enter Search Criteria" FontSize="14" HorizontalContentAlignment="Left" VerticalContentAlignment="Center"/>
                         <Button Style="{StaticResource DefaultButtonStyle}" BorderThickness="1" Click="GetData_Click" Cursor="Hand">Query</Button>
@@ -85,7 +84,7 @@
                         <Button Style="{StaticResource DefaultButtonStyle}" BorderThickness="1" Cursor="Hand" Click="ShowTree_Click">Show Visual Tree</Button>
                     </StackPanel>
 
-                    <TreeView Name="MIPRdisplay" Background="Black" BorderBrush="Transparent"  Visibility="Hidden" AlternationCount="2" 
+                    <TreeView Name="MIPRdisplay" Background="Transparent" BorderBrush="Transparent"  Visibility="Hidden" AlternationCount="2" 
                         ItemsSource="{Binding MIPRnums}" ScrollViewer.VerticalScrollBarVisibility="Auto" Margin="10,5,5,5" Grid.Row="1">
                         <TreeView.ItemContainerStyle>
                             <Style TargetType="{x:Type TreeViewItem}">
@@ -99,7 +98,6 @@
                                     <Trigger Property="IsSelected" Value="True">
                                         <Setter Property="FontWeight" Value="Bold"/>
                                     </Trigger>
-                                   
                                 </Style.Triggers>
                             </Style>
                         </TreeView.ItemContainerStyle>
@@ -166,21 +164,28 @@
                         </ListBox>
                     </Popup>
 
-
-
-                    <DataGrid Name="FundingGrid"  Background="Black" BorderBrush="Transparent" AutoGenerateColumns="False" ItemsSource="{Binding GridData}" Visibility="Hidden" 
+                    <DataGrid Name="FundingGrid"  Background="Transparent" BorderBrush="Transparent" AutoGenerateColumns="False" ItemsSource="{Binding GridData}" Visibility="Hidden" 
                               Grid.Row ="1" Grid.Column="1" Margin="0,5,5,5" >
                         <DataGrid.Resources>
                             <Style TargetType="{x:Type DataGridColumnHeader}">
-                                <Setter Property="Background" Value="Black"/>
+                                <Setter Property="Background" Value="Transparent"/>
                                 <Setter Property="Foreground" Value="White"/>
                                 <Setter Property="FontSize" Value="12" />
                                 <Setter Property="FontFamily" Value="Segoe UI"/>
                                 <Setter Property="Margin" Value="10,5,5,5"/>
                             </Style>
                             <Style TargetType="{x:Type DataGridCell}">
-                                <Setter Property="Background" Value="Black"/>
+                                <Setter Property="Background" Value="{StaticResource StandardBackground}"/>
                             </Style>
+                            
+                            <Style TargetType="{x:Type DataGridRow}">
+                                <Setter Property="Background" Value="{StaticResource StandardBackground}"/>
+                            </Style>
+
+                            <Style TargetType="{x:Type DataGridCellsPanel}">
+                                <Setter Property="Background" Value="{StaticResource StandardBackground}"/>
+                            </Style>
+                            
                         </DataGrid.Resources>
                         <DataGrid.Columns>
                             <DataGridTemplateColumn Header="MIPR Number">
@@ -556,6 +561,9 @@
                     </DataGrid>
                 </Grid>
             </TabItem>
+      
+
+
         </TabControl>
     </Grid>
 </Window>
