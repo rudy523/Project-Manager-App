@@ -27,7 +27,7 @@
             </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="AUTO"/>
         </Grid.ColumnDefinitions>
         <Menu Style="{StaticResource StandardMenu}">
             <MenuItem Template="{DynamicResource MenuItemControlTemplate1}" Header="File">
@@ -64,17 +64,17 @@
                 </Grid>
             </TabItem>
             <TabItem Header="Project Funding" Style="{StaticResource TabItemTemplate}">
+
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto"/>
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
                     
-                    <StackPanel Orientation="Horizontal" Grid.ColumnSpan="1">
+                    <StackPanel Orientation="Horizontal">
                         <TextBox Name="SearchBox" TextWrapping="Wrap" MaxLines="25" MinWidth="200" Margin="10,5,5,5" Background="White" Foreground="Black"
                          Text="Enter Search Criteria" FontSize="14" HorizontalContentAlignment="Left" VerticalContentAlignment="Center"/>
                         <Button Style="{StaticResource DefaultButtonStyle}" BorderThickness="1" Click="GetData_Click" Cursor="Hand">Query</Button>
@@ -83,7 +83,20 @@
                         <Button Style="{StaticResource DefaultButtonStyle}" BorderThickness="1" Cursor="Hand" Click="UpdateButton_Click">Update Funding</Button>
                         <Button Style="{StaticResource DefaultButtonStyle}" BorderThickness="1" Cursor="Hand" Click="ShowTree_Click">Show Visual Tree</Button>
                     </StackPanel>
+                    
+                    <Grid Grid.Row="1">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="AUTO"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
 
+                    <GridSplitter Grid.Column="1" Width="3" HorizontalAlignment="Center" Grid.Row="1" Margin="0,0,5,0" Background="DodgerBlue"/>
+                
                     <TreeView Name="MIPRdisplay" Background="Transparent" BorderBrush="Transparent"  Visibility="Hidden" AlternationCount="2" 
                         ItemsSource="{Binding MIPRnums}" ScrollViewer.VerticalScrollBarVisibility="Auto" Margin="10,5,5,5" Grid.Row="1">
                         <TreeView.ItemContainerStyle>
@@ -164,8 +177,23 @@
                         </ListBox>
                     </Popup>
 
-                    <DataGrid Name="FundingGrid"  Background="Transparent" BorderBrush="Transparent" AutoGenerateColumns="False" ItemsSource="{Binding GridData}" Visibility="Hidden" 
-                              Grid.Row ="1" Grid.Column="1" Margin="0,5,5,5" >
+                    <DataGrid Name="FundingGrid"  
+                              Background="Transparent" 
+                              BorderBrush="Transparent" 
+                              AutoGenerateColumns="False" 
+                              ItemsSource="{Binding GridData}" 
+                              Visibility="Hidden" 
+                              Grid.Row ="1" 
+                              Grid.Column="2" 
+                              Margin="0,5,5,5" 
+                              AlternatingRowBackground="LightBlue"
+                              CanUserDeleteRows="True"
+                              CanUserReorderColumns="True"
+                              CanUserResizeColumns="True"
+                              CanUserResizeRows="True"
+                              CanUserSortColumns="True"
+                              FrozenColumnCount="2"
+                              >
                         <DataGrid.Resources>
                             <Style TargetType="{x:Type DataGridColumnHeader}">
                                 <Setter Property="Background" Value="Transparent"/>
@@ -174,19 +202,11 @@
                                 <Setter Property="FontFamily" Value="Segoe UI"/>
                                 <Setter Property="Margin" Value="10,5,5,5"/>
                             </Style>
-                            <Style TargetType="{x:Type DataGridCell}">
-                                <Setter Property="Background" Value="{StaticResource StandardBackground}"/>
-                            </Style>
                             
-                            <Style TargetType="{x:Type DataGridRow}">
-                                <Setter Property="Background" Value="{StaticResource StandardBackground}"/>
-                            </Style>
-
-                            <Style TargetType="{x:Type DataGridCellsPanel}">
-                                <Setter Property="Background" Value="{StaticResource StandardBackground}"/>
-                            </Style>
+                            
                             
                         </DataGrid.Resources>
+                        
                         <DataGrid.Columns>
                             <DataGridTemplateColumn Header="MIPR Number">
                                 <DataGridTemplateColumn.CellTemplate>
@@ -559,6 +579,7 @@
                             </DataGridTemplateColumn>
                         </DataGrid.Columns>
                     </DataGrid>
+                </Grid>
                 </Grid>
             </TabItem>
       

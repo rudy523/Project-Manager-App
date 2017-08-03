@@ -13,6 +13,7 @@ namespace ProjectManager.ViewModels
         public decimal FundedPointValue { get; set; }
         public decimal ExpendedPointValue { get; set; }    
         public decimal BalancePointValue { get; set; }
+
         public DateTime Date { get; set; }
         public ChartDataViewModel() { }
         public ChartDataViewModel(decimal fundedpointValue, decimal expendedpointValue, decimal balancepointValue, DateTime date)

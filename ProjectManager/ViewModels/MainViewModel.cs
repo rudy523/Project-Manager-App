@@ -77,16 +77,7 @@ namespace ProjectManager.ViewModels
                     }
                 }
             }
-
-            /*
-            IEnumerable<DataGridViewModel> cleanData = GridData.Distinct();
-            GridData.Clear();
-
-            foreach (var item in cleanData.ToArray())
-            {
-                GridData.Add(item);
-            }
-            */
+       
             this.UpdateGraph();
         }
 
@@ -124,6 +115,7 @@ namespace ProjectManager.ViewModels
             if (ChartDataModel.Count == 0)
             {
                 ChartDataModel.Add(results);
+               
             }
             else
             {
@@ -132,10 +124,12 @@ namespace ProjectManager.ViewModels
                 {
                     ChartDataModel.RemoveAt(lastChartset);
                     ChartDataModel.Add(results);
+                   
                 }
                 else
                 {
                     ChartDataModel.Add(results);
+                  
                 }
             }
         }

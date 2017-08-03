@@ -230,26 +230,7 @@ namespace ProjectManager.ViewModels
             return new ChartDataViewModel(Parse(totalRow.TotalAlloc), Parse(totalRow.TotalExp), Parse(totalRow.TotalBal), DateTime.Now);
         }
 
-        /*
-        public bool Equals(DataGridViewModel other)
-        {
-            // check whether compared object is null
-            if (Object.ReferenceEquals(other, null)) return false;
-
-            // check whether the compared object references the same data
-            if (Object.ReferenceEquals(this, other)) return true;
-
-            // check whether the objects project numbers are equal
-            return ProjNum.Equals(other.ProjNum);
-        }
-
-        // If Equals method returns true for pair of objects, then GetHashCode must return same value for both objects
-        public override int GetHashCode()
-        {
-            int hashProjNum = ProjNum.GetHashCode();
-            return hashProjNum;
-        }
-        */
+        
 
         #endregion Methods
     }

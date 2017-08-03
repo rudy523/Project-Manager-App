@@ -43,7 +43,7 @@
                 <TreeView Name="TestView" ItemsSource="{Binding TestNumbers}" ScrollViewer.VerticalScrollBarVisibility="Auto" Grid.Row="1"/>
                 </Grid>
             </TabItem>
-            <TabItem Header="Raw Data" Style="{StaticResource TabButton}" >
+            <TabItem Header="Raw Data" Style="{StaticResource TabButton}" Background="#FF3E8EDE" >
                 
             </TabItem>
         </TabControl>
