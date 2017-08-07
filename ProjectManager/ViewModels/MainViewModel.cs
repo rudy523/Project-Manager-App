@@ -6,7 +6,10 @@ using System.IO;
 using System.Collections.Generic;
 using System.Linq;
 using System.Xml.Serialization;
+using System.Windows.Data;
 using System;
+
+
 
 namespace ProjectManager.ViewModels
 {
@@ -23,6 +26,8 @@ namespace ProjectManager.ViewModels
         [XmlElement]
         public ObservableCollection<ChartDataViewModel> ChartDataModel { get; set; }
         private ObservableCollection<MIPRViewModel> UpdateMIPRnums { get; set; }
+        public CollectionViewSource GridView { get; set; }
+
 
         public MainViewModel()    
         {
@@ -72,15 +77,20 @@ namespace ProjectManager.ViewModels
                         }
                         if (counter == 0)
                         {
-                            GridData.Add(selection);
+                            GridData.Add(selection);                          
                         }
                     }
                 }
             }
-       
-            this.UpdateGraph();
-        }
 
+            /*
+            GridView = new CollectionViewSource();
+            GridView.Source = GridData;
+            GridView.GroupDescriptions.Add("");
+            */
+         
+        }
+     
         public void UpdateFunding()
         {
             string[] updateNums = new string[GridData.Count()];

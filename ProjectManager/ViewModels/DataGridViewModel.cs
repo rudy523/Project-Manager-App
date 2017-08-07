@@ -1,16 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using ProjectManager.Model;
 using System.Collections.ObjectModel;
 using System.Text.RegularExpressions;
+using System.ComponentModel;
 
 namespace ProjectManager.ViewModels
 {
     [Serializable]
-    public class DataGridViewModel 
+    public class DataGridViewModel : ObservableCollection<DataGridViewModel>, INotifyPropertyChanged
     {
         public string MIPRnum { get; set; }       
         public string ProjNum { get; set; }      
@@ -150,8 +147,26 @@ namespace ProjectManager.ViewModels
         }
 
         public DataGridViewModel() { }
+
         #endregion
+
+#region Events
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        #endregion
+
 #region Methods
+
+        protected void OnPropertyChanged(string name)
+        {
+            PropertyChangedEventHandler handler = PropertyChanged;
+            if (handler != null)
+            {
+                handler(this, new PropertyChangedEventArgs(name));
+            }
+        }
+
         private static decimal Parse(string input)
         {
             string pattern = @"[\$\,]";
@@ -229,8 +244,6 @@ namespace ProjectManager.ViewModels
 
             return new ChartDataViewModel(Parse(totalRow.TotalAlloc), Parse(totalRow.TotalExp), Parse(totalRow.TotalBal), DateTime.Now);
         }
-
-        
 
         #endregion Methods
     }

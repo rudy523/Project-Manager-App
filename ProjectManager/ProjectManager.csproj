@@ -91,6 +91,7 @@
     </Compile>
     <Compile Include="ViewModels\ChartDataViewModel.cs" />
     <Compile Include="ViewModels\DataGridViewModel.cs" />
+    <Compile Include="ViewModels\DataGridViewObjects.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="ViewModels\MIPRViewModel.cs" />
     <Compile Include="ViewModels\ProjectNumberViewModel.cs" />

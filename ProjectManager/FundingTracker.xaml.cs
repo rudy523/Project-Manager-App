@@ -17,8 +17,6 @@ using AmCharts.Windows.QuickCharts;
 using ProjectManager.Model;
 using System.Runtime.Serialization;
 
-
-
 namespace ProjectManager
 {
     /// <summary>
@@ -74,12 +72,6 @@ namespace ProjectManager
         }
 
         /*
-        private void ProjectNumberDeselected(object sender, MouseButtonEventArgs e)
-        {
-            DetailsList.Visibility = Visibility.Hidden;
-        */
-
-        /*
         private void ScrollViewer_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
         {
             if (e.Delta < 0)
@@ -101,6 +93,7 @@ namespace ProjectManager
             {
                 FundingGrid.Visibility = Visibility.Visible;
             }
+            
         }
 
         private void Clear_Click(object sender, RoutedEventArgs e)
@@ -124,6 +117,11 @@ namespace ProjectManager
         }
 
         private void ProjNum_MouseEnter(object sender, MouseEventArgs e)
+        {
+
+        }
+
+        private void CollectionViewSource_Filter(object sender, FilterEventArgs e)
         {
 
         }

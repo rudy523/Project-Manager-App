@@ -25,6 +25,14 @@
 
     <SolidColorBrush x:Key="TabBrush" Color="#FF3E8EDE"/>
 
+    <GroupStyle x:Key="MIPRnumGroup">
+        <GroupStyle.HeaderTemplate>
+            <DataTemplate>
+                <Expander Background="LightBlue" Header="{Binding Path=MIPRnum}" Foreground="Black" FontWeight="Bold"/> 
+            </DataTemplate>
+        </GroupStyle.HeaderTemplate>
+    </GroupStyle>
+
     <Style x:Key="DefaultMenuItem" TargetType="MenuItem">
         <Setter Property="Background" Value="Transparent"/>
         <Setter Property="Foreground" Value="AntiqueWhite"/>
@@ -88,7 +96,8 @@
                 <ControlTemplate TargetType="{x:Type TabItem}">
                     <Grid>
                         <Border Name="TabItemBorder" Background="{StaticResource StandardBackground}" BorderBrush="{StaticResource StandardBackground}"  BorderThickness="0,0,0,2">
-                            <ContentPresenter x:Name="ContentSite" VerticalAlignment="Center"
+                            <ContentPresenter x:Name="ContentSite" 
+                                    VerticalAlignment="Center"
                                     HorizontalAlignment="Center"
                                     ContentSource="Header"
                                     Margin="12,2,12,2"
