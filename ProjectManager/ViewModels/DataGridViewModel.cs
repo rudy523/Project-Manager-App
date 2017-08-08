@@ -240,7 +240,7 @@ namespace ProjectManager.ViewModels
                 stringTotals[11], stringTotals[12], stringTotals[13], stringTotals[14], stringTotals[15], stringTotals[16], stringTotals[17], stringTotals[18], stringTotals[19],
                 stringTotals[20], stringTotals[21], stringTotals[22], stringTotals[23], null, null, null);
             
-            input.Add(totalRow);
+            
 
             return new ChartDataViewModel(Parse(totalRow.TotalAlloc), Parse(totalRow.TotalExp), Parse(totalRow.TotalBal), DateTime.Now);
         }

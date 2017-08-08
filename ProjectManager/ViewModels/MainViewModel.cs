@@ -82,13 +82,7 @@ namespace ProjectManager.ViewModels
                     }
                 }
             }
-
-            /*
-            GridView = new CollectionViewSource();
-            GridView.Source = GridData;
-            GridView.GroupDescriptions.Add("");
-            */
-         
+            this.UpdateGraph();              
         }
      
         public void UpdateFunding()
