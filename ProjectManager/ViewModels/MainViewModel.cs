@@ -25,8 +25,9 @@ namespace ProjectManager.ViewModels
         public ObservableCollection<DataGridViewModel> GridData { get; set; }
         [XmlElement]
         public ObservableCollection<ChartDataViewModel> ChartDataModel { get; set; }
+        public ObservableCollection<MIPRSummaryViewModel> MIPRsummary { get; set; }
         private ObservableCollection<MIPRViewModel> UpdateMIPRnums { get; set; }
-        public CollectionViewSource GridView { get; set; }
+
 
 
         public MainViewModel()    
@@ -36,6 +37,7 @@ namespace ProjectManager.ViewModels
             this.ChartDataModel = new ObservableCollection<ChartDataViewModel>();
             this.MIPRnums = new ObservableCollection<MIPRViewModel>();
             this.UpdateMIPRnums = new ObservableCollection<MIPRViewModel>();
+            MIPRsummary = new ObservableCollection<MIPRSummaryViewModel>();
         }
 
         public void SearchData(string[] input)
@@ -82,9 +84,30 @@ namespace ProjectManager.ViewModels
                     }
                 }
             }
-            this.UpdateGraph();              
+            this.UpdateGraph();
+
+            // Gets list of distinct MIPR numbers
+            List<string> MIPRnames = new List<string>();
+
+            foreach (var item in GridData)
+            {
+                MIPRnames.Add(item.MIPRnum);
+            }
+
+            IEnumerable<string> nums = MIPRnames.Distinct();
+
+            MIPRnames = nums.ToList();
+
+            foreach (var item in MIPRnames)
+            {
+                IEnumerable<DataGridViewModel> matches = from match in GridData
+                                                         where match.MIPRnum == item
+                                                         select match;
+                MIPRSummaryViewModel summary = new MIPRSummaryViewModel(item, matches);
+                MIPRsummary.Add(summary);
+            }
         }
-     
+
         public void UpdateFunding()
         {
             string[] updateNums = new string[GridData.Count()];

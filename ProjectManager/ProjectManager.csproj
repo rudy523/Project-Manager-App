@@ -78,7 +78,7 @@
     <Compile Include="FundingTracker.xaml.cs">
       <DependentUpon>FundingTracker.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Model\DataGridComparer.cs" />
+    <Compile Include="ViewModels\MIPRSummaryViewModel.cs" />
     <Compile Include="Model\SaveLoadState.cs" />
     <Compile Include="Model\ProjectNumProperties.cs" />
     <Compile Include="Model\LoadData.cs" />

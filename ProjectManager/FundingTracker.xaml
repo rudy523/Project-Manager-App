@@ -49,6 +49,7 @@
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="AUTO"/>
+                        <RowDefinition Height="AUTO"/>
                     </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*"/>
@@ -66,6 +67,26 @@
                         <DVC:LineSeries x:Name="BalanceSeries" ItemsSource="{Binding ChartDataModel}" IndependentValueBinding="{Binding Date}" DependentValueBinding="{Binding BalancePointValue}" 
                             Title="Balance Amount" LegendItemStyle="{StaticResource BalanceLineChartLegendItem}" DataPointStyle="{StaticResource BalanceDataPointStyle}"/>
                     </DVC:Chart>
+                    <Grid Grid.Row="1">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="AUTO"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <ListBox 
+                        Name="MIPRselection" 
+                        Background="#FF3A3838"
+                        Margin="10,5,5,5"
+                        BorderBrush="Black"
+                        BorderThickness="1,1,1,1"
+                        Foreground="FloralWhite"
+                        ItemsSource="{Binding MIPRsummary}"
+                        DisplayMemberPath="MIPRnum"                      
+                        >
+                        </ListBox>
+                    </Grid>
                 </Grid>
             </TabItem>
             <TabItem Header="Project Funding" Style="{StaticResource TabItemTemplate}">
