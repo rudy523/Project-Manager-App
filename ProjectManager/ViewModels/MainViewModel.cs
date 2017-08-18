@@ -104,7 +104,30 @@ namespace ProjectManager.ViewModels
                                                          where match.MIPRnum == item
                                                          select match;
                 MIPRSummaryViewModel summary = new MIPRSummaryViewModel(item, matches);
-                MIPRsummary.Add(summary);
+
+                if (MIPRsummary.Count == 0)
+                {
+                    MIPRsummary.Add(summary);
+                }
+                else
+                {
+                    int counter = 0;
+                    foreach (var num in MIPRsummary)
+                    {
+                        if (num.MIPRnum == summary.MIPRnum)
+                        {
+                            counter++;
+                        }
+                    }
+                    switch (counter)
+                    {
+                        case 0:
+                            MIPRsummary.Add(summary);
+                            break;
+                        default:
+                            break;
+                    }
+                }
             }
         }
 

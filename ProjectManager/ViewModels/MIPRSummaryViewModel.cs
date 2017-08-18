@@ -1,57 +1,65 @@
 ﻿using System;
+using System.Windows.Data;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Collections.ObjectModel;
+using System.Globalization;
 using System.Text.RegularExpressions;
 
 namespace ProjectManager.ViewModels
 {
     [Serializable]
-    public class MIPRSummaryViewModel
+ 
+    public class MIPRSummaryViewModel 
     {
-            #region Properties
-            public string MIPRnum { get; set; }
-            public string BillingElem { get; set; }
-            public string Appn { get; set; }
-            public string AppnNo { get; set; }
-            public string Program { get; set; }
-            public string Sponsor { get; set; }
-            public decimal LabAlloc { get; set; }
-            public decimal MatAlloc { get; set; }
-            public decimal TrvAlloc { get; set; }
-            public decimal SvcAlloc { get; set; }
-            public decimal DivAlloc { get; set; }
-            public decimal CBAlloc { get; set; }
-            public decimal OtherAlloc { get; set; }
-            public decimal TotalAlloc { get; set; }
-            public decimal LabExp { get; set; }
-            public decimal MatExp { get; set; }
-            public decimal TrvExp { get; set; }
-            public decimal SvcExp { get; set; }
-            public decimal DivExp { get; set; }
-            public decimal CBExp { get; set; }
-            public decimal OtherExp { get; set; }
-            public decimal TotalExp { get; set; }
-            public decimal LabBal { get; set; }
-            public decimal MatBal { get; set; }
-            public decimal TrvBal { get; set; }
-            public decimal SvcBal { get; set; }
-            public decimal DivBal { get; set; }
-            public decimal CBBal { get; set; }
-            public decimal OtherBal { get; set; }
-            public decimal TotalBal { get; set; }
-            public DateTime WCD { get; set; }
-            public DateTime AppnExp { get; set; }
-            public DateTime AcceptDate { get; set; }
-            public decimal[] MIPRtotals { get; set; }
-            #endregion
+        #region Properties
+        public string MIPRnum { get; set; }
+        public string BillingElem { get; set; }
+        public string Appn { get; set; }
+        public string AppnNo { get; set; }
+        public string Program { get; set; }
+        public string Sponsor { get; set; }
+        public decimal LabAlloc { get; set; }
+        public decimal MatAlloc { get; set; }
+        public decimal TrvAlloc { get; set; }
+        public decimal SvcAlloc { get; set; }
+        public decimal DivAlloc { get; set; }
+        public decimal CBAlloc { get; set; }
+        public decimal OtherAlloc { get; set; }
+        public decimal TotalAlloc { get; set; }
+        public decimal LabExp { get; set; }
+        public decimal MatExp { get; set; }
+        public decimal TrvExp { get; set; }
+        public decimal SvcExp { get; set; }
+        public decimal DivExp { get; set; }
+        public decimal CBExp { get; set; }
+        public decimal OtherExp { get; set; }
+        public decimal TotalExp { get; set; }
+        public decimal LabBal { get; set; }
+        public decimal MatBal { get; set; }
+        public decimal TrvBal { get; set; }
+        public decimal SvcBal { get; set; }
+        public decimal DivBal { get; set; }
+        public decimal CBBal { get; set; }
+        public decimal OtherBal { get; set; }
+        public decimal TotalBal { get; set; }
+        public DateTime WCD { get; set; }
+        public DateTime AppnExp { get; set; }
+        public DateTime AcceptDate { get; set; }
+        public decimal[] MIPRtotals { get; set; }
+        public decimal TotalDC { get; set; }
+        public decimal TotalWR { get; set; }
+        public decimal TotalPO { get; set; }
+        public decimal PercentDC { get; set; }
+        public decimal PercentWR { get; set; }
+        public decimal PercentPO { get; set; }
+        public decimal PercentExp { get; set; }
+        public decimal PercentRem { get; set; }
+        #endregion
 
-            #region Constructors
+        #region Constructors
 
-            // Empty constructor for XML Serializer (save function)
-            public MIPRSummaryViewModel() { }
+        // Empty constructor for XML Serializer (save function)
+        public MIPRSummaryViewModel() { }
 
             public MIPRSummaryViewModel(string name, IEnumerable<DataGridViewModel> input)
             {
@@ -83,6 +91,7 @@ namespace ProjectManager.ViewModels
                 MIPRtotals[21] += Parse(item.CBBal);
                 MIPRtotals[22] += Parse(item.OtherBal);
                 MIPRtotals[23] += Parse(item.TotalBal);
+                GetFundingTypes(item);
             }
             LabAlloc = MIPRtotals[0];
             MatAlloc = MIPRtotals[1];
@@ -116,17 +125,46 @@ namespace ProjectManager.ViewModels
             WCD = DateTime.Parse(input.ElementAt(0).WCD);
             AppnExp = DateTime.Parse(input.ElementAt(0).AppnExp);
             AcceptDate = DateTime.Parse(input.ElementAt(0).AcceptDate);
-            }
+            PercentDC = TotalDC / TotalAlloc;
+            PercentWR = TotalWR / TotalAlloc;
+            PercentPO = TotalPO / TotalAlloc;
+            PercentExp = TotalExp / TotalAlloc;
+            PercentRem = TotalBal / TotalAlloc;
+
+
+        }
 
             #endregion
 
-            #region Methods
+        #region Methods
+
             private static decimal Parse(string input)
             {
                 string pattern = @"[\$\,]";
                 return decimal.Parse(Regex.Replace(input, pattern, ""));
             }
-            #endregion
-        
+
+            private void GetFundingTypes(DataGridViewModel input)
+        {
+            switch (input.DocType)
+            {
+                case "WR":
+                    TotalWR += Parse(input.TotalAlloc);
+                    break;
+                case "RC":
+                    TotalDC += Parse(input.TotalAlloc);
+                    break;
+                case "PO":
+                    TotalPO += Parse(input.TotalAlloc);
+                    break;
+                default:
+                    break;
+            }
+        }
+       
+
+
+        #endregion
+
     }
 }

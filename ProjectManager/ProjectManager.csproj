@@ -78,6 +78,9 @@
     <Compile Include="FundingTracker.xaml.cs">
       <DependentUpon>FundingTracker.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Model\DateConverter.cs" />
+    <Compile Include="Model\PercentageConverter.cs" />
+    <Compile Include="Model\CurrencyConverter.cs" />
     <Compile Include="ViewModels\MIPRSummaryViewModel.cs" />
     <Compile Include="Model\SaveLoadState.cs" />
     <Compile Include="Model\ProjectNumProperties.cs" />
@@ -85,7 +88,6 @@
     <Compile Include="Model\MIPR.cs" />
     <Compile Include="Model\MIPRNumber.cs" />
     <Compile Include="Model\ProjectNumber.cs" />
-    <Compile Include="Model\ResourceDictionaryCollection.cs" />
     <Compile Include="TestWindow.xaml.cs">
       <DependentUpon>TestWindow.xaml</DependentUpon>
     </Compile>

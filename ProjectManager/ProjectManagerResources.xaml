@@ -25,23 +25,9 @@
 
     <SolidColorBrush x:Key="TabBrush" Color="#FF3E8EDE"/>
 
-    <GroupStyle x:Key="MIPRnumGroup">
-        <GroupStyle.HeaderTemplate>
-            <DataTemplate>
-                <Expander Background="LightBlue" Header="{Binding Path=MIPRnum}" Foreground="Black" FontWeight="Bold"/> 
-            </DataTemplate>
-        </GroupStyle.HeaderTemplate>
-    </GroupStyle>
-
     <Style x:Key="DefaultMenuItem" TargetType="MenuItem">
         <Setter Property="Background" Value="Transparent"/>
         <Setter Property="Foreground" Value="AntiqueWhite"/>
-    </Style>
-
-    <Style x:Key="TabHeader" TargetType="TextBlock">
-        <Setter Property="Background" Value="{StaticResource StandardBackground}"/>
-        <Setter Property="Foreground" Value="Red"/>
-        <Setter Property="FontSize" Value="18"/>
     </Style>
 
     <Style x:Key="TabButton" TargetType="TabItem">
@@ -88,6 +74,21 @@
         </Setter>
     </Style>
 
+    <DataTemplate x:Key="MIPRselector">
+        <Border x:Name="Selectorborder">
+            <TextBlock x:Name="MIPRselectortext">
+                <ItemsPresenter/>
+            </TextBlock>
+        </Border>
+        <DataTemplate.Triggers>
+            <DataTrigger Binding="{Binding Path=IsSelected}" Value="True">
+                <Setter TargetName="MIPRselectortext" Property="Foreground" Value="DodgerBlue"/>
+                <Setter TargetName="Selectorborder" Property="BorderThickness" Value="0,0,0,1"/>
+                <Setter TargetName="Selectorborder" Property="BorderBrush" Value="DodgerBlue"/>
+            </DataTrigger>
+        </DataTemplate.Triggers>
+    </DataTemplate>
+
     <Style x:Key="TabItemTemplate" TargetType="TabItem">
         <Setter Property="FontSize" Value="18"/>
         <Setter Property="Foreground" Value="AntiqueWhite"/>
@@ -106,7 +107,7 @@
                     </Grid>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsSelected" Value="True">
-                            <Setter TargetName="TabItemBorder" Property="BorderBrush" Value="{StaticResource TabBrush}" />
+                            <Setter TargetName="TabItemBorder" Property="BorderBrush" Value="DodgerBlue" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
@@ -114,7 +115,7 @@
         </Setter>
         <Style.Triggers>
             <Trigger Property="IsSelected" Value="True">
-                <Setter Property="Foreground" Value="{StaticResource TabBrush}"/>
+                <Setter Property="Foreground" Value="DodgerBlue"/>
             </Trigger>
         </Style.Triggers>
     </Style>
