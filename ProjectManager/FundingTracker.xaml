@@ -84,7 +84,7 @@
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
                         <StackPanel Orientation="Horizontal">
-                            
+
                             <ListBox Name="MIPRselection" 
                         Background="#FF3A3838"
                         Margin="10,0,5,5"
@@ -93,11 +93,11 @@
                         Foreground="FloralWhite"
                         ItemsSource="{Binding MIPRsummary}" 
                         DisplayMemberPath="MIPRnum"
-              
+                        ItemContainerStyle="{StaticResource MIPRselector}"
                         >
                             </ListBox>
-                            
-                        <ListBox Name="MIPRdetails1" 
+
+                            <ListBox Name="MIPRdetails1" 
                         Grid.Column="1"
                         Background="#FF3A3838"
                         Margin="-6,0,5,5"
@@ -107,16 +107,16 @@
                         FontSize="14"    
                         DataContext="{Binding ElementName=MIPRselection, Path=SelectedItem}"           
                         >
-                            <TextBlock Text="{Binding BillingElem, StringFormat= Billing Element: {0}}"/>
-                            <TextBlock Text="{Binding Appn, StringFormat= Appn: {0}}"/>
-                            <TextBlock Text="{Binding AppnNo, StringFormat= Appn No: {0}}"/>
-                            <TextBlock Text="{Binding Program, StringFormat= Program: {0}}"/>
-                            <TextBlock Text="{Binding Sponsor, StringFormat= Sponsor: {0}}"/>
-                            <TextBlock Text="{Binding WCD, StringFormat= Work Completion Date: {0}, Converter={StaticResource DateConverter}}"/>
-                            <TextBlock Text="{Binding AppnExp, StringFormat= Appn Expiration: {0}, Converter={StaticResource DateConverter}}"/>
-                            <TextBlock Text="{Binding AcceptDate, StringFormat= Acceptance Date: {0}, Converter={StaticResource DateConverter}}"/>
-                        </ListBox>
-                        <ListBox Name="MIPRdetails2" 
+                                <TextBlock Text="{Binding BillingElem, StringFormat= Billing Element: {0}}"/>
+                                <TextBlock Text="{Binding Appn, StringFormat= Appn: {0}}"/>
+                                <TextBlock Text="{Binding AppnNo, StringFormat= Appn No: {0}}"/>
+                                <TextBlock Text="{Binding Program, StringFormat= Program: {0}}"/>
+                                <TextBlock Text="{Binding Sponsor, StringFormat= Sponsor: {0}}"/>
+                                <TextBlock Text="{Binding WCD, StringFormat= Work Completion Date: {0}, Converter={StaticResource DateConverter}}"/>
+                                <TextBlock Text="{Binding AppnExp, StringFormat= Appn Expiration: {0}, Converter={StaticResource DateConverter}}"/>
+                                <TextBlock Text="{Binding AcceptDate, StringFormat= Acceptance Date: {0}, Converter={StaticResource DateConverter}}"/>
+                            </ListBox>
+                            <ListBox Name="MIPRdetails2" 
                         Grid.Column="2"
                         Background="#FF3A3838"
                         Margin="-6,0,5,5"
@@ -134,8 +134,8 @@
                                 <TextBlock Text="{Binding CBAlloc, StringFormat= Charge Back Allocated: {0}, Converter={StaticResource CurrencyConverter}}"/>
                                 <TextBlock Text="{Binding OtherAlloc, StringFormat= Other Allocated: {0}, Converter={StaticResource CurrencyConverter}}"/>
                                 <TextBlock Text="{Binding TotalAlloc, StringFormat= Total Allocated: {0}, Converter={StaticResource CurrencyConverter}}"/>
-                        </ListBox>
-                        <ListBox Name="MIPRdetails3"   
+                            </ListBox>
+                            <ListBox Name="MIPRdetails3"   
                         Grid.Column="3"
                         Background="#FF3A3838"
                         Margin="-6,0,5,5"
@@ -153,8 +153,8 @@
                                 <TextBlock Text="{Binding CBExp, StringFormat= Charge Back Expended: {0}, Converter={StaticResource CurrencyConverter}}"/>
                                 <TextBlock Text="{Binding OtherExp, StringFormat= Other Expended: {0}, Converter={StaticResource CurrencyConverter}}"/>
                                 <TextBlock Text="{Binding TotalExp, StringFormat= Total Expended: {0}, Converter={StaticResource CurrencyConverter}}"/>
-                        </ListBox>
-                        <ListBox Name="MIPRdetails4" 
+                            </ListBox>
+                            <ListBox Name="MIPRdetails4" 
                         Grid.Column="4" 
                         Background="#FF3A3838"
                         Margin="-6,0,5,5"
@@ -172,8 +172,8 @@
                                 <TextBlock Text="{Binding CBBal, StringFormat= Charge Back Balance: {0}, Converter={StaticResource CurrencyConverter}}"/>
                                 <TextBlock Text="{Binding OtherBal, StringFormat= Other Balance: {0}, Converter={StaticResource CurrencyConverter}}"/>
                                 <TextBlock Text="{Binding TotalBal, StringFormat= Total Balance: {0}, Converter={StaticResource CurrencyConverter}}"/>
-                        </ListBox>
-                        <ListBox Name="MIPRdetails5" 
+                            </ListBox>
+                            <ListBox Name="MIPRdetails5" 
                         Grid.Column="5" 
                         Background="#FF3A3838"
                         Margin="-6,0,5,5"
@@ -193,7 +193,6 @@
                                 <TextBlock Text="{Binding PercentRem, StringFormat= Percent Remaining: {0}, Converter={StaticResource PercentageConverter}}"/>
                             </ListBox>
                         </StackPanel>
-                 
                     </Grid>
                 </Grid>
             </TabItem>

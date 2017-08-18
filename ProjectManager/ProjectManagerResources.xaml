@@ -74,21 +74,6 @@
         </Setter>
     </Style>
 
-    <DataTemplate x:Key="MIPRselector">
-        <Border x:Name="Selectorborder">
-            <TextBlock x:Name="MIPRselectortext">
-                <ItemsPresenter/>
-            </TextBlock>
-        </Border>
-        <DataTemplate.Triggers>
-            <DataTrigger Binding="{Binding Path=IsSelected}" Value="True">
-                <Setter TargetName="MIPRselectortext" Property="Foreground" Value="DodgerBlue"/>
-                <Setter TargetName="Selectorborder" Property="BorderThickness" Value="0,0,0,1"/>
-                <Setter TargetName="Selectorborder" Property="BorderBrush" Value="DodgerBlue"/>
-            </DataTrigger>
-        </DataTemplate.Triggers>
-    </DataTemplate>
-
     <Style x:Key="TabItemTemplate" TargetType="TabItem">
         <Setter Property="FontSize" Value="18"/>
         <Setter Property="Foreground" Value="AntiqueWhite"/>
@@ -216,6 +201,35 @@
         <Setter Property="FontSize" Value="12"/>
     </Style>
 
+    <Style x:Key="MIPRselector" TargetType="ListBoxItem">
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="Foreground" Value="AntiqueWhite"/>
+        <Setter Property="FontSize" Value="16"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="ListBoxItem">
+                    <Border x:Name="infoBorder" BorderBrush="Transparent" BorderThickness="1,1,1,1">
+                        <ContentPresenter/>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsSelected" Value="True">
+                            <Setter TargetName="infoBorder" Property="BorderThickness" Value="0,0,0,2"/>
+                            <Setter TargetName="infoBorder" Property="BorderBrush" Value="DodgerBlue"/>
+                            <Setter TargetName="infoBorder" Property="Background" Value="Transparent"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <Style.Triggers>
+            <Trigger Property="IsSelected" Value="True">
+                <Setter Property="Foreground" Value="DodgerBlue"/>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+
+
     <ControlTemplate x:Key="MenuItemControlTemplate1" TargetType="MenuItem">
         <Border x:Name="TemplateRoot" BorderThickness="1" Background="{TemplateBinding Background}">
             <Grid VerticalAlignment="Center">
@@ -239,6 +253,8 @@
             </Grid>
         </Border>
     </ControlTemplate>
+
+    
 
     <Style x:Key="LineChartLegend" TargetType="Visualization:Legend">
         <Setter Property="Template">
