@@ -98,10 +98,14 @@ namespace ProjectManager
 
         private void Clear_Click(object sender, RoutedEventArgs e)
         {
-            base.DataContext = null;
+            //base.DataContext = null;
+            _viewModel.MIPRnums.Clear();
+            _viewModel.GridData.Clear();
+            _viewModel.ChartDataModel.Clear();
+            _viewModel.MIPRsummary.Clear();
             SearchBox.Clear();
             FundingGrid.Visibility = Visibility.Hidden;
-            DetailsList.Visibility = Visibility.Hidden;
+            MIPRdisplay.Visibility = Visibility.Hidden;
         }
 
         private void ShowTree_Click(object sender, RoutedEventArgs e)
