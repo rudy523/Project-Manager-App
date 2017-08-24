@@ -5,7 +5,7 @@ VisualStudioVersion = 15.0.26228.4
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProjectManager", "ProjectManager\ProjectManager.csproj", "{580E8702-E4B8-4C0F-9607-17BF31BEBA64}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FWB", "..\FWBprototype\WindowsFormsApplication1\FWB.csproj", "{9F791270-6699-4657-A2FB-FFC351194A45}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestConsole", "TestConsole\TestConsole.csproj", "{F5F08CE9-FC54-4E35-98CB-8223596ED5FD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -17,10 +17,10 @@ Global
 		{580E8702-E4B8-4C0F-9607-17BF31BEBA64}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{580E8702-E4B8-4C0F-9607-17BF31BEBA64}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{580E8702-E4B8-4C0F-9607-17BF31BEBA64}.Release|Any CPU.Build.0 = Release|Any CPU
-		{9F791270-6699-4657-A2FB-FFC351194A45}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{9F791270-6699-4657-A2FB-FFC351194A45}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{9F791270-6699-4657-A2FB-FFC351194A45}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{9F791270-6699-4657-A2FB-FFC351194A45}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F5F08CE9-FC54-4E35-98CB-8223596ED5FD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F5F08CE9-FC54-4E35-98CB-8223596ED5FD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F5F08CE9-FC54-4E35-98CB-8223596ED5FD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F5F08CE9-FC54-4E35-98CB-8223596ED5FD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

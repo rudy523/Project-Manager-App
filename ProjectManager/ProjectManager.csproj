@@ -78,6 +78,7 @@
       <DependentUpon>FundingTracker.xaml</DependentUpon>
     </Compile>
     <Compile Include="Model\DateConverter.cs" />
+    <Compile Include="Model\LoadTDL.cs" />
     <Compile Include="Model\PercentageConverter.cs" />
     <Compile Include="Model\CurrencyConverter.cs" />
     <Compile Include="ViewModels\MIPRSummaryViewModel.cs" />
