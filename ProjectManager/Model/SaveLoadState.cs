@@ -16,10 +16,10 @@ namespace ProjectManager.Model
         public static void Save(string Filename, object input)
         {
             using (var writer = new StreamWriter(Filename))
-            {
-                var serializer = new XmlSerializer(input.GetType());
-                serializer.Serialize(writer, input);
-                writer.Flush();
+            {            
+                   var serializer = new XmlSerializer(input.GetType());
+                    serializer.Serialize(writer, input);
+                    writer.Flush();
             }
         }
 
@@ -31,8 +31,6 @@ namespace ProjectManager.Model
                 return serializer.Deserialize(loader) as MainViewModel;
             }
         }
-
-  
 
         public static ObservableCollection<DataGridViewModel> GridLoad(string Filename)
         {

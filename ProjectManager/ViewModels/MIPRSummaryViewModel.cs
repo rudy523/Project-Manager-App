@@ -8,7 +8,6 @@ using System.Text.RegularExpressions;
 namespace ProjectManager.ViewModels
 {
     [Serializable]
- 
     public class MIPRSummaryViewModel 
     {
         #region Properties
@@ -165,6 +164,5 @@ namespace ProjectManager.ViewModels
 
 
         #endregion
-
     }
 }

@@ -1,21 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
 using ProjectManager.ViewModels;
-using System.Windows.Forms.DataVisualization;
-using System.Windows.Forms.DataVisualization.Charting;
 using Microsoft.Win32;
-using System.Xml.Serialization;
-using AmCharts.Windows.QuickCharts;
 using ProjectManager.Model;
-using System.Runtime.Serialization;
+using System.IO;
+
 
 namespace ProjectManager
 {
@@ -35,8 +26,8 @@ namespace ProjectManager
         }
 
         private void SaveCommand_Executed(object sender, ExecutedRoutedEventArgs e)
-        {
-            SaveLoadState.Save("SaveData.xml", _viewModel);
+        {         
+                SaveLoadState.Save("SaveData.xml", _viewModel);               
         }
 
         private void SaveAsCommand_Executed(object sender, ExecutedRoutedEventArgs e)

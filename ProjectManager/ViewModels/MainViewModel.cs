@@ -9,8 +9,6 @@ using System.Xml.Serialization;
 using System.Windows.Data;
 using System;
 
-
-
 namespace ProjectManager.ViewModels
 {
     [Serializable]
@@ -18,6 +16,7 @@ namespace ProjectManager.ViewModels
     {
         private LoadData MyData { get; set; }
         private ObservableCollection<MIPR> ProjectNumbers { get; set; }
+        private ObservableCollection<MIPRViewModel> UpdateMIPRnums { get; set; }
         private event PropertyChangedEventHandler PropertyChanged;
         [XmlElement]
         public ObservableCollection<MIPRViewModel> MIPRnums { get; set; }
@@ -25,10 +24,9 @@ namespace ProjectManager.ViewModels
         public ObservableCollection<DataGridViewModel> GridData { get; set; }
         [XmlElement]
         public ObservableCollection<ChartDataViewModel> ChartDataModel { get; set; }
+        [XmlElement]
         public ObservableCollection<MIPRSummaryViewModel> MIPRsummary { get; set; }
-        private ObservableCollection<MIPRViewModel> UpdateMIPRnums { get; set; }
-
-
+        
 
         public MainViewModel()    
         {

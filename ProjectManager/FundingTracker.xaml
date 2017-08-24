@@ -8,7 +8,6 @@
         xmlns:viewModels="clr-namespace:ProjectManager.ViewModels"
         xmlns:Model="clr-namespace:ProjectManager.Model"
         xmlns:local="clr-namespace:ProjectManager"
-
         Title="Funding Tracker" Height="1000" Width="750">
 
     <Window.Resources>
@@ -724,6 +723,9 @@
                         </DataGrid>
                     </Grid>
                 </Grid>
+            </TabItem>
+            <TabItem Header="Service Contract Tasks" Style="{StaticResource TabItemTemplate}">
+                
             </TabItem>
         </TabControl>
     </Grid>

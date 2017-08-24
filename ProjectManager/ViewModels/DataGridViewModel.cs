@@ -7,7 +7,7 @@ using System.ComponentModel;
 namespace ProjectManager.ViewModels
 {
     [Serializable]
-    public class DataGridViewModel : ObservableCollection<DataGridViewModel>, INotifyPropertyChanged
+    public class DataGridViewModel 
     {
         public string MIPRnum { get; set; }       
         public string ProjNum { get; set; }      
@@ -150,22 +150,20 @@ namespace ProjectManager.ViewModels
 
         #endregion
 
-#region Events
+        #region Events
 
-        public event PropertyChangedEventHandler PropertyChanged;
+        //private event PropertyChangedEventHandler PropertyChanged;
 
         #endregion
 
-#region Methods
+        #region Methods
 
+            /*
         protected void OnPropertyChanged(string name)
         {
-            PropertyChangedEventHandler handler = PropertyChanged;
-            if (handler != null)
-            {
-                handler(this, new PropertyChangedEventArgs(name));
-            }
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
         }
+        */
 
         private static decimal Parse(string input)
         {
