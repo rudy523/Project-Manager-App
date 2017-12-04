@@ -18,9 +18,30 @@ namespace TestConsole
             string FinancialFeed = @"\\Scrdata\bah\Rudy\Workbook Development\Programming\Financial Workbook TDLs.xml";
 
             XElement FinanceRoot = XElement.Load(FinancialFeed);
-            IEnumerable <XElement> children = FinanceRoot.Descendants();
-            IEnumerable<XAttribute> atts = children.ElementAt(5).Attributes();
-            Console.WriteLine(FinanceRoot);
+            IEnumerable<XNode> Nodes = FinanceRoot.DescendantNodes();
+            IEnumerable<XElement> Descendants = FinanceRoot.Descendants();
+            IEnumerable<XAttribute> Atts = Descendants.Attributes();
+            IEnumerable<XAttribute> EigthAtts = Descendants.ElementAt(8).Attributes();
+
+
+            Console.WriteLine("8th Descendant: {0}", Descendants.ElementAt(8));
+            Console.WriteLine("8th Node: {0}", Nodes.ElementAt(8));
+            
+            foreach (var item in EigthAtts)
+            {
+                Console.WriteLine(item);
+            }
+
+            foreach (var item in EigthAtts)
+            {
+                Console.WriteLine(item.Name);
+            }
+
+            foreach (var item in EigthAtts)
+            {
+                Console.WriteLine(item.Value);
+            }
+
             //Console.WriteLine(FinanceRoot);
             Console.ReadLine();
 

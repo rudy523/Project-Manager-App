@@ -50,6 +50,9 @@
     <Reference Include="MetroFramework.Fonts, Version=1.4.0.0, Culture=neutral, PublicKeyToken=5f91a84759bf584a, processorArchitecture=MSIL">
       <HintPath>..\packages\MetroModernUI.1.4.0.0\lib\net\MetroFramework.Fonts.dll</HintPath>
     </Reference>
+    <Reference Include="Oracle.DataAccess, Version=4.112.3.0, Culture=neutral, PublicKeyToken=89b483f429c47342, processorArchitecture=x86">
+      <HintPath>..\packages\Oracle.DataAccess.x86.4.4.112.3\lib\Oracle.DataAccess.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Windows.Controls.DataVisualization.Toolkit, Version=4.0.0.0, Culture=neutral, processorArchitecture=MSIL">
@@ -81,6 +84,7 @@
     <Compile Include="Model\LoadTDL.cs" />
     <Compile Include="Model\PercentageConverter.cs" />
     <Compile Include="Model\CurrencyConverter.cs" />
+    <Compile Include="Model\TDLcomparer.cs" />
     <Compile Include="ViewModels\MIPRSummaryViewModel.cs" />
     <Compile Include="Model\SaveLoadState.cs" />
     <Compile Include="Model\ProjectNumProperties.cs" />
@@ -96,6 +100,7 @@
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="ViewModels\MIPRViewModel.cs" />
     <Compile Include="ViewModels\ProjectNumberViewModel.cs" />
+    <Compile Include="ViewModels\TDLViewModel.cs" />
     <Compile Include="ViewModels\TestingClass.cs" />
     <Compile Include="VisualTreeDisplay.xaml.cs">
       <DependentUpon>VisualTreeDisplay.xaml</DependentUpon>

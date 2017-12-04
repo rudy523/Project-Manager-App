@@ -147,7 +147,17 @@
         <Setter Property="Background" Value="Black"/>
         <Setter Property="Foreground" Value="White"/>
     </Style>
-    
+
+    <Style x:Key="TDLlist" TargetType="ListBox">
+        <Setter Property="FontSize" Value="14" />
+        <Setter Property="FontFamily" Value="Segoe UI"/>
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="Foreground" Value="White"/>
+        <Setter Property="MaxHeight" Value="350"/>
+        <Setter Property="BorderBrush" Value="Transparent"/>
+        <Setter Property="SelectionMode" Value="Multiple"/>
+    </Style>
+
     <Style x:Key="TreeViewList" TargetType="TreeViewItem">
         <Setter Property="FontSize" Value="12" />
         <Setter Property="FontFamily" Value="Segoe UI"/>
@@ -161,6 +171,17 @@
         <Setter Property="Foreground" Value="FloralWhite"/>
         <Setter Property="BorderBrush" Value="Transparent"/>
         <Setter Property="Margin" Value="10,5,5,5"/>
+    </Style>
+
+    <Style x:Key="TDLButton" TargetType="Button">
+        <Setter Property="FontSize" Value="16"/>
+        <Setter Property="Background" Value="White"/>
+        <Setter Property="Foreground" Value="Black"/>
+        <Setter Property="BorderBrush" Value="Transparent"/>
+        <Setter Property="Margin" Value="0,20,0,0"/>
+        <Setter Property="Padding" Value="10"/>
+        <Setter Property="Height" Value="75"/>
+        <Setter Property="FontWeight" Value="Bold"/>
     </Style>
 
     <Style x:Key="ChartLegendItemStyle" TargetType="DVC:LegendItem">
@@ -228,8 +249,6 @@
         </Style.Triggers>
     </Style>
 
-
-
     <ControlTemplate x:Key="MenuItemControlTemplate1" TargetType="MenuItem">
         <Border x:Name="TemplateRoot" BorderThickness="1" Background="{TemplateBinding Background}">
             <Grid VerticalAlignment="Center">
@@ -253,8 +272,6 @@
             </Grid>
         </Border>
     </ControlTemplate>
-
-    
 
     <Style x:Key="LineChartLegend" TargetType="Visualization:Legend">
         <Setter Property="Template">

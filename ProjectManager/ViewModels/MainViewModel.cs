@@ -14,6 +14,8 @@ namespace ProjectManager.ViewModels
     [Serializable]
     public class MainViewModel 
     {
+        #region Properties
+
         private LoadData MyData { get; set; }
         private ObservableCollection<MIPR> ProjectNumbers { get; set; }
         private ObservableCollection<MIPRViewModel> UpdateMIPRnums { get; set; }
@@ -26,7 +28,14 @@ namespace ProjectManager.ViewModels
         public ObservableCollection<ChartDataViewModel> ChartDataModel { get; set; }
         [XmlElement]
         public ObservableCollection<MIPRSummaryViewModel> MIPRsummary { get; set; }
-        
+        //TDL collections
+        public ObservableCollection<string> EngineerList { get; set; }
+        public ObservableCollection<string> ContractList { get; set; }
+        public ObservableCollection<TDLViewModel> filteredTDLs { get; set; }
+        public LoadTDL myTDL { get; set; }
+
+
+        #endregion
 
         public MainViewModel()    
         {
@@ -36,6 +45,17 @@ namespace ProjectManager.ViewModels
             this.MIPRnums = new ObservableCollection<MIPRViewModel>();
             this.UpdateMIPRnums = new ObservableCollection<MIPRViewModel>();
             MIPRsummary = new ObservableCollection<MIPRSummaryViewModel>();
+            TDLsetup();
+        }
+
+        private void TDLsetup()
+        {
+            myTDL = new LoadTDL();
+            EngineerList = new ObservableCollection<string>();
+            ContractList = new ObservableCollection<string>();
+            filteredTDLs = new ObservableCollection<TDLViewModel>();
+            EngineerList = myTDL.EngList;
+            ContractList = myTDL.ContractList;
         }
 
         public void SearchData(string[] input)
