@@ -181,7 +181,13 @@ namespace ProjectManager
 
         private void Reset_Param_Button_Click(object sender, RoutedEventArgs e)
         {
-
+            _viewModel.filteredTDLs.Clear();
+            CurrentCheck.IsChecked = false;
+            CustomDateCheck.IsChecked = false;
+            StartDatePick.IsEnabled = false;
+            EndDatePick.IsEnabled = false;
+            EngList.SelectedItems.Clear();
+            ContractList.SelectedItems.Clear();
         }
     }
 }

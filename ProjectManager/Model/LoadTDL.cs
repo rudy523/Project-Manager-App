@@ -73,10 +73,20 @@ namespace ProjectManager.Model
         public void RunQuery(List<string> Engineers, List<string> Contracts, bool Current, DateTime startDate, DateTime endDate)
         {
 
+            bool useStartdate = false;
+            bool useFinishDate = false;
+            if (startDate != DateTime.Parse("1/1/1900"))
+            {
+                useStartdate = true;
+            }
+            if (endDate != DateTime.Parse("1/1/1900"))
+            {
+                useFinishDate = true;
+            }
+
             List<TDLViewModel> engResults = new List<TDLViewModel>();
             List<TDLViewModel> contractResults = new List<TDLViewModel>();
             var TDLattributes = SourceData.Attributes();
-
 
             foreach (var item in Engineers)
             {        
@@ -113,37 +123,64 @@ namespace ProjectManager.Model
 
             if (Current == true)
             {
-                foreach (var item in FilteredTDLs)
+                FilteredTDLs.Clear();
+                var currentTasks =  from match in combinedResults
+                                    where match.CompDate >= DateTime.Today
+                                    select match;
+                int count = currentTasks.Count();
+                if (count > 0)
                 {
-                    if (item.CompDate <= DateTime.Today)
+                    foreach (var item in currentTasks)
                     {
-                        FilteredTDLs.Remove(item);
+                        FilteredTDLs.Add(item);
                     }
                 }
             }
 
-            if (startDate != DateTime.Parse("1/1/1900"))
+            if (useStartdate == true && useFinishDate == true)
             {
-                foreach (var item in FilteredTDLs)
+                FilteredTDLs.Clear();
+                var selectedstartTasks = from match in combinedResults
+                                    where match.StartDate >= startDate
+                                    select match;
+
+                var selectedendTasks = from match in combinedResults
+                                    where match.CompDate <= endDate
+                                    select match;
+
+                var combinedTasks = selectedstartTasks.Intersect(selectedendTasks, compare);
+
+                foreach (var item in combinedTasks)
                 {
-                    if (item.StartDate < startDate)
-                    {
-                        FilteredTDLs.Remove(item);
-                    }
+                    FilteredTDLs.Add(item);
                 }
             }
 
-            if (endDate != DateTime.Parse("1/1/1900"))
+            else if (useStartdate == true)
             {
-                foreach (var item in FilteredTDLs)
+                FilteredTDLs.Clear();
+                var selectedTasks = from match in combinedResults
+                                    where match.StartDate >= startDate
+                                    select match;
+
+                foreach (var item in selectedTasks)
                 {
-                    if (item.CompDate > endDate)
-                    {
-                        FilteredTDLs.Remove(item);
-                    }
+                    FilteredTDLs.Add(item);
                 }
             }
 
+            else if (useFinishDate == true)
+            {
+                FilteredTDLs.Clear();
+                var selectedTasks = from match in combinedResults
+                                    where match.CompDate <= endDate
+                                    select match;
+
+                foreach (var item in selectedTasks)
+                {
+                        FilteredTDLs.Add(item);  
+                }         
+            }
         }
         #endregion
 

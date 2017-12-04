@@ -15,7 +15,6 @@ namespace ProjectManager.ViewModels
     public class MainViewModel 
     {
         #region Properties
-
         private LoadData MyData { get; set; }
         private ObservableCollection<MIPR> ProjectNumbers { get; set; }
         private ObservableCollection<MIPRViewModel> UpdateMIPRnums { get; set; }
@@ -33,8 +32,6 @@ namespace ProjectManager.ViewModels
         public ObservableCollection<string> ContractList { get; set; }
         public ObservableCollection<TDLViewModel> filteredTDLs { get; set; }
         public LoadTDL myTDL { get; set; }
-
-
         #endregion
 
         public MainViewModel()    
