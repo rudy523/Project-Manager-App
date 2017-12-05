@@ -31,6 +31,7 @@ namespace ProjectManager.ViewModels
         public ObservableCollection<string> EngineerList { get; set; }
         public ObservableCollection<string> ContractList { get; set; }
         public ObservableCollection<TDLViewModel> filteredTDLs { get; set; }
+        public ObservableCollection<TDLViewModel> TrackedTDLs { get; set; }
         public LoadTDL myTDL { get; set; }
         #endregion
 
@@ -51,6 +52,7 @@ namespace ProjectManager.ViewModels
             EngineerList = new ObservableCollection<string>();
             ContractList = new ObservableCollection<string>();
             filteredTDLs = new ObservableCollection<TDLViewModel>();
+            TrackedTDLs = new ObservableCollection<TDLViewModel>();
             EngineerList = myTDL.EngList;
             ContractList = myTDL.ContractList;
         }

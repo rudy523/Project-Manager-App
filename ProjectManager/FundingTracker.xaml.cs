@@ -189,5 +189,36 @@ namespace ProjectManager
             EngList.SelectedItems.Clear();
             ContractList.SelectedItems.Clear();
         }
+
+        private void CustomDateCheck_Unchecked(object sender, RoutedEventArgs e)
+        {
+            StartDatePick.IsEnabled = false;
+            EndDatePick.IsEnabled = false;
+        }
+
+        private void Track_Tasks_Button_Click(object sender, RoutedEventArgs e)
+        {
+            foreach (var item in TaskList.SelectedItems)
+            {
+                int counter = 0;
+                TDLViewModel temp = (TDLViewModel)item;
+                foreach (var tdl in _viewModel.TrackedTDLs)
+                {
+                    if (tdl.TDL_No == temp.TDL_No)
+                    {
+                        counter++;
+                    }
+                }
+                if (counter > 0)
+                {
+                    continue;
+                }
+                else
+                {
+                    _viewModel.TrackedTDLs.Add((TDLViewModel)item);
+                }
+            }
+            TDLGrid.Visibility = Visibility.Visible;
+        }
     }
 }

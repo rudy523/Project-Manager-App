@@ -19,6 +19,15 @@
                 <PropertyGroupDescription PropertyName="MIPRnum" x:Name="MIPRgroup"/>
             </CollectionViewSource.GroupDescriptions>
         </CollectionViewSource>
+        <CollectionViewSource x:Key="cvTDLData" Source="{Binding Path=TrackedTDLs}">
+            <CollectionViewSource.SortDescriptions>
+                <scm:SortDescription PropertyName="Contract"/>
+            </CollectionViewSource.SortDescriptions>
+            <CollectionViewSource.GroupDescriptions>
+                <PropertyGroupDescription PropertyName="Contract" x:Name="Contractgroup"/>
+            </CollectionViewSource.GroupDescriptions>
+        </CollectionViewSource>
+
         <Model:CurrencyConverter x:Key="CurrencyConverter"/>
         <Model:PercentageConverter x:Key="PercentageConverter"/>
         <Model:DateConverter x:Key="DateConverter"/>         
@@ -728,7 +737,8 @@
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto"/>
@@ -750,7 +760,7 @@
                         <CheckBox x:Name="CurrentCheck" Content="Use Current Tasking"  Margin="0,20,0,0" VerticalContentAlignment="Center" TextBlock.Foreground="White"
                                   Click="CurrentCheck_Click"/>
                         <CheckBox x:Name="CustomDateCheck" Content="Custom Date Range" TextBlock.Foreground="White" Margin="0,20,0,0" VerticalContentAlignment="Center"
-                                  Click="CustomDateCheck_Click"/>
+                                  Click="CustomDateCheck_Click" Unchecked="CustomDateCheck_Unchecked"/>
                         <Label Content="Select Task Start Date:" Foreground="White" Margin="0,20,0,0"/>
                         <DatePicker x:Name="StartDatePick" Margin="0,20,0,0"/>
                         <Label Content="Select Task End Date:" Foreground="White" Margin="0,20,0,0"/>
@@ -763,10 +773,381 @@
                     <StackPanel Orientation="Vertical" Grid.Column="4" Margin="15,5,5,15">
                         <Button Content="Filter Tasks"  Style="{StaticResource TDLButton}" Click="Filter_Button_Click"/>
                         <Button x:Name="Reset_Param_Button" Content="Reset Parameters"  Style="{StaticResource TDLButton}" Click="Reset_Param_Button_Click"/>
-                        <Button Content="Track Tasks"  Style="{StaticResource TDLButton}"/>
-                        <Button Content="Clear Tracked Tasks"  Style="{StaticResource TDLButton}"/>
+                        <Button x:Name="Track_Tasks_Button" Content="Track Tasks"  Style="{StaticResource TDLButton}" Click="Track_Tasks_Button_Click"/>
+                        <Button Content="Clear Tracked Tasks"  Style="{StaticResource TDLButton}" />
                     </StackPanel>
-                    
+                    <GridSplitter Height="3" Grid.Row="1" Grid.ColumnSpan="5" Background="DodgerBlue" HorizontalAlignment="Stretch" Padding="0" Margin="0,0,0,0" BorderBrush="Transparent"/>
+                    <DataGrid x:Name="TDLGrid"  
+                              Background="Transparent" 
+                              BorderBrush="Transparent" 
+                              AutoGenerateColumns="False" 
+                              ItemsSource="{Binding Source={StaticResource cvTDLData}}"
+                              Visibility="Hidden" 
+                              Grid.Row ="2" 
+                              Grid.ColumnSpan="5"
+                              Margin="0,5,5,5" 
+                              AlternatingRowBackground="LightBlue"
+                              CanUserReorderColumns="True"
+                              CanUserResizeColumns="True"
+                              CanUserSortColumns="True" 
+                              CanUserResizeRows="True"
+                              IsReadOnly="True"
+                              >
+                        <DataGrid.GroupStyle>
+                            <GroupStyle>
+                                <GroupStyle.ContainerStyle>
+                                    <Style TargetType="{x:Type GroupItem}">
+                                        <Setter Property="Template">
+                                            <Setter.Value>
+                                                <ControlTemplate TargetType="{x:Type GroupItem}">
+                                                    <Expander IsExpanded="False" Background="LightBlue" Foreground="Black" Header="{Binding Path=Name}" BorderBrush="White" BorderThickness="0,0,0,0" FontSize="15" >
+                                                        <Expander.Content>
+                                                            <ItemsPresenter/>
+                                                        </Expander.Content>
+                                                    </Expander>
+                                                </ControlTemplate>
+                                            </Setter.Value>
+                                        </Setter>
+                                    </Style>
+                                </GroupStyle.ContainerStyle>
+                            </GroupStyle>
+                        </DataGrid.GroupStyle>
+                        <DataGrid.Resources>
+                            <Style TargetType="{x:Type DataGridColumnHeader}">
+                                <Setter Property="Background" Value="Transparent"/>
+                                <Setter Property="Foreground" Value="White"/>
+                                <Setter Property="FontSize" Value="12" />
+                                <Setter Property="FontFamily" Value="Segoe UI"/>
+                                <Setter Property="Margin" Value="10,5,5,5"/>
+                            </Style>
+                        </DataGrid.Resources>
+                        <DataGrid.Columns>
+                            <DataGridTemplateColumn Header="Task Number">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <DataGridCell>
+                                            <TextBlock Text="{Binding TDL_No}" Style="{StaticResource NormalText}"/>
+                                        </DataGridCell>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTemplateColumn Header="Contract No.">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <DataGridCell>
+                                            <TextBlock Text="{Binding Contract}" Style="{StaticResource NormalText}"/>
+                                        </DataGridCell>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTemplateColumn Header="Description">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <DataGridCell>
+                                            <TextBlock Text="{Binding Description}" Style="{StaticResource NormalText}"/>
+                                        </DataGridCell>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTemplateColumn Header="Start Date">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <DataGridCell>
+                                            <TextBlock Text="{Binding StartDate}" Style="{StaticResource NormalText}"/>
+                                        </DataGridCell>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTemplateColumn Header="End Date">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <DataGridCell>
+                                            <TextBlock Text="{Binding CompDate}" Style="{StaticResource NormalText}"/>
+                                        </DataGridCell>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTemplateColumn Header="Engineer">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <DataGridCell>
+                                            <TextBlock Text="{Binding Engineer}" Style="{StaticResource NormalText}"/>
+                                        </DataGridCell>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTemplateColumn Header="Subcontractor">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <DataGridCell>
+                                            <TextBlock Text="{Binding Subcontractor}" Style="{StaticResource NormalText}"/>
+                                        </DataGridCell>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTemplateColumn Header="Expenditure Date">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <DataGridCell>
+                                            <TextBlock Text="{Binding WeekEnding}" Style="{StaticResource NormalText}"/>
+                                        </DataGridCell>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTemplateColumn Header="Budget Hours">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <DataGridCell>
+                                            <TextBlock Text="{Binding BudgHrs}" Style="{StaticResource NormalText}"/>
+                                        </DataGridCell>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTemplateColumn Header="Budget Labor">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <DataGridCell>
+                                            <TextBlock Text="{Binding BudgLab}" Style="{StaticResource NormalText}"/>
+                                        </DataGridCell>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTemplateColumn Header="Budget Travel">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <DataGridCell>
+                                            <TextBlock Text="{Binding BudgTrv}" Style="{StaticResource NormalText}"/>
+                                        </DataGridCell>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTemplateColumn Header="Budget Material">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <DataGridCell>
+                                            <TextBlock Text="{Binding BudgMat}" Style="{StaticResource NormalText}"/>
+                                        </DataGridCell>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTemplateColumn Header="Budget Other">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <DataGridCell>
+                                            <TextBlock Text="{Binding BudgOther}" Style="{StaticResource NormalText}"/>
+                                        </DataGridCell>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTemplateColumn Header="Budget Total">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <DataGridCell>
+                                            <TextBlock Text="{Binding BudgTotal}" Style="{StaticResource NormalText}"/>
+                                        </DataGridCell>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTemplateColumn Header="Funded Labor">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <DataGridCell>
+                                            <TextBlock Text="{Binding FundLab}" Style="{StaticResource NormalText}"/>
+                                        </DataGridCell>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTemplateColumn Header="Funded Travel">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <DataGridCell>
+                                            <TextBlock Text="{Binding FundTrv}" Style="{StaticResource NormalText}"/>
+                                        </DataGridCell>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTemplateColumn Header="Funded Material">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <DataGridCell>
+                                            <TextBlock Text="{Binding FundMat}" Style="{StaticResource NormalText}"/>
+                                        </DataGridCell>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTemplateColumn Header="Funded Other">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <DataGridCell>
+                                            <TextBlock Text="{Binding FundOther}" Style="{StaticResource NormalText}"/>
+                                        </DataGridCell>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTemplateColumn Header="Funded Total">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <DataGridCell>
+                                            <TextBlock Text="{Binding FundTotal}" Style="{StaticResource NormalText}"/>
+                                        </DataGridCell>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTemplateColumn Header="Expended Hours">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <DataGridCell>
+                                            <TextBlock Text="{Binding ExpHours}" Style="{StaticResource NormalText}"/>
+                                        </DataGridCell>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTemplateColumn Header="Expended Labor">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <DataGridCell>
+                                            <TextBlock Text="{Binding ExpLab}" Style="{StaticResource NormalText}"/>
+                                        </DataGridCell>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTemplateColumn Header="Expended Travel">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <DataGridCell>
+                                            <TextBlock Text="{Binding ExpTrv}" Style="{StaticResource NormalText}"/>
+                                        </DataGridCell>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTemplateColumn Header="Expended Material">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <DataGridCell>
+                                            <TextBlock Text="{Binding ExpMat}" Style="{StaticResource NormalText}"/>
+                                        </DataGridCell>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTemplateColumn Header="Expended Other">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <DataGridCell>
+                                            <TextBlock Text="{Binding ExpOther}" Style="{StaticResource NormalText}"/>
+                                        </DataGridCell>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTemplateColumn Header="Expended Total">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <DataGridCell>
+                                            <TextBlock Text="{Binding ExpTotal}" Style="{StaticResource NormalText}"/>
+                                        </DataGridCell>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTemplateColumn Header="Budget Balance Hours">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <DataGridCell>
+                                            <TextBlock Text="{Binding BudgBalHrs}" Style="{StaticResource NormalText}"/>
+                                        </DataGridCell>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTemplateColumn Header="Budget Balance Labor">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <DataGridCell>
+                                            <TextBlock Text="{Binding BudgBalLab}" Style="{StaticResource NormalText}"/>
+                                        </DataGridCell>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTemplateColumn Header="Budget Balance Travel">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <DataGridCell>
+                                            <TextBlock Text="{Binding BudgBalTrv}" Style="{StaticResource NormalText}"/>
+                                        </DataGridCell>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTemplateColumn Header="Budget Balance Material">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <DataGridCell>
+                                            <TextBlock Text="{Binding BudgBalMat}" Style="{StaticResource NormalText}"/>
+                                        </DataGridCell>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTemplateColumn Header="Budget Balance Other">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <DataGridCell>
+                                            <TextBlock Text="{Binding BudgBalOther}" Style="{StaticResource NormalText}"/>
+                                        </DataGridCell>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTemplateColumn Header="Budget Balance Total">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <DataGridCell>
+                                            <TextBlock Text="{Binding BudgBalTotal}" Style="{StaticResource NormalText}"/>
+                                        </DataGridCell>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTemplateColumn Header="Funding Balance Labor">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <DataGridCell>
+                                            <TextBlock Text="{Binding FundBalLab}" Style="{StaticResource NormalText}"/>
+                                        </DataGridCell>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTemplateColumn Header="Funding Balance Travel">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <DataGridCell>
+                                            <TextBlock Text="{Binding FundBalTrv}" Style="{StaticResource NormalText}"/>
+                                        </DataGridCell>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTemplateColumn Header="Funding Balance Material">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <DataGridCell>
+                                            <TextBlock Text="{Binding FundBalMat}" Style="{StaticResource NormalText}"/>
+                                        </DataGridCell>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTemplateColumn Header="Funding Balance Other">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <DataGridCell>
+                                            <TextBlock Text="{Binding FundBalOther}" Style="{StaticResource NormalText}"/>
+                                        </DataGridCell>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTemplateColumn Header="Funding Balance Total">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <DataGridCell>
+                                            <TextBlock Text="{Binding FundBalTotal}" Style="{StaticResource NormalText}"/>
+                                        </DataGridCell>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                        </DataGrid.Columns>
+                    </DataGrid>
                 </Grid>
             </TabItem>
         </TabControl>
