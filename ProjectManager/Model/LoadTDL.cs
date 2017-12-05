@@ -72,7 +72,7 @@ namespace ProjectManager.Model
 
         public void RunQuery(List<string> Engineers, List<string> Contracts, bool Current, DateTime startDate, DateTime endDate)
         {
-
+            this.FilteredTDLs.Clear();
             bool useStartdate = false;
             bool useFinishDate = false;
             if (startDate != DateTime.Parse("1/1/1900"))
@@ -113,6 +113,15 @@ namespace ProjectManager.Model
             }
 
             TDLcomparer compare = new TDLcomparer();
+
+            if (engResults.Count > 0 && contractResults.Count == 0)
+            {
+                contractResults = engResults;
+            }
+            else if (engResults.Count == 0 && contractResults.Count > 0)
+            {
+                engResults = contractResults;
+            }
 
             var combinedResults = engResults.Intersect(contractResults, compare);
 
