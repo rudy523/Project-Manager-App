@@ -8,7 +8,7 @@
         xmlns:viewModels="clr-namespace:ProjectManager.ViewModels"
         xmlns:Model="clr-namespace:ProjectManager.Model"
         xmlns:local="clr-namespace:ProjectManager"
-        Title="Funding Tracker" Height="1000" Width="750">
+        Title="Funding Tracker">
 
     <Window.Resources>
         <CollectionViewSource x:Key="cvGridData" Source="{Binding Path=GridData}">
@@ -59,149 +59,285 @@
         <TabControl x:Name="FundingTabControl" Grid.Row="1" Background="{StaticResource StandardBackground}"  BorderBrush="Transparent">
             <TabItem Header="Dashboard" Style="{StaticResource TabItemTemplate}">
                 <Grid>
+                    
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="AUTO"/>
-                        <RowDefinition Height="AUTO"/>
+                        <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
-                    <DVC:Chart Name="FundingChart" Margin="10,5,5,5" Title="Current Project Funding" Style="{StaticResource LineChart}" PlotAreaStyle="{StaticResource LineChartPlotArea}"
-                   LegendStyle="{StaticResource ChartLegend}" TitleStyle="{StaticResource LineChartTitle}" Background="#FF3A3838" Padding="25,20,25,5">
-                        <DVC:Chart.Axes>
-                            <DVC:LinearAxis AxisLabelStyle="{StaticResource LineChartAxisLabel}" Orientation="Y" ShowGridLines="True" ExtendRangeToOrigin="True"/>
-                            <DVC:DateTimeAxis AxisLabelStyle="{StaticResource LineChartAxisLabel}" Orientation="X" Interval="1" IntervalType="Months"/>
-                        </DVC:Chart.Axes>
-                        <DVC:LineSeries x:Name="FundingSeries" ItemsSource="{Binding ChartDataModel}" IndependentValueBinding="{Binding Date}" DependentValueBinding="{Binding FundedPointValue}" 
-                                Title="Funded Amount" DataPointStyle="{StaticResource FundedDataPointStyle}" LegendItemStyle="{StaticResource FundedLineChartLegendItem}"/>
-                        <DVC:LineSeries x:Name="ExpendedSeries" ItemsSource="{Binding ChartDataModel}" IndependentValueBinding="{Binding Date}" DependentValueBinding="{Binding ExpendedPointValue}" 
-                            Title="Expended Amount" LegendItemStyle="{StaticResource ExpendedLineChartLegendItem}" DataPointStyle="{StaticResource ExpendedDataPointStyle}"/>
-                        <DVC:LineSeries x:Name="BalanceSeries" ItemsSource="{Binding ChartDataModel}" IndependentValueBinding="{Binding Date}" DependentValueBinding="{Binding BalancePointValue}" 
-                            Title="Balance Amount" LegendItemStyle="{StaticResource BalanceLineChartLegendItem}" DataPointStyle="{StaticResource BalanceDataPointStyle}"/>
-                    </DVC:Chart>
-                    <Grid Grid.Row="1">
+
+                    <ScrollViewer VerticalAlignment="Stretch">
+                        <Grid>
                         <Grid.RowDefinitions>
-                            <RowDefinition Height="AUTO"/>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+       
                         </Grid.RowDefinitions>
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto"/>
-                            <ColumnDefinition Width="Auto"/>
-                            <ColumnDefinition Width="Auto"/>
-                            <ColumnDefinition Width="Auto"/>
-                            <ColumnDefinition Width="Auto"/>
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
-                        <StackPanel Orientation="Horizontal">
 
-                            <ListBox Name="MIPRselection" 
-                        Background="#FF3A3838"
-                        Margin="10,0,5,5"
-                        BorderBrush="Black"
-                        BorderThickness="1,1,0,1"
-                        Foreground="FloralWhite"
-                        ItemsSource="{Binding MIPRsummary}" 
-                        DisplayMemberPath="MIPRnum"
-                        ItemContainerStyle="{StaticResource MIPRselector}"
-                        >
-                            </ListBox>
+                        <DVC:Chart Name="FundingChart" Margin="10,5,5,5" Title="Current Project Funding" Style="{StaticResource LineChart}" PlotAreaStyle="{StaticResource LineChartPlotArea}"
+                       LegendStyle="{StaticResource ChartLegend}" TitleStyle="{StaticResource LineChartTitle}" Background="#FF3A3838" Padding="25,20,25,5" Grid.ColumnSpan="6">
+                            <DVC:Chart.Axes>
+                                <DVC:LinearAxis AxisLabelStyle="{StaticResource LineChartAxisLabel}" Orientation="Y" ShowGridLines="True" ExtendRangeToOrigin="True"/>
+                                <DVC:DateTimeAxis AxisLabelStyle="{StaticResource LineChartAxisLabel}" Orientation="X" Interval="1" IntervalType="Months"/>
+                            </DVC:Chart.Axes>
+                            <DVC:LineSeries x:Name="FundingSeries" ItemsSource="{Binding ChartDataModel}" IndependentValueBinding="{Binding Date}" DependentValueBinding="{Binding FundedPointValue}" 
+                                    Title="Funded Amount" DataPointStyle="{StaticResource FundedDataPointStyle}" LegendItemStyle="{StaticResource FundedLineChartLegendItem}"/>
+                            <DVC:LineSeries x:Name="ExpendedSeries" ItemsSource="{Binding ChartDataModel}" IndependentValueBinding="{Binding Date}" DependentValueBinding="{Binding ExpendedPointValue}" 
+                                Title="Expended Amount" LegendItemStyle="{StaticResource ExpendedLineChartLegendItem}" DataPointStyle="{StaticResource ExpendedDataPointStyle}"/>
+                            <DVC:LineSeries x:Name="BalanceSeries" ItemsSource="{Binding ChartDataModel}" IndependentValueBinding="{Binding Date}" DependentValueBinding="{Binding BalancePointValue}" 
+                                Title="Balance Amount" LegendItemStyle="{StaticResource BalanceLineChartLegendItem}" DataPointStyle="{StaticResource BalanceDataPointStyle}"/>
+                        </DVC:Chart>
+                            
+                        <Expander Grid.Row="1">
+                                <StackPanel Orientation="Horizontal">
+                                <ListBox Name="MIPRselection" 
+                            Background="#FF3A3838"
+                            Margin="10,0,5,5"
+                            BorderBrush="Black"
+                            BorderThickness="1,1,0,1"
+                            Foreground="FloralWhite"
+                            ItemsSource="{Binding MIPRsummary}" 
+                            DisplayMemberPath="MIPRnum"
+                            ItemContainerStyle="{StaticResource MIPRselector}"
+                            >
+                                </ListBox>
+                                <ListBox Name="MIPRdetails1" 
+                            Grid.Column="1"
+                            Background="#FF3A3838"
+                            Margin="-6,0,5,5"
+                            BorderBrush="Black"
+                            BorderThickness="0,1,0,1"
+                            Foreground="FloralWhite"
+                            FontSize="14"    
+                            DataContext="{Binding ElementName=MIPRselection, Path=SelectedItem}"           
+                            >
+                                    <TextBlock Text="{Binding BillingElem, StringFormat= Billing Element: {0}}"/>
+                                    <TextBlock Text="{Binding Appn, StringFormat= Appn: {0}}"/>
+                                    <TextBlock Text="{Binding AppnNo, StringFormat= Appn No: {0}}"/>
+                                    <TextBlock Text="{Binding Program, StringFormat= Program: {0}}"/>
+                                    <TextBlock Text="{Binding Sponsor, StringFormat= Sponsor: {0}}"/>
+                                    <TextBlock Text="{Binding WCD, StringFormat= Work Completion Date: {0}, Converter={StaticResource DateConverter}}"/>
+                                    <TextBlock Text="{Binding AppnExp, StringFormat= Appn Expiration: {0}, Converter={StaticResource DateConverter}}"/>
+                                    <TextBlock Text="{Binding AcceptDate, StringFormat= Acceptance Date: {0}, Converter={StaticResource DateConverter}}"/>
+                                </ListBox>
+                                <ListBox Name="MIPRdetails2" 
+                            Grid.Column="2"
+                            Background="#FF3A3838"
+                            Margin="-6,0,5,5"
+                            BorderBrush="Black"
+                            BorderThickness="0,1,0,1"
+                            Foreground="FloralWhite"
+                            FontSize="14"    
+                            DataContext="{Binding ElementName=MIPRselection, Path=SelectedItem}"           
+                            >
+                                    <TextBlock Text="{Binding LabAlloc, StringFormat= Labor Allocated: {0}, Converter={StaticResource CurrencyConverter}}"/>
+                                    <TextBlock Text="{Binding MatAlloc, StringFormat= Material Allocated: {0}, Converter={StaticResource CurrencyConverter}}"/>
+                                    <TextBlock Text="{Binding TrvAlloc, StringFormat= Travel Allocated: {0}, Converter={StaticResource CurrencyConverter}}"/>
+                                    <TextBlock Text="{Binding SvcAlloc, StringFormat= Services Allocated: {0}, Converter={StaticResource CurrencyConverter}}"/>
+                                    <TextBlock Text="{Binding DivAlloc, StringFormat= Division Allocated: {0}, Converter={StaticResource CurrencyConverter}}"/>
+                                    <TextBlock Text="{Binding CBAlloc, StringFormat= Charge Back Allocated: {0}, Converter={StaticResource CurrencyConverter}}"/>
+                                    <TextBlock Text="{Binding OtherAlloc, StringFormat= Other Allocated: {0}, Converter={StaticResource CurrencyConverter}}"/>
+                                    <TextBlock Text="{Binding TotalAlloc, StringFormat= Total Allocated: {0}, Converter={StaticResource CurrencyConverter}}"/>
+                                </ListBox>
+                                <ListBox Name="MIPRdetails3"   
+                            Grid.Column="3"
+                            Background="#FF3A3838"
+                            Margin="-6,0,5,5"
+                            BorderBrush="Black"
+                            BorderThickness="0,1,0,1"
+                            Foreground="FloralWhite"
+                            FontSize="14"    
+                            DataContext="{Binding ElementName=MIPRselection, Path=SelectedItem}"           
+                            >
+                                    <TextBlock Text="{Binding LabExp, StringFormat= Labor Expended: {0}, Converter={StaticResource CurrencyConverter}}"/>
+                                    <TextBlock Text="{Binding MatExp, StringFormat= Material Expended: {0}, Converter={StaticResource CurrencyConverter}}"/>
+                                    <TextBlock Text="{Binding TrvExp, StringFormat= Travel Expended: {0}, Converter={StaticResource CurrencyConverter}}"/>
+                                    <TextBlock Text="{Binding SvcExp, StringFormat= Services Expended: {0}, Converter={StaticResource CurrencyConverter}}"/>
+                                    <TextBlock Text="{Binding DivExp, StringFormat= Division Expended: {0}, Converter={StaticResource CurrencyConverter}}"/>
+                                    <TextBlock Text="{Binding CBExp, StringFormat= Charge Back Expended: {0}, Converter={StaticResource CurrencyConverter}}"/>
+                                    <TextBlock Text="{Binding OtherExp, StringFormat= Other Expended: {0}, Converter={StaticResource CurrencyConverter}}"/>
+                                    <TextBlock Text="{Binding TotalExp, StringFormat= Total Expended: {0}, Converter={StaticResource CurrencyConverter}}"/>
+                                </ListBox>
+                                <ListBox Name="MIPRdetails4" 
+                            Grid.Column="4" 
+                            Background="#FF3A3838"
+                            Margin="-6,0,5,5"
+                            BorderBrush="Black"
+                            BorderThickness="0,1,0,1"
+                            Foreground="FloralWhite"
+                            FontSize="14"    
+                            DataContext="{Binding ElementName=MIPRselection, Path=SelectedItem}"           
+                            >
+                                    <TextBlock Text="{Binding LabBal, StringFormat= Labor Balance: {0}, Converter={StaticResource CurrencyConverter}}"/>
+                                    <TextBlock Text="{Binding MatBal, StringFormat= Material Balance: {0}, Converter={StaticResource CurrencyConverter}}"/>
+                                    <TextBlock Text="{Binding TrvBal, StringFormat= Travel Balance: {0}, Converter={StaticResource CurrencyConverter}}"/>
+                                    <TextBlock Text="{Binding SvcBal, StringFormat= Services Balance: {0}, Converter={StaticResource CurrencyConverter}}"/>
+                                    <TextBlock Text="{Binding DivBal, StringFormat= Division Balance: {0}, Converter={StaticResource CurrencyConverter}}"/>
+                                    <TextBlock Text="{Binding CBBal, StringFormat= Charge Back Balance: {0}, Converter={StaticResource CurrencyConverter}}"/>
+                                    <TextBlock Text="{Binding OtherBal, StringFormat= Other Balance: {0}, Converter={StaticResource CurrencyConverter}}"/>
+                                    <TextBlock Text="{Binding TotalBal, StringFormat= Total Balance: {0}, Converter={StaticResource CurrencyConverter}}"/>
+                                </ListBox>
+                                <ListBox Name="MIPRdetails5" 
+                            Grid.Column="5" 
+                            Background="#FF3A3838"
+                            Margin="-6,0,5,5"
+                            BorderBrush="Black"
+                            BorderThickness="0,1,1,1"
+                            Foreground="FloralWhite"
+                            FontSize="14"    
+                            DataContext="{Binding ElementName=MIPRselection, Path=SelectedItem}"           
+                            >
+                                    <TextBlock Text="{Binding TotalWR, StringFormat= Total Reimbursable: {0}, Converter={StaticResource CurrencyConverter}}"/>
+                                    <TextBlock Text="{Binding TotalDC, StringFormat= Total Direct Cite: {0}, Converter={StaticResource CurrencyConverter}}"/>
+                                    <TextBlock Text="{Binding TotalPO, StringFormat= Total Project Order: {0}, Converter={StaticResource CurrencyConverter}}"/>
+                                    <TextBlock Text="{Binding PercentWR, StringFormat= Percent Reimbursable: {0}, Converter={StaticResource PercentageConverter}}"/>
+                                    <TextBlock Text="{Binding PercentDC, StringFormat= Percent Direct Cite: {0}, Converter={StaticResource PercentageConverter}}"/>
+                                    <TextBlock Text="{Binding PercentPO, StringFormat= Percent Project Order: {0}, Converter={StaticResource PercentageConverter}}"/>
+                                    <TextBlock Text="{Binding PercentExp, StringFormat= Percent Expended: {0}, Converter={StaticResource PercentageConverter}}"/>
+                                    <TextBlock Text="{Binding PercentRem, StringFormat= Percent Remaining: {0}, Converter={StaticResource PercentageConverter}}"/>
+                                </ListBox>
+                                </StackPanel>
+                            </Expander>
 
-                            <ListBox Name="MIPRdetails1" 
-                        Grid.Column="1"
-                        Background="#FF3A3838"
-                        Margin="-6,0,5,5"
-                        BorderBrush="Black"
-                        BorderThickness="0,1,0,1"
-                        Foreground="FloralWhite"
-                        FontSize="14"    
-                        DataContext="{Binding ElementName=MIPRselection, Path=SelectedItem}"           
-                        >
-                                <TextBlock Text="{Binding BillingElem, StringFormat= Billing Element: {0}}"/>
-                                <TextBlock Text="{Binding Appn, StringFormat= Appn: {0}}"/>
-                                <TextBlock Text="{Binding AppnNo, StringFormat= Appn No: {0}}"/>
-                                <TextBlock Text="{Binding Program, StringFormat= Program: {0}}"/>
-                                <TextBlock Text="{Binding Sponsor, StringFormat= Sponsor: {0}}"/>
-                                <TextBlock Text="{Binding WCD, StringFormat= Work Completion Date: {0}, Converter={StaticResource DateConverter}}"/>
-                                <TextBlock Text="{Binding AppnExp, StringFormat= Appn Expiration: {0}, Converter={StaticResource DateConverter}}"/>
-                                <TextBlock Text="{Binding AcceptDate, StringFormat= Acceptance Date: {0}, Converter={StaticResource DateConverter}}"/>
-                            </ListBox>
-                            <ListBox Name="MIPRdetails2" 
-                        Grid.Column="2"
-                        Background="#FF3A3838"
-                        Margin="-6,0,5,5"
-                        BorderBrush="Black"
-                        BorderThickness="0,1,0,1"
-                        Foreground="FloralWhite"
-                        FontSize="14"    
-                        DataContext="{Binding ElementName=MIPRselection, Path=SelectedItem}"           
-                        >
-                                <TextBlock Text="{Binding LabAlloc, StringFormat= Labor Allocated: {0}, Converter={StaticResource CurrencyConverter}}"/>
-                                <TextBlock Text="{Binding MatAlloc, StringFormat= Material Allocated: {0}, Converter={StaticResource CurrencyConverter}}"/>
-                                <TextBlock Text="{Binding TrvAlloc, StringFormat= Travel Allocated: {0}, Converter={StaticResource CurrencyConverter}}"/>
-                                <TextBlock Text="{Binding SvcAlloc, StringFormat= Services Allocated: {0}, Converter={StaticResource CurrencyConverter}}"/>
-                                <TextBlock Text="{Binding DivAlloc, StringFormat= Division Allocated: {0}, Converter={StaticResource CurrencyConverter}}"/>
-                                <TextBlock Text="{Binding CBAlloc, StringFormat= Charge Back Allocated: {0}, Converter={StaticResource CurrencyConverter}}"/>
-                                <TextBlock Text="{Binding OtherAlloc, StringFormat= Other Allocated: {0}, Converter={StaticResource CurrencyConverter}}"/>
-                                <TextBlock Text="{Binding TotalAlloc, StringFormat= Total Allocated: {0}, Converter={StaticResource CurrencyConverter}}"/>
-                            </ListBox>
-                            <ListBox Name="MIPRdetails3"   
-                        Grid.Column="3"
-                        Background="#FF3A3838"
-                        Margin="-6,0,5,5"
-                        BorderBrush="Black"
-                        BorderThickness="0,1,0,1"
-                        Foreground="FloralWhite"
-                        FontSize="14"    
-                        DataContext="{Binding ElementName=MIPRselection, Path=SelectedItem}"           
-                        >
-                                <TextBlock Text="{Binding LabExp, StringFormat= Labor Expended: {0}, Converter={StaticResource CurrencyConverter}}"/>
-                                <TextBlock Text="{Binding MatExp, StringFormat= Material Expended: {0}, Converter={StaticResource CurrencyConverter}}"/>
-                                <TextBlock Text="{Binding TrvExp, StringFormat= Travel Expended: {0}, Converter={StaticResource CurrencyConverter}}"/>
-                                <TextBlock Text="{Binding SvcExp, StringFormat= Services Expended: {0}, Converter={StaticResource CurrencyConverter}}"/>
-                                <TextBlock Text="{Binding DivExp, StringFormat= Division Expended: {0}, Converter={StaticResource CurrencyConverter}}"/>
-                                <TextBlock Text="{Binding CBExp, StringFormat= Charge Back Expended: {0}, Converter={StaticResource CurrencyConverter}}"/>
-                                <TextBlock Text="{Binding OtherExp, StringFormat= Other Expended: {0}, Converter={StaticResource CurrencyConverter}}"/>
-                                <TextBlock Text="{Binding TotalExp, StringFormat= Total Expended: {0}, Converter={StaticResource CurrencyConverter}}"/>
-                            </ListBox>
-                            <ListBox Name="MIPRdetails4" 
-                        Grid.Column="4" 
-                        Background="#FF3A3838"
-                        Margin="-6,0,5,5"
-                        BorderBrush="Black"
-                        BorderThickness="0,1,0,1"
-                        Foreground="FloralWhite"
-                        FontSize="14"    
-                        DataContext="{Binding ElementName=MIPRselection, Path=SelectedItem}"           
-                        >
-                                <TextBlock Text="{Binding LabBal, StringFormat= Labor Balance: {0}, Converter={StaticResource CurrencyConverter}}"/>
-                                <TextBlock Text="{Binding MatBal, StringFormat= Material Balance: {0}, Converter={StaticResource CurrencyConverter}}"/>
-                                <TextBlock Text="{Binding TrvBal, StringFormat= Travel Balance: {0}, Converter={StaticResource CurrencyConverter}}"/>
-                                <TextBlock Text="{Binding SvcBal, StringFormat= Services Balance: {0}, Converter={StaticResource CurrencyConverter}}"/>
-                                <TextBlock Text="{Binding DivBal, StringFormat= Division Balance: {0}, Converter={StaticResource CurrencyConverter}}"/>
-                                <TextBlock Text="{Binding CBBal, StringFormat= Charge Back Balance: {0}, Converter={StaticResource CurrencyConverter}}"/>
-                                <TextBlock Text="{Binding OtherBal, StringFormat= Other Balance: {0}, Converter={StaticResource CurrencyConverter}}"/>
-                                <TextBlock Text="{Binding TotalBal, StringFormat= Total Balance: {0}, Converter={StaticResource CurrencyConverter}}"/>
-                            </ListBox>
-                            <ListBox Name="MIPRdetails5" 
-                        Grid.Column="5" 
-                        Background="#FF3A3838"
-                        Margin="-6,0,5,5"
-                        BorderBrush="Black"
-                        BorderThickness="0,1,1,1"
-                        Foreground="FloralWhite"
-                        FontSize="14"    
-                        DataContext="{Binding ElementName=MIPRselection, Path=SelectedItem}"           
-                        >
-                                <TextBlock Text="{Binding TotalWR, StringFormat= Total Reimbursable: {0}, Converter={StaticResource CurrencyConverter}}"/>
-                                <TextBlock Text="{Binding TotalDC, StringFormat= Total Direct Cite: {0}, Converter={StaticResource CurrencyConverter}}"/>
-                                <TextBlock Text="{Binding TotalPO, StringFormat= Total Project Order: {0}, Converter={StaticResource CurrencyConverter}}"/>
-                                <TextBlock Text="{Binding PercentWR, StringFormat= Percent Reimbursable: {0}, Converter={StaticResource PercentageConverter}}"/>
-                                <TextBlock Text="{Binding PercentDC, StringFormat= Percent Direct Cite: {0}, Converter={StaticResource PercentageConverter}}"/>
-                                <TextBlock Text="{Binding PercentPO, StringFormat= Percent Project Order: {0}, Converter={StaticResource PercentageConverter}}"/>
-                                <TextBlock Text="{Binding PercentExp, StringFormat= Percent Expended: {0}, Converter={StaticResource PercentageConverter}}"/>
-                                <TextBlock Text="{Binding PercentRem, StringFormat= Percent Remaining: {0}, Converter={StaticResource PercentageConverter}}"/>
-                            </ListBox>
-                        </StackPanel>
+                        <DVC:Chart Name="TDLChart" Margin="10,5,5,5" Title="TDL Information" Style="{StaticResource LineChart}" PlotAreaStyle="{StaticResource LineChartPlotArea}" 
+                                LegendStyle="{StaticResource ChartLegend}" TitleStyle="{StaticResource LineChartTitle}" Background="#FF3A3838" Padding="25,20,25,5" Grid.Row="2">
+                                <DVC:Chart.Axes>
+                                    <DVC:LinearAxis AxisLabelStyle="{StaticResource LineChartAxisLabel}" Orientation="Y" ShowGridLines="True" ExtendRangeToOrigin="True"/>
+                                    <DVC:CategoryAxis AxisLabelStyle="{StaticResource LineChartAxisLabel}" Orientation="X" ShowGridLines="True"/>
+                                </DVC:Chart.Axes>
+                                <DVC:ColumnSeries x:Name="TDLBudgetSeries" ItemsSource="{Binding ElementName=TDLselection, Path=SelectedItem}" IndependentValuePath="Total Budget" DependentValueBinding="{Binding BudgTotal}"/>
+                        </DVC:Chart>
+
+                        <Expander Grid.Row="3">
+                                <StackPanel Orientation="Horizontal">
+                                <ListBox Name="TDLselection" 
+                                    Grid.Row="1"
+                                    Background="#FF3A3838"
+                                    Margin="10,0,5,5"
+                                    BorderBrush="Black"
+                                    BorderThickness="1,1,0,1"
+                                    Foreground="FloralWhite"
+                                    ItemsSource="{Binding TrackedTDLs}" 
+                                    DisplayMemberPath="TDL_No"
+                                    ItemContainerStyle="{StaticResource MIPRselector}"
+                                >
+                                </ListBox>
+                                <ListBox Name="TDLdetails1" 
+                                        Grid.Row="1"
+                                        Grid.Column="1"
+                                        Background="#FF3A3838"
+                                        Margin="-6,0,5,5"
+                                        BorderBrush="Black"
+                                        BorderThickness="0,1,0,1"
+                                        Foreground="FloralWhite"
+                                        FontSize="14"    
+                                        DataContext="{Binding ElementName=TDLselection, Path=SelectedItem}"           
+                                    >
+                                    <TextBlock Text="{Binding Contract, StringFormat= Contract: {0}}"/>
+                                    <TextBlock Text="{Binding Description, StringFormat= Description: {0}}"/>
+                                    <TextBlock Text="{Binding StartDate, StringFormat= Start Date: {0},Converter={StaticResource DateConverter}}"/>
+                                    <TextBlock Text="{Binding CompDate, StringFormat= End Date: {0}, Converter={StaticResource DateConverter}}"/>
+                                    <TextBlock Text="{Binding Engineer, StringFormat= Engineer: {0}}"/>
+                                    <TextBlock Text="{Binding Subcontractor, StringFormat= Subcontractor: {0}}"/>
+                                    <TextBlock Text="{Binding WeekEnding, StringFormat= Appn Expenditure Date: {0}, Converter={StaticResource DateConverter}}"/>
+                                </ListBox>
+                                <ListBox Name="TDLdetails2" 
+                                        Grid.Row="1"
+                                        Grid.Column="2"
+                                        Background="#FF3A3838"
+                                        Margin="-6,0,5,5"
+                                        BorderBrush="Black"
+                                        BorderThickness="0,1,0,1"
+                                        Foreground="FloralWhite"
+                                        FontSize="14"    
+                                        DataContext="{Binding ElementName=TDLselection, Path=SelectedItem}"           
+                                    >
+                                    <TextBlock Text="{Binding BudgLab, StringFormat= Labor Budgeted: {0}, Converter={StaticResource CurrencyConverter}}"/>
+                                    <TextBlock Text="{Binding BudgTrv, StringFormat= Travel Budgeted: {0}, Converter={StaticResource CurrencyConverter}}"/>
+                                    <TextBlock Text="{Binding BudgMat, StringFormat= Material Budgeted: {0}, Converter={StaticResource CurrencyConverter}}"/>
+                                    <TextBlock Text="{Binding BudgOther, StringFormat= Other Budgeted: {0}, Converter={StaticResource CurrencyConverter}}"/>
+                                    <TextBlock Text="{Binding BudgTotal, StringFormat= Total Budgeted: {0}, Converter={StaticResource CurrencyConverter}}"/>
+                                </ListBox>
+                                <ListBox Name="TDLdetails3"  
+                                        Grid.Row="1"
+                                        Grid.Column="3"
+                                        Background="#FF3A3838"
+                                        Margin="-6,0,5,5"
+                                        BorderBrush="Black"
+                                        BorderThickness="0,1,0,1"
+                                        Foreground="FloralWhite"
+                                        FontSize="14"    
+                                        DataContext="{Binding ElementName=TDLselection, Path=SelectedItem}"           
+                            >
+                                    <TextBlock Text="{Binding FundLab, StringFormat= Labor Funded: {0}, Converter={StaticResource CurrencyConverter}}"/>
+                                    <TextBlock Text="{Binding FundTrv, StringFormat= Travel Funded: {0}, Converter={StaticResource CurrencyConverter}}"/>
+                                    <TextBlock Text="{Binding FundMat, StringFormat= Material Funded: {0}, Converter={StaticResource CurrencyConverter}}"/>
+                                    <TextBlock Text="{Binding FundOther, StringFormat= Other Funded: {0}, Converter={StaticResource CurrencyConverter}}"/>
+                                    <TextBlock Text="{Binding FundTotal, StringFormat= Total Funded: {0}, Converter={StaticResource CurrencyConverter}}"/>
+                                </ListBox>
+                                <ListBox Name="TDLdetails4" 
+                                        Grid.Row="1"
+                                        Grid.Column="4" 
+                                        Background="#FF3A3838"
+                                        Margin="-6,0,5,5"
+                                        BorderBrush="Black"
+                                        BorderThickness="0,1,0,1"
+                                        Foreground="FloralWhite"
+                                        FontSize="14"    
+                                        DataContext="{Binding ElementName=TDLselection, Path=SelectedItem}"           
+                            >
+                                    <TextBlock Text="{Binding ExpLab, StringFormat= Labor Expended: {0}, Converter={StaticResource CurrencyConverter}}"/>
+                                    <TextBlock Text="{Binding ExpMat, StringFormat= Travel Expended: {0}, Converter={StaticResource CurrencyConverter}}"/>
+                                    <TextBlock Text="{Binding ExpTrv, StringFormat= Material Expended: {0}, Converter={StaticResource CurrencyConverter}}"/>
+                                    <TextBlock Text="{Binding ExpOther, StringFormat= Other Expended: {0}, Converter={StaticResource CurrencyConverter}}"/>
+                                    <TextBlock Text="{Binding ExpTotal, StringFormat= Total Expended: {0}, Converter={StaticResource CurrencyConverter}}"/>
+                                </ListBox>
+                                <ListBox Name="TDLdetails5" 
+                                        Grid.Row="1"
+                                        Grid.Column="5" 
+                                        Background="#FF3A3838"
+                                        Margin="-6,0,5,5"
+                                        BorderBrush="Black"
+                                        BorderThickness="0,1,1,1"
+                                        Foreground="FloralWhite"
+                                        FontSize="14"    
+                                        DataContext="{Binding ElementName=TDLselection, Path=SelectedItem}"           
+                            >
+                                    <TextBlock Text="{Binding BudgBalLab, StringFormat= Labor Budget Balance: {0}, Converter={StaticResource CurrencyConverter}}"/>
+                                    <TextBlock Text="{Binding BudgBalTrv, StringFormat= Travel Budget Balance: {0}, Converter={StaticResource CurrencyConverter}}"/>
+                                    <TextBlock Text="{Binding BudgBalMat, StringFormat= Material Budget Balance:: {0}, Converter={StaticResource CurrencyConverter}}"/>
+                                    <TextBlock Text="{Binding BudgBalOther, StringFormat= Other Budget Balance: {0}, Converter={StaticResource PercentageConverter}}"/>
+                                    <TextBlock Text="{Binding BudgBalTotal, StringFormat= Total Budget Balance:: {0}, Converter={StaticResource PercentageConverter}}"/>
+                                </ListBox>
+                                <ListBox Name="TDLdetails6" 
+                                        Grid.Row="1"
+                                        Grid.Column="6" 
+                                        Background="#FF3A3838"
+                                        Margin="-6,0,5,5"
+                                        BorderBrush="Black"
+                                        BorderThickness="0,1,1,1"
+                                        Foreground="FloralWhite"
+                                        FontSize="14"    
+                                        DataContext="{Binding ElementName=TDLselection, Path=SelectedItem}"           
+                            >
+                                    <TextBlock Text="{Binding FundBalLab, StringFormat= Labor Funding Balance: {0}, Converter={StaticResource CurrencyConverter}}"/>
+                                    <TextBlock Text="{Binding FundBalTrv, StringFormat= Travel Funding Balance: {0}, Converter={StaticResource CurrencyConverter}}"/>
+                                    <TextBlock Text="{Binding FundBalMat, StringFormat= Material Funding Balance:: {0}, Converter={StaticResource CurrencyConverter}}"/>
+                                    <TextBlock Text="{Binding FundBalOther, StringFormat= Other Funding Balance: {0}, Converter={StaticResource PercentageConverter}}"/>
+                                    <TextBlock Text="{Binding FundBalTotal, StringFormat= Total Funding Balance:: {0}, Converter={StaticResource PercentageConverter}}"/>
+                                </ListBox>
+                                </StackPanel>
+                        </Expander>
+                            
                     </Grid>
+                </ScrollViewer>
+
                 </Grid>
             </TabItem>
             <TabItem Header="Project Funding" Style="{StaticResource TabItemTemplate}">
@@ -739,6 +875,7 @@
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto"/>
@@ -774,24 +911,27 @@
                         <Button Content="Filter Tasks"  Style="{StaticResource TDLButton}" Click="Filter_Button_Click"/>
                         <Button x:Name="Reset_Param_Button" Content="Reset Parameters"  Style="{StaticResource TDLButton}" Click="Reset_Param_Button_Click"/>
                         <Button x:Name="Track_Tasks_Button" Content="Track Tasks"  Style="{StaticResource TDLButton}" Click="Track_Tasks_Button_Click"/>
-                        <Button Content="Clear Tracked Tasks"  Style="{StaticResource TDLButton}" />
+                        <Button x:Name="Clear_Tasks_Button" Content="Clear Tracked Tasks"  Style="{StaticResource TDLButton}" Click="Clear_Tasks_Button_Click" />
                     </StackPanel>
                     <GridSplitter Height="3" Grid.Row="1" Grid.ColumnSpan="5" Background="DodgerBlue" HorizontalAlignment="Stretch" Padding="0" Margin="0,0,0,0" BorderBrush="Transparent"/>
-                    <DataGrid x:Name="TDLGrid"  
+                
+                        <DataGrid x:Name="TDLGrid"  
                               Background="Transparent" 
                               BorderBrush="Transparent" 
                               AutoGenerateColumns="False" 
                               ItemsSource="{Binding Source={StaticResource cvTDLData}}"
                               Visibility="Hidden" 
-                              Grid.Row ="2" 
+                              Grid.Row ="3" 
                               Grid.ColumnSpan="5"
-                              Margin="0,5,5,5" 
-                              AlternatingRowBackground="LightBlue"
+                              Margin="0,5,5,5"                        
+                              RowBackground="Transparent"
                               CanUserReorderColumns="True"
                               CanUserResizeColumns="True"
                               CanUserSortColumns="True" 
                               CanUserResizeRows="True"
                               IsReadOnly="True"
+                              GridLinesVisibility="All"
+                              HorizontalGridLinesBrush="White"
                               >
                         <DataGrid.GroupStyle>
                             <GroupStyle>
@@ -800,7 +940,7 @@
                                         <Setter Property="Template">
                                             <Setter.Value>
                                                 <ControlTemplate TargetType="{x:Type GroupItem}">
-                                                    <Expander IsExpanded="False" Background="LightBlue" Foreground="Black" Header="{Binding Path=Name}" BorderBrush="White" BorderThickness="0,0,0,0" FontSize="15" >
+                                                    <Expander IsExpanded="False" Background="Transparent" Foreground="White" Header="{Binding Path=Name}" FontSize="15" >
                                                         <Expander.Content>
                                                             <ItemsPresenter/>
                                                         </Expander.Content>
@@ -816,9 +956,10 @@
                             <Style TargetType="{x:Type DataGridColumnHeader}">
                                 <Setter Property="Background" Value="Transparent"/>
                                 <Setter Property="Foreground" Value="White"/>
-                                <Setter Property="FontSize" Value="12" />
+                                <Setter Property="FontSize" Value="15" />
                                 <Setter Property="FontFamily" Value="Segoe UI"/>
-                                <Setter Property="Margin" Value="10,5,5,5"/>
+                                <Setter Property="BorderBrush" Value="White"/>
+                                <Setter Property="Margin" Value="0,0,15,0"/>
                             </Style>
                         </DataGrid.Resources>
                         <DataGrid.Columns>
@@ -826,7 +967,7 @@
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
                                         <DataGridCell>
-                                            <TextBlock Text="{Binding TDL_No}" Style="{StaticResource NormalText}"/>
+                                            <TextBlock Text="{Binding TDL_No}" Style="{StaticResource TDLText}"/>
                                         </DataGridCell>
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellTemplate>
@@ -835,7 +976,7 @@
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
                                         <DataGridCell>
-                                            <TextBlock Text="{Binding Contract}" Style="{StaticResource NormalText}"/>
+                                            <TextBlock Text="{Binding Contract}" Style="{StaticResource TDLText}"/>
                                         </DataGridCell>
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellTemplate>
@@ -844,7 +985,7 @@
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
                                         <DataGridCell>
-                                            <TextBlock Text="{Binding Description}" Style="{StaticResource NormalText}"/>
+                                            <TextBlock Text="{Binding Description}" Style="{StaticResource TDLText}"/>
                                         </DataGridCell>
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellTemplate>
@@ -853,7 +994,7 @@
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
                                         <DataGridCell>
-                                            <TextBlock Text="{Binding StartDate}" Style="{StaticResource NormalText}"/>
+                                            <TextBlock Text="{Binding StartDate}" Style="{StaticResource TDLText}"/>
                                         </DataGridCell>
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellTemplate>
@@ -862,7 +1003,7 @@
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
                                         <DataGridCell>
-                                            <TextBlock Text="{Binding CompDate}" Style="{StaticResource NormalText}"/>
+                                            <TextBlock Text="{Binding CompDate}" Style="{StaticResource TDLText}"/>
                                         </DataGridCell>
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellTemplate>
@@ -871,7 +1012,7 @@
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
                                         <DataGridCell>
-                                            <TextBlock Text="{Binding Engineer}" Style="{StaticResource NormalText}"/>
+                                            <TextBlock Text="{Binding Engineer}" Style="{StaticResource TDLText}"/>
                                         </DataGridCell>
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellTemplate>
@@ -880,7 +1021,7 @@
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
                                         <DataGridCell>
-                                            <TextBlock Text="{Binding Subcontractor}" Style="{StaticResource NormalText}"/>
+                                            <TextBlock Text="{Binding Subcontractor}" Style="{StaticResource TDLText}"/>
                                         </DataGridCell>
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellTemplate>
@@ -889,7 +1030,7 @@
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
                                         <DataGridCell>
-                                            <TextBlock Text="{Binding WeekEnding}" Style="{StaticResource NormalText}"/>
+                                            <TextBlock Text="{Binding WeekEnding}" Style="{StaticResource TDLText}"/>
                                         </DataGridCell>
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellTemplate>
@@ -898,7 +1039,7 @@
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
                                         <DataGridCell>
-                                            <TextBlock Text="{Binding BudgHrs}" Style="{StaticResource NormalText}"/>
+                                            <TextBlock Text="{Binding BudgHrs}" Style="{StaticResource TDLText}"/>
                                         </DataGridCell>
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellTemplate>
@@ -907,7 +1048,7 @@
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
                                         <DataGridCell>
-                                            <TextBlock Text="{Binding BudgLab}" Style="{StaticResource NormalText}"/>
+                                            <TextBlock Text="{Binding BudgLab}" Style="{StaticResource TDLText}"/>
                                         </DataGridCell>
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellTemplate>
@@ -916,7 +1057,7 @@
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
                                         <DataGridCell>
-                                            <TextBlock Text="{Binding BudgTrv}" Style="{StaticResource NormalText}"/>
+                                            <TextBlock Text="{Binding BudgTrv}" Style="{StaticResource TDLText}"/>
                                         </DataGridCell>
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellTemplate>
@@ -925,7 +1066,7 @@
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
                                         <DataGridCell>
-                                            <TextBlock Text="{Binding BudgMat}" Style="{StaticResource NormalText}"/>
+                                            <TextBlock Text="{Binding BudgMat}" Style="{StaticResource TDLText}"/>
                                         </DataGridCell>
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellTemplate>
@@ -934,7 +1075,7 @@
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
                                         <DataGridCell>
-                                            <TextBlock Text="{Binding BudgOther}" Style="{StaticResource NormalText}"/>
+                                            <TextBlock Text="{Binding BudgOther}" Style="{StaticResource TDLText}"/>
                                         </DataGridCell>
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellTemplate>
@@ -943,7 +1084,7 @@
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
                                         <DataGridCell>
-                                            <TextBlock Text="{Binding BudgTotal}" Style="{StaticResource NormalText}"/>
+                                            <TextBlock Text="{Binding BudgTotal}" Style="{StaticResource TDLText}"/>
                                         </DataGridCell>
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellTemplate>
@@ -952,7 +1093,7 @@
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
                                         <DataGridCell>
-                                            <TextBlock Text="{Binding FundLab}" Style="{StaticResource NormalText}"/>
+                                            <TextBlock Text="{Binding FundLab}" Style="{StaticResource TDLText}"/>
                                         </DataGridCell>
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellTemplate>
@@ -961,7 +1102,7 @@
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
                                         <DataGridCell>
-                                            <TextBlock Text="{Binding FundTrv}" Style="{StaticResource NormalText}"/>
+                                            <TextBlock Text="{Binding FundTrv}" Style="{StaticResource TDLText}"/>
                                         </DataGridCell>
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellTemplate>
@@ -970,7 +1111,7 @@
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
                                         <DataGridCell>
-                                            <TextBlock Text="{Binding FundMat}" Style="{StaticResource NormalText}"/>
+                                            <TextBlock Text="{Binding FundMat}" Style="{StaticResource TDLText}"/>
                                         </DataGridCell>
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellTemplate>
@@ -979,7 +1120,7 @@
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
                                         <DataGridCell>
-                                            <TextBlock Text="{Binding FundOther}" Style="{StaticResource NormalText}"/>
+                                            <TextBlock Text="{Binding FundOther}" Style="{StaticResource TDLText}"/>
                                         </DataGridCell>
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellTemplate>
@@ -988,7 +1129,7 @@
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
                                         <DataGridCell>
-                                            <TextBlock Text="{Binding FundTotal}" Style="{StaticResource NormalText}"/>
+                                            <TextBlock Text="{Binding FundTotal}" Style="{StaticResource TDLText}"/>
                                         </DataGridCell>
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellTemplate>
@@ -997,7 +1138,7 @@
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
                                         <DataGridCell>
-                                            <TextBlock Text="{Binding ExpHours}" Style="{StaticResource NormalText}"/>
+                                            <TextBlock Text="{Binding ExpHours}" Style="{StaticResource TDLText}"/>
                                         </DataGridCell>
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellTemplate>
@@ -1006,7 +1147,7 @@
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
                                         <DataGridCell>
-                                            <TextBlock Text="{Binding ExpLab}" Style="{StaticResource NormalText}"/>
+                                            <TextBlock Text="{Binding ExpLab}" Style="{StaticResource TDLText}"/>
                                         </DataGridCell>
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellTemplate>
@@ -1015,7 +1156,7 @@
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
                                         <DataGridCell>
-                                            <TextBlock Text="{Binding ExpTrv}" Style="{StaticResource NormalText}"/>
+                                            <TextBlock Text="{Binding ExpTrv}" Style="{StaticResource TDLText}"/>
                                         </DataGridCell>
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellTemplate>
@@ -1024,7 +1165,7 @@
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
                                         <DataGridCell>
-                                            <TextBlock Text="{Binding ExpMat}" Style="{StaticResource NormalText}"/>
+                                            <TextBlock Text="{Binding ExpMat}" Style="{StaticResource TDLText}"/>
                                         </DataGridCell>
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellTemplate>
@@ -1033,7 +1174,7 @@
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
                                         <DataGridCell>
-                                            <TextBlock Text="{Binding ExpOther}" Style="{StaticResource NormalText}"/>
+                                            <TextBlock Text="{Binding ExpOther}" Style="{StaticResource TDLText}"/>
                                         </DataGridCell>
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellTemplate>
@@ -1042,7 +1183,7 @@
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
                                         <DataGridCell>
-                                            <TextBlock Text="{Binding ExpTotal}" Style="{StaticResource NormalText}"/>
+                                            <TextBlock Text="{Binding ExpTotal}" Style="{StaticResource TDLText}"/>
                                         </DataGridCell>
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellTemplate>
@@ -1051,7 +1192,7 @@
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
                                         <DataGridCell>
-                                            <TextBlock Text="{Binding BudgBalHrs}" Style="{StaticResource NormalText}"/>
+                                            <TextBlock Text="{Binding BudgBalHrs}" Style="{StaticResource TDLText}"/>
                                         </DataGridCell>
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellTemplate>
@@ -1060,7 +1201,7 @@
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
                                         <DataGridCell>
-                                            <TextBlock Text="{Binding BudgBalLab}" Style="{StaticResource NormalText}"/>
+                                            <TextBlock Text="{Binding BudgBalLab}" Style="{StaticResource TDLText}"/>
                                         </DataGridCell>
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellTemplate>
@@ -1069,7 +1210,7 @@
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
                                         <DataGridCell>
-                                            <TextBlock Text="{Binding BudgBalTrv}" Style="{StaticResource NormalText}"/>
+                                            <TextBlock Text="{Binding BudgBalTrv}" Style="{StaticResource TDLText}"/>
                                         </DataGridCell>
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellTemplate>
@@ -1078,7 +1219,7 @@
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
                                         <DataGridCell>
-                                            <TextBlock Text="{Binding BudgBalMat}" Style="{StaticResource NormalText}"/>
+                                            <TextBlock Text="{Binding BudgBalMat}" Style="{StaticResource TDLText}"/>
                                         </DataGridCell>
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellTemplate>
@@ -1087,7 +1228,7 @@
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
                                         <DataGridCell>
-                                            <TextBlock Text="{Binding BudgBalOther}" Style="{StaticResource NormalText}"/>
+                                            <TextBlock Text="{Binding BudgBalOther}" Style="{StaticResource TDLText}"/>
                                         </DataGridCell>
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellTemplate>
@@ -1096,7 +1237,7 @@
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
                                         <DataGridCell>
-                                            <TextBlock Text="{Binding BudgBalTotal}" Style="{StaticResource NormalText}"/>
+                                            <TextBlock Text="{Binding BudgBalTotal}" Style="{StaticResource TDLText}"/>
                                         </DataGridCell>
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellTemplate>
@@ -1105,7 +1246,7 @@
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
                                         <DataGridCell>
-                                            <TextBlock Text="{Binding FundBalLab}" Style="{StaticResource NormalText}"/>
+                                            <TextBlock Text="{Binding FundBalLab}" Style="{StaticResource TDLText}"/>
                                         </DataGridCell>
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellTemplate>
@@ -1114,7 +1255,7 @@
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
                                         <DataGridCell>
-                                            <TextBlock Text="{Binding FundBalTrv}" Style="{StaticResource NormalText}"/>
+                                            <TextBlock Text="{Binding FundBalTrv}" Style="{StaticResource TDLText}"/>
                                         </DataGridCell>
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellTemplate>
@@ -1123,7 +1264,7 @@
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
                                         <DataGridCell>
-                                            <TextBlock Text="{Binding FundBalMat}" Style="{StaticResource NormalText}"/>
+                                            <TextBlock Text="{Binding FundBalMat}" Style="{StaticResource TDLText}"/>
                                         </DataGridCell>
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellTemplate>
@@ -1132,7 +1273,7 @@
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
                                         <DataGridCell>
-                                            <TextBlock Text="{Binding FundBalOther}" Style="{StaticResource NormalText}"/>
+                                            <TextBlock Text="{Binding FundBalOther}" Style="{StaticResource TDLText}"/>
                                         </DataGridCell>
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellTemplate>
@@ -1141,13 +1282,14 @@
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
                                         <DataGridCell>
-                                            <TextBlock Text="{Binding FundBalTotal}" Style="{StaticResource NormalText}"/>
+                                            <TextBlock Text="{Binding FundBalTotal}" Style="{StaticResource TDLText}"/>
                                         </DataGridCell>
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellTemplate>
                             </DataGridTemplateColumn>
                         </DataGrid.Columns>
-                    </DataGrid>
+                        </DataGrid>
+         
                 </Grid>
             </TabItem>
         </TabControl>

@@ -219,6 +219,14 @@ namespace ProjectManager
                 }
             }
             TDLGrid.Visibility = Visibility.Visible;
+     
+
+        }
+
+        private void Clear_Tasks_Button_Click(object sender, RoutedEventArgs e)
+        {
+            _viewModel.TrackedTDLs.Clear();
+            TDLGrid.Visibility = Visibility.Hidden;
         }
     }
 }
