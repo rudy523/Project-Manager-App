@@ -2,12 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Xml.Linq;
+using System.Collections.ObjectModel;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace ProjectManager.ViewModels
 {
-    public class TDLViewModel
+    public class TDLViewModel : ObservableCollection<KeyValuePair<string, decimal>>
     {
         #region Properties
 
@@ -299,28 +300,37 @@ namespace ProjectManager.ViewModels
                 FundBalTotal = decimal.Parse(input.ElementAt(35).Value.ToString());
             }
             else FundBalTotal = 0.00M;
-            
-     
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+            AddItems();
         }
 
-
+        private void AddItems()
+        {
+            // Totals 
+            Add(new KeyValuePair<string, decimal>("Budget - Total", BudgTotal));
+            Add(new KeyValuePair<string, decimal>("Funded - Total", FundTotal));
+            Add(new KeyValuePair<string, decimal>("Expended - Total", ExpTotal));
+            Add(new KeyValuePair<string, decimal>("Funds Remaining - Total", FundBalTotal));
+            Add(new KeyValuePair<string, decimal>("Budget Remaining - Total", BudgBalTotal));
+            // Labor
+            Add(new KeyValuePair<string, decimal>("Budget - Labor", BudgLab));
+            Add(new KeyValuePair<string, decimal>("Funded - Labor", FundLab));
+            Add(new KeyValuePair<string, decimal>("Expended - Labor", ExpLab));
+            Add(new KeyValuePair<string, decimal>("Funds Remaining - Labor", FundBalLab));
+            Add(new KeyValuePair<string, decimal>("Budget Remaining - Labor", BudgBalLab));
+            // Travel
+            Add(new KeyValuePair<string, decimal>("Budget - Travel", BudgTrv));
+            Add(new KeyValuePair<string, decimal>("Funded - Travel", FundTrv));
+            Add(new KeyValuePair<string, decimal>("Expended - Travel", ExpTrv));
+            Add(new KeyValuePair<string, decimal>("Funds Remaining - Travel", FundBalTrv));
+            Add(new KeyValuePair<string, decimal>("Budget Remaining - Travel", BudgBalTrv));
+            // Material
+            Add(new KeyValuePair<string, decimal>("Budget - Material", BudgMat));
+            Add(new KeyValuePair<string, decimal>("Funded - Material", FundMat));
+            Add(new KeyValuePair<string, decimal>("Expended - Material", ExpMat));
+            Add(new KeyValuePair<string, decimal>("Funds Remaining - Material", FundBalMat));
+            Add(new KeyValuePair<string, decimal>("Budget Remaining - Material", BudgBalMat));
+        }
         #endregion
     }
 }

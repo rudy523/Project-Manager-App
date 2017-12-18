@@ -38,11 +38,10 @@ namespace ProjectManager.Model
         {
             // Sets location of source data file
             string FinancialFeed = @"\\Scrdata\bah\Rudy\Workbook Development\Programming\Financial Workbook TDLs.xml";
-            // Loads source data into XElement. This will be the source to run queries against. NOTE: May require conversion to IEnumberable.
+            // Loads source data into XElement. This will be the source to run queries against. NOTE: May require conversion to IEnumerable.
             XElement Root = XElement.Load(FinancialFeed);
             this.SourceData = Root.Descendants();
         }
-
 
         private void getTDLdata()
         {
@@ -68,7 +67,6 @@ namespace ProjectManager.Model
                 EngList.Add(item);
             }
         }
-
 
         public void RunQuery(List<string> Engineers, List<string> Contracts, bool Current, DateTime startDate, DateTime endDate)
         {
