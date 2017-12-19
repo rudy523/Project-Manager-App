@@ -27,7 +27,7 @@ namespace ProjectManager.ViewModels
         public ObservableCollection<ChartDataViewModel> ChartDataModel { get; set; }
         [XmlElement]
         public ObservableCollection<MIPRSummaryViewModel> MIPRsummary { get; set; }
-        //TDL collections
+        //TDL objects
         public ObservableCollection<string> EngineerList { get; set; }
         public ObservableCollection<string> ContractList { get; set; }
         public ObservableCollection<TDLViewModel> filteredTDLs { get; set; }
@@ -53,6 +53,7 @@ namespace ProjectManager.ViewModels
             ContractList = new ObservableCollection<string>();
             filteredTDLs = new ObservableCollection<TDLViewModel>();
             TrackedTDLs = new ObservableCollection<TDLViewModel>();
+       
             EngineerList = myTDL.EngList;
             ContractList = myTDL.ContractList;
         }

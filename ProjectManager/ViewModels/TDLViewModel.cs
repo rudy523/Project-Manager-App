@@ -11,7 +11,7 @@ namespace ProjectManager.ViewModels
     public class TDLViewModel : ObservableCollection<KeyValuePair<string, decimal>>
     {
         #region Properties
-
+        public TDLenum cat { get; set; }
         public string TDL_No { get; set; }
         public string Contract { get; set; }
         public string Description { get; set; }

@@ -100,6 +100,7 @@
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="ViewModels\MIPRViewModel.cs" />
     <Compile Include="ViewModels\ProjectNumberViewModel.cs" />
+    <Compile Include="Model\TDLenum.cs" />
     <Compile Include="ViewModels\TDLViewModel.cs" />
     <Compile Include="ViewModels\TestingClass.cs" />
     <Compile Include="VisualTreeDisplay.xaml.cs">

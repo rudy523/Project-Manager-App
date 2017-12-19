@@ -8,6 +8,7 @@
         xmlns:viewModels="clr-namespace:ProjectManager.ViewModels"
         xmlns:Model="clr-namespace:ProjectManager.Model"
         xmlns:local="clr-namespace:ProjectManager"
+        xmlns:System ="clr-namespace:System;assembly=mscorlib"
         Title="Funding Tracker">
 
     <Window.Resources>
@@ -27,10 +28,15 @@
                 <PropertyGroupDescription PropertyName="Contract" x:Name="Contractgroup"/>
             </CollectionViewSource.GroupDescriptions>
         </CollectionViewSource>
-
         <Model:CurrencyConverter x:Key="CurrencyConverter"/>
         <Model:PercentageConverter x:Key="PercentageConverter"/>
-        <Model:DateConverter x:Key="DateConverter"/>         
+        <Model:DateConverter x:Key="DateConverter"/>
+        <ObjectDataProvider x:Key="tdlCatProvider" ObjectType="{x:Type System:Enum}" MethodName="GetValues">
+            <ObjectDataProvider.MethodParameters>
+                <x:Type TypeName="Model:TDLenum"/>
+            </ObjectDataProvider.MethodParameters>
+
+        </ObjectDataProvider>
     </Window.Resources>
 
     <Window.CommandBindings>
@@ -46,7 +52,6 @@
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="AUTO"/>
         </Grid.ColumnDefinitions>
         <Menu Style="{StaticResource StandardMenu}">
             <MenuItem Template="{DynamicResource MenuItemControlTemplate1}" Header="File">
@@ -199,7 +204,8 @@
                                     </ListBox>
                                 </StackPanel>
                             </Expander>
-                            <DVC:Chart Name="TDLChart" Margin="10,5,5,5" Title="TDL Information" Style="{StaticResource LineChart}" PlotAreaStyle="{StaticResource LineChartPlotArea}" 
+                            
+                            <DVC:Chart Name="TDLChart" Margin="10,5,5,5" Title="TDL Information" Style="{StaticResource BarChart}" PlotAreaStyle="{StaticResource LineChartPlotArea}" 
                                 LegendStyle="{StaticResource ChartLegend}" TitleStyle="{StaticResource LineChartTitle}" Background="#FF3A3838" Padding="25,20,25,5" Grid.Row="2">
                                 <DVC:Chart.Axes>
                                     <DVC:LinearAxis AxisLabelStyle="{StaticResource LineChartAxisLabel}" Orientation="Y" ShowGridLines="True" ExtendRangeToOrigin="True"/>
@@ -898,11 +904,12 @@
                         <Label Content="Select Task:" Foreground="White" />
                         <ListBox x:Name="TaskList"  Style="{StaticResource TDLlist}" ItemsSource="{Binding filteredTDLs}" DisplayMemberPath="TDL_No"/>
                     </StackPanel>
-                    <StackPanel Orientation="Vertical" Grid.Column="4" Margin="15,5,5,15">
-                        <Button Content="Filter Tasks"  Style="{StaticResource TDLButton}" Click="Filter_Button_Click"/>
-                        <Button x:Name="Reset_Param_Button" Content="Reset Parameters"  Style="{StaticResource TDLButton}" Click="Reset_Param_Button_Click"/>
-                        <Button x:Name="Track_Tasks_Button" Content="Track Tasks"  Style="{StaticResource TDLButton}" Click="Track_Tasks_Button_Click"/>
-                        <Button x:Name="Clear_Tasks_Button" Content="Clear Tracked Tasks"  Style="{StaticResource TDLButton}" Click="Clear_Tasks_Button_Click" />
+                    <StackPanel Orientation="Vertical" Grid.Column="4" Margin="15,5,50,0" Height="375">
+                        <Label Content="Command Menu" Foreground="White" HorizontalContentAlignment="Center"/>
+                        <Button Content="Filter Tasks"  Style="{StaticResource TDLButton}" Click="Filter_Button_Click" MaxWidth="200"/>
+                        <Button x:Name="Reset_Param_Button" Content="Reset Parameters"  Style="{StaticResource TDLButton}" Click="Reset_Param_Button_Click"  />
+                        <Button x:Name="Track_Tasks_Button" Content="Track Tasks"  Style="{StaticResource TDLButton}" Click="Track_Tasks_Button_Click" MaxWidth="200"/>
+                        <Button x:Name="Clear_Tasks_Button" Content="Clear Tracked Tasks"  Style="{StaticResource TDLButton}" Click="Clear_Tasks_Button_Click" MaxWidth="200"/>
                     </StackPanel>
                     <GridSplitter Height="3" Grid.Row="1" Grid.ColumnSpan="5" Background="DodgerBlue" HorizontalAlignment="Stretch" Padding="0" Margin="0,0,0,0" BorderBrush="Transparent"/>
                     <DataGrid x:Name="TDLGrid"  
