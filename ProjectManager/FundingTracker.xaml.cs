@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
 using ProjectManager.ViewModels;
@@ -219,14 +220,22 @@ namespace ProjectManager
                 }
             }
             TDLGrid.Visibility = Visibility.Visible;
-     
-
         }
 
         private void Clear_Tasks_Button_Click(object sender, RoutedEventArgs e)
         {
             _viewModel.TrackedTDLs.Clear();
             TDLGrid.Visibility = Visibility.Hidden;
+        }
+
+        private void CategoryPick_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
+        {
+            if (_viewModel.SelectedTDL != null)
+            {
+                int tasknum = _viewModel.TrackedTDLs.IndexOf(_viewModel.SelectedTDL);
+                TDLViewModel graphedTDL = _viewModel.TrackedTDLs[tasknum];
+                graphedTDL.AddItems(_viewModel.SelectedCat);
+            }
         }
     }
 }

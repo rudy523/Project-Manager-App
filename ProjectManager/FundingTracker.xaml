@@ -9,9 +9,12 @@
         xmlns:Model="clr-namespace:ProjectManager.Model"
         xmlns:local="clr-namespace:ProjectManager"
         xmlns:System ="clr-namespace:System;assembly=mscorlib"
+        xmlns:Visualization="clr-namespace:System.Windows.Controls.DataVisualization;assembly=System.Windows.Controls.DataVisualization.Toolkit"
+        xmlns:Primitives="clr-namespace:System.Windows.Controls.DataVisualization.Charting.Primitives;assembly=System.Windows.Controls.DataVisualization.Toolkit"
         Title="Funding Tracker">
 
     <Window.Resources>
+        
         <CollectionViewSource x:Key="cvGridData" Source="{Binding Path=GridData}">
             <CollectionViewSource.SortDescriptions>
                 <scm:SortDescription PropertyName="MIPRnum"/>
@@ -28,15 +31,58 @@
                 <PropertyGroupDescription PropertyName="Contract" x:Name="Contractgroup"/>
             </CollectionViewSource.GroupDescriptions>
         </CollectionViewSource>
+        
         <Model:CurrencyConverter x:Key="CurrencyConverter"/>
         <Model:PercentageConverter x:Key="PercentageConverter"/>
         <Model:DateConverter x:Key="DateConverter"/>
+
         <ObjectDataProvider x:Key="tdlCatProvider" ObjectType="{x:Type System:Enum}" MethodName="GetValues">
             <ObjectDataProvider.MethodParameters>
-                <x:Type TypeName="Model:TDLenum"/>
+                <x:Type TypeName="Model:tdlCat"/>
             </ObjectDataProvider.MethodParameters>
-
         </ObjectDataProvider>
+
+        <Style x:Key="BarChart" TargetType="DVC:Chart">
+            <Setter Property="Background" Value="{StaticResource ChartBackground}"/>
+            <Setter Property="MinHeight" Value="500"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="DVC:Chart">
+                        <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}"
+                                        Padding="{TemplateBinding Padding}">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="auto"/>
+                                    <RowDefinition Height="*"/>
+                                </Grid.RowDefinitions>
+                                <Visualization:Title Style="{TemplateBinding TitleStyle}" Content="{TemplateBinding Title}" Grid.Row="0"/>
+                                <Grid Grid.Row="1" Margin="0,15,0,15">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="*"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                    </Grid.RowDefinitions>
+                                    <Primitives:EdgePanel x:Name="ChartArea" Style="{TemplateBinding ChartAreaStyle}"/>
+                                    <Visualization:Legend x:Name="Legend" Style="{TemplateBinding LegendStyle}" Grid.Row="1"/>
+                                    <ComboBox x:Name="CategoryPick" Grid.Row="2" Background="#FF3A3838" BorderBrush="Black" Width="100" HorizontalAlignment="Left" BorderThickness="1" 
+                                              ItemsSource="{Binding Source={StaticResource tdlCatProvider}}" SelectionChanged="CategoryPick_SelectionChanged" SelectedItem="{Binding SelectedCat}">
+                                    </ComboBox>
+                                </Grid>
+                            </Grid>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+
     </Window.Resources>
 
     <Window.CommandBindings>
@@ -204,8 +250,8 @@
                                     </ListBox>
                                 </StackPanel>
                             </Expander>
-                            
-                            <DVC:Chart Name="TDLChart" Margin="10,5,5,5" Title="TDL Information" Style="{StaticResource BarChart}" PlotAreaStyle="{StaticResource LineChartPlotArea}" 
+
+                            <DVC:Chart x:Name="TDLChart" Margin="10,5,5,5" Title="TDL Information" Style="{StaticResource BarChart}" PlotAreaStyle="{StaticResource LineChartPlotArea}" 
                                 LegendStyle="{StaticResource ChartLegend}" TitleStyle="{StaticResource LineChartTitle}" Background="#FF3A3838" Padding="25,20,25,5" Grid.Row="2">
                                 <DVC:Chart.Axes>
                                     <DVC:LinearAxis AxisLabelStyle="{StaticResource LineChartAxisLabel}" Orientation="Y" ShowGridLines="True" ExtendRangeToOrigin="True"/>
@@ -213,6 +259,8 @@
                                 </DVC:Chart.Axes>
                                 <DVC:ColumnSeries x:Name="TDLBudgetSeries" ItemsSource="{Binding ElementName=TDLselection, Path=SelectedItem}" IndependentValuePath="Key" DependentValuePath="Value"/>
                             </DVC:Chart>
+                            
+                            
                             <Expander Grid.Row="3">
                                 <StackPanel Orientation="Horizontal">
                                     <ListBox Name="TDLselection" 
@@ -225,6 +273,7 @@
                                     ItemsSource="{Binding TrackedTDLs}" 
                                     DisplayMemberPath="TDL_No"
                                     ItemContainerStyle="{StaticResource MIPRselector}"
+                                    SelectedItem="{Binding SelectedTDL}"
                                 >
                                     </ListBox>
                                     <ListBox Name="TDLdetails1" 

@@ -80,6 +80,7 @@
     <Compile Include="FundingTracker.xaml.cs">
       <DependentUpon>FundingTracker.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Model\tdlCat.cs" />
     <Compile Include="Model\DateConverter.cs" />
     <Compile Include="Model\LoadTDL.cs" />
     <Compile Include="Model\PercentageConverter.cs" />
@@ -100,7 +101,6 @@
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="ViewModels\MIPRViewModel.cs" />
     <Compile Include="ViewModels\ProjectNumberViewModel.cs" />
-    <Compile Include="Model\TDLenum.cs" />
     <Compile Include="ViewModels\TDLViewModel.cs" />
     <Compile Include="ViewModels\TestingClass.cs" />
     <Compile Include="VisualTreeDisplay.xaml.cs">

@@ -33,6 +33,9 @@ namespace ProjectManager.ViewModels
         public ObservableCollection<TDLViewModel> filteredTDLs { get; set; }
         public ObservableCollection<TDLViewModel> TrackedTDLs { get; set; }
         public LoadTDL myTDL { get; set; }
+        public string SelectedCat { get; set; }
+
+        public TDLViewModel SelectedTDL { get; set; }
         #endregion
 
         public MainViewModel()    

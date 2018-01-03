@@ -2,17 +2,17 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:local="clr-namespace:ProjectManager"
-
-             StartupUri="MainWindow.xaml">
+             xmlns:System ="clr-namespace:System;assembly=mscorlib"
+             xmlns:Model="clr-namespace:ProjectManager.Model"
+             StartupUri="FundingTracker.xaml">
+    
+    
     <Application.Resources>
-
-
+       
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="ProjectManagerResources.xaml"/>
             </ResourceDictionary.MergedDictionaries>
-            
-
             <BitmapImage x:Key="Money" UriSource="/Images/coin-us-dollar-icon.png"/>
         </ResourceDictionary>
     </Application.Resources>

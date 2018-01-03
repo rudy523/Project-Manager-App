@@ -3,7 +3,9 @@
                     xmlns:DVC="clr-namespace:System.Windows.Controls.DataVisualization.Charting;assembly=System.Windows.Controls.DataVisualization.Toolkit"
                     xmlns:Visualization="clr-namespace:System.Windows.Controls.DataVisualization;assembly=System.Windows.Controls.DataVisualization.Toolkit"
                     xmlns:Primitives="clr-namespace:System.Windows.Controls.DataVisualization.Charting.Primitives;assembly=System.Windows.Controls.DataVisualization.Toolkit"
-                    xmlns:local="clr-namespace:ProjectManager">
+                    xmlns:local="clr-namespace:ProjectManager"
+                    xmlns:System ="clr-namespace:System;assembly=mscorlib"
+                    xmlns:Model="clr-namespace:ProjectManager.Model">
 
     <SolidColorBrush x:Key="Brush1" Color="#FF007C9C" />
 
@@ -408,45 +410,11 @@
             </Setter.Value>
         </Setter>
     </Style>
-    
-    <Style x:Key="BarChart" TargetType="DVC:Chart">
-        <Setter Property="Background" Value="{StaticResource ChartBackground}"/>
-        <Setter Property="MinHeight" Value="500"/>
-        <Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate TargetType="DVC:Chart">
-                    <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}"
-                                        Padding="{TemplateBinding Padding}">
-                        <Grid>
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="auto"/>
-                                <RowDefinition Height="*"/>
-                            </Grid.RowDefinitions>
-                            <Visualization:Title Style="{TemplateBinding TitleStyle}" Content="{TemplateBinding Title}" Grid.Row="0"/>
-                            <Grid Grid.Row="1" Margin="0,15,0,15">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="*"/>
-                                    <ColumnDefinition Width="Auto"/>
-                                </Grid.ColumnDefinitions>
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="*"/>
-                                    <RowDefinition Height="Auto"/>
-                                    <RowDefinition Height="Auto"/>
-                                </Grid.RowDefinitions>
-                                <Primitives:EdgePanel x:Name="ChartArea" Style="{TemplateBinding ChartAreaStyle}"/>
-                                <Visualization:Legend x:Name="Legend" Style="{TemplateBinding LegendStyle}" Grid.Row="1"/>
-                                <ComboBox x:Name="CategoryPick" Grid.Row="2" Background="#FF3A3838" BorderBrush="Black" Width="100" HorizontalAlignment="Left" BorderThickness="1" ItemsSource="{Binding testenum}"/>
-                            </Grid>
-                        </Grid>
-                    </Border>
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
-    </Style>
 
     <Style x:Key="ChartComboBox" TargetType="ComboBox">
         <Setter Property="Background" Value="Transparent"/>
         <Setter Property="BorderBrush" Value="Black"/>
     </Style>
+
     
 </ResourceDictionary>

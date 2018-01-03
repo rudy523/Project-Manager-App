@@ -4,8 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ProjectManager.ViewModels
+namespace ProjectManager.Model
 {
-    public enum TDLenum { Labor, Travel, Material, Total, All }
-  
+    public enum tdlCat
+    {
+        Labor, Travel, Material, Totals, All
+    }
 }
