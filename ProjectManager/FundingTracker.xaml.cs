@@ -26,6 +26,7 @@ namespace ProjectManager
             InitializeComponent();
             _viewModel = new MainViewModel();
             base.DataContext = _viewModel;
+            
         }
 
         private void SaveCommand_Executed(object sender, ExecutedRoutedEventArgs e)
@@ -235,6 +236,24 @@ namespace ProjectManager
                 int tasknum = _viewModel.TrackedTDLs.IndexOf(_viewModel.SelectedTDL);
                 TDLViewModel graphedTDL = _viewModel.TrackedTDLs[tasknum];
                 graphedTDL.AddItems(_viewModel.SelectedCat);
+
+            }
+            switch (_viewModel.SelectedCat)
+            {
+                case "Labor":
+                    TDLSeries.DataPointStyle = Application.Current.FindResource("LaborColumns") as Style;
+                    break;
+                case "Travel":
+                    TDLSeries.DataPointStyle = Application.Current.FindResource("TravelColumns") as Style;
+                    break;
+                case "Material":
+                    TDLSeries.DataPointStyle = Application.Current.FindResource("MaterialColumns") as Style;
+                    break;
+                case "Totals":
+                    TDLSeries.DataPointStyle = Application.Current.FindResource("TotalsColumns") as Style;
+                    break;
+                default:
+                    break;
             }
         }
     }

@@ -316,7 +316,32 @@
         <Setter Property="Width" Value="15"/>
         <Setter Property="Height" Value="15"/>
     </Style>
-    
+
+    <Style x:Key="LaborColumns" TargetType="DVC:ColumnDataPoint">
+        <Setter Property="Background" Value="{StaticResource Brush1}"/>
+
+    </Style>
+
+    <Style x:Key="TravelColumns" TargetType="DVC:ColumnDataPoint">
+        <Setter Property="Background" Value="{StaticResource Brush2}"/>
+
+    </Style>
+
+    <Style x:Key="MaterialColumns" TargetType="DVC:ColumnDataPoint">
+        <Setter Property="Background" Value="{StaticResource Brush3}"/>
+
+    </Style>
+
+    <Style x:Key="TotalsColumns" TargetType="DVC:ColumnDataPoint">
+        <Setter Property="Background" Value="{StaticResource Brush4}"/>
+
+    </Style>
+
+    <Style x:Key="BudgBalanceColumns" TargetType="DVC:ColumnDataPoint">
+        <Setter Property="Background" Value="{StaticResource Brush5}"/>
+
+    </Style>
+
     <Style x:Key="ExpendedDataPointStyle" TargetType="DVC:LineDataPoint">
         <Setter Property="Background" Value="{StaticResource Brush3}"/>
         <Setter Property="BorderBrush" Value="Transparent"/>

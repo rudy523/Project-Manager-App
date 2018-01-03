@@ -69,14 +69,11 @@
                                     <Primitives:EdgePanel x:Name="ChartArea" Style="{TemplateBinding ChartAreaStyle}"/>
                                     <Visualization:Legend x:Name="Legend" Style="{TemplateBinding LegendStyle}" Grid.Row="1"/>
                                     <ComboBox x:Name="CategoryPick" Grid.Row="2" Background="#FF3A3838" BorderBrush="Black" Width="100" HorizontalAlignment="Left" BorderThickness="1" 
-                                              ItemsSource="{Binding Source={StaticResource tdlCatProvider}}" SelectionChanged="CategoryPick_SelectionChanged" SelectedItem="{Binding SelectedCat}">
+                                              ItemsSource="{Binding Source={StaticResource tdlCatProvider}}" SelectionChanged="CategoryPick_SelectionChanged" SelectedItem="{Binding SelectedCat}" >
                                     </ComboBox>
                                 </Grid>
                             </Grid>
                         </Border>
-                        <ControlTemplate.Triggers>
-                            
-                        </ControlTemplate.Triggers>
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>
@@ -254,10 +251,11 @@
                             <DVC:Chart x:Name="TDLChart" Margin="10,5,5,5" Title="TDL Information" Style="{StaticResource BarChart}" PlotAreaStyle="{StaticResource LineChartPlotArea}" 
                                 LegendStyle="{StaticResource ChartLegend}" TitleStyle="{StaticResource LineChartTitle}" Background="#FF3A3838" Padding="25,20,25,5" Grid.Row="2">
                                 <DVC:Chart.Axes>
-                                    <DVC:LinearAxis AxisLabelStyle="{StaticResource LineChartAxisLabel}" Orientation="Y" ShowGridLines="True" ExtendRangeToOrigin="True"/>
+                                    <DVC:LinearAxis AxisLabelStyle="{StaticResource LineChartAxisLabel}" Orientation="Y" ShowGridLines="True" ExtendRangeToOrigin="True" Minimum="0"/>
                                     <DVC:CategoryAxis AxisLabelStyle="{StaticResource LineChartAxisLabel}" Orientation="X" ShowGridLines="True"/>
                                 </DVC:Chart.Axes>
-                                <DVC:ColumnSeries x:Name="TDLBudgetSeries" ItemsSource="{Binding ElementName=TDLselection, Path=SelectedItem}" IndependentValuePath="Key" DependentValuePath="Value"/>
+                                <DVC:ColumnSeries x:Name="TDLSeries" ItemsSource="{Binding ElementName=TDLselection, Path=SelectedItem}" IndependentValuePath="Key" DependentValuePath="Value"
+                                                  />
                             </DVC:Chart>
                             
                             
@@ -274,6 +272,7 @@
                                     DisplayMemberPath="TDL_No"
                                     ItemContainerStyle="{StaticResource MIPRselector}"
                                     SelectedItem="{Binding SelectedTDL}"
+                                    SelectionChanged="CategoryPick_SelectionChanged"
                                 >
                                     </ListBox>
                                     <ListBox Name="TDLdetails1" 
