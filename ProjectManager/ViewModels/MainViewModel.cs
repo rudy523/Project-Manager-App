@@ -34,10 +34,8 @@ namespace ProjectManager.ViewModels
         public ObservableCollection<TDLViewModel> TrackedTDLs { get; set; }
         public LoadTDL myTDL { get; set; }
         public string SelectedCat { get; set; }
-
         public TDLViewModel SelectedTDL { get; set; }
         #endregion
-
         public MainViewModel()    
         {
             this.ProjectNumbers = new ObservableCollection<MIPR>();
@@ -56,7 +54,7 @@ namespace ProjectManager.ViewModels
             ContractList = new ObservableCollection<string>();
             filteredTDLs = new ObservableCollection<TDLViewModel>();
             TrackedTDLs = new ObservableCollection<TDLViewModel>();
-       
+
             EngineerList = myTDL.EngList;
             ContractList = myTDL.ContractList;
         }

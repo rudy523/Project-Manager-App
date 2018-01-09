@@ -7,6 +7,7 @@ using ProjectManager.ViewModels;
 using Microsoft.Win32;
 using ProjectManager.Model;
 using System.Collections.Generic;
+using System.Text;
 using System.IO;
 
 
@@ -233,10 +234,13 @@ namespace ProjectManager
         {
             if (_viewModel.SelectedTDL != null)
             {
-                int tasknum = _viewModel.TrackedTDLs.IndexOf(_viewModel.SelectedTDL);
-                TDLViewModel graphedTDL = _viewModel.TrackedTDLs[tasknum];
-                graphedTDL.AddItems(_viewModel.SelectedCat);
-
+                _viewModel.SelectedTDL.AddItems(_viewModel.SelectedCat);
+                StringBuilder sb = new StringBuilder();
+                sb.Append("TDL ");
+                sb.Append(_viewModel.SelectedTDL.TDL_No);
+                sb.Append(" : ");
+                sb.Append(_viewModel.SelectedTDL.Description);
+                TDLChart.Title = sb;
             }
             switch (_viewModel.SelectedCat)
             {

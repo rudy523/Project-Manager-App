@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Xml.Linq;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -370,7 +371,6 @@ namespace ProjectManager.ViewModels
                     break;
             }
         }
-
         private void clearValues()
         {
             Clear();

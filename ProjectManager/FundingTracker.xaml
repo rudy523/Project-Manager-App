@@ -11,7 +11,7 @@
         xmlns:System ="clr-namespace:System;assembly=mscorlib"
         xmlns:Visualization="clr-namespace:System.Windows.Controls.DataVisualization;assembly=System.Windows.Controls.DataVisualization.Toolkit"
         xmlns:Primitives="clr-namespace:System.Windows.Controls.DataVisualization.Charting.Primitives;assembly=System.Windows.Controls.DataVisualization.Toolkit"
-        Title="Funding Tracker">
+        Title="Funding Tracker" Background="#FFF5AA3C">
 
     <Window.Resources>
         
@@ -55,7 +55,7 @@
                                     <RowDefinition Height="auto"/>
                                     <RowDefinition Height="*"/>
                                 </Grid.RowDefinitions>
-                                <Visualization:Title Style="{TemplateBinding TitleStyle}" Content="{TemplateBinding Title}" Grid.Row="0"/>
+                                <Visualization:Title Style="{StaticResource LineChartTitle}" Content="{TemplateBinding Title}"/>
                                 <Grid Grid.Row="1" Margin="0,15,0,15">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="*"/>
@@ -113,7 +113,7 @@
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
-                    <ScrollViewer VerticalAlignment="Stretch">
+                    <ScrollViewer VerticalAlignment="Stretch" Foreground="#FF1CCD0B">
                         <Grid>
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="*"/>
@@ -248,16 +248,15 @@
                                 </StackPanel>
                             </Expander>
 
-                            <DVC:Chart x:Name="TDLChart" Margin="10,5,5,5" Title="TDL Information" Style="{StaticResource BarChart}" PlotAreaStyle="{StaticResource LineChartPlotArea}" 
-                                LegendStyle="{StaticResource ChartLegend}" TitleStyle="{StaticResource LineChartTitle}" Background="#FF3A3838" Padding="25,20,25,5" Grid.Row="2">
+                            <DVC:Chart x:Name="TDLChart" Margin="10,5,5,5" Style="{StaticResource BarChart}" PlotAreaStyle="{StaticResource LineChartPlotArea}" 
+                                        LegendStyle="{StaticResource ChartLegend}" TitleStyle="{StaticResource LineChartTitle}" Title=""
+                                       Background="#FF3A3838" Padding="25,20,25,5" Grid.Row="2">
                                 <DVC:Chart.Axes>
                                     <DVC:LinearAxis AxisLabelStyle="{StaticResource LineChartAxisLabel}" Orientation="Y" ShowGridLines="True" ExtendRangeToOrigin="True" Minimum="0"/>
                                     <DVC:CategoryAxis AxisLabelStyle="{StaticResource LineChartAxisLabel}" Orientation="X" ShowGridLines="True"/>
                                 </DVC:Chart.Axes>
-                                <DVC:ColumnSeries x:Name="TDLSeries" ItemsSource="{Binding ElementName=TDLselection, Path=SelectedItem}" IndependentValuePath="Key" DependentValuePath="Value"
-                                                  />
+                                <DVC:ColumnSeries x:Name="TDLSeries" ItemsSource="{Binding ElementName=TDLselection, Path=SelectedItem}" IndependentValuePath="Key" DependentValuePath="Value"/>
                             </DVC:Chart>
-                            
                             
                             <Expander Grid.Row="3">
                                 <StackPanel Orientation="Horizontal">
@@ -273,7 +272,7 @@
                                     ItemContainerStyle="{StaticResource MIPRselector}"
                                     SelectedItem="{Binding SelectedTDL}"
                                     SelectionChanged="CategoryPick_SelectionChanged"
-                                >
+                                    >
                                     </ListBox>
                                     <ListBox Name="TDLdetails1" 
                                         Grid.Row="1"
@@ -340,8 +339,8 @@
                                         DataContext="{Binding ElementName=TDLselection, Path=SelectedItem}"           
                             >
                                         <TextBlock Text="{Binding ExpLab, StringFormat= Labor Expended: {0}, Converter={StaticResource CurrencyConverter}}"/>
-                                        <TextBlock Text="{Binding ExpMat, StringFormat= Travel Expended: {0}, Converter={StaticResource CurrencyConverter}}"/>
-                                        <TextBlock Text="{Binding ExpTrv, StringFormat= Material Expended: {0}, Converter={StaticResource CurrencyConverter}}"/>
+                                        <TextBlock Text="{Binding ExpTrv, StringFormat= Travel Expended: {0}, Converter={StaticResource CurrencyConverter}}"/>
+                                        <TextBlock Text="{Binding ExpMat, StringFormat= Material Expended: {0}, Converter={StaticResource CurrencyConverter}}"/>
                                         <TextBlock Text="{Binding ExpOther, StringFormat= Other Expended: {0}, Converter={StaticResource CurrencyConverter}}"/>
                                         <TextBlock Text="{Binding ExpTotal, StringFormat= Total Expended: {0}, Converter={StaticResource CurrencyConverter}}"/>
                                     </ListBox>
