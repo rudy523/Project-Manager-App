@@ -305,71 +305,7 @@ namespace ProjectManager.ViewModels
 
         public void AddItems(string input)
         {
-            Clear();
 
-            switch (input)
-            {
-                case "Labor":
-                    // Labor
-                    Add(new KeyValuePair<string, decimal>("Budget - Labor", BudgLab));
-                    Add(new KeyValuePair<string, decimal>("Funded - Labor", FundLab));
-                    Add(new KeyValuePair<string, decimal>("Expended - Labor", ExpLab));
-                    Add(new KeyValuePair<string, decimal>("Funds Remaining - Labor", FundBalLab));
-                    Add(new KeyValuePair<string, decimal>("Budget Remaining - Labor", BudgBalLab));
-                    break;
-                case "Travel":
-                    // Travel
-                    Add(new KeyValuePair<string, decimal>("Budget - Travel", BudgTrv));
-                    Add(new KeyValuePair<string, decimal>("Funded - Travel", FundTrv));
-                    Add(new KeyValuePair<string, decimal>("Expended - Travel", ExpTrv));
-                    Add(new KeyValuePair<string, decimal>("Funds Remaining - Travel", FundBalTrv));
-                    Add(new KeyValuePair<string, decimal>("Budget Remaining - Travel", BudgBalTrv));
-                    break;
-                case "Material":
-                    // Material
-                    Add(new KeyValuePair<string, decimal>("Budget - Material", BudgMat));
-                    Add(new KeyValuePair<string, decimal>("Funded - Material", FundMat));
-                    Add(new KeyValuePair<string, decimal>("Expended - Material", ExpMat));
-                    Add(new KeyValuePair<string, decimal>("Funds Remaining - Material", FundBalMat));
-                    Add(new KeyValuePair<string, decimal>("Budget Remaining - Material", BudgBalMat));
-                    break;
-                case "Totals":
-                    // Totals 
-                    Add(new KeyValuePair<string, decimal>("Budget - Total", BudgTotal));
-                    Add(new KeyValuePair<string, decimal>("Funded - Total", FundTotal));
-                    Add(new KeyValuePair<string, decimal>("Expended - Total", ExpTotal));
-                    Add(new KeyValuePair<string, decimal>("Funds Remaining - Total", FundBalTotal));
-                    Add(new KeyValuePair<string, decimal>("Budget Remaining - Total", BudgBalTotal));
-                    break;
-                case "All":
-                    // Labor
-                    Add(new KeyValuePair<string, decimal>("Budget - Labor", BudgLab));
-                    Add(new KeyValuePair<string, decimal>("Funded - Labor", FundLab));
-                    Add(new KeyValuePair<string, decimal>("Expended - Labor", ExpLab));
-                    Add(new KeyValuePair<string, decimal>("Funds Remaining - Labor", FundBalLab));
-                    Add(new KeyValuePair<string, decimal>("Budget Remaining - Labor", BudgBalLab)); 
-                    // Travel
-                    Add(new KeyValuePair<string, decimal>("Budget - Travel", BudgTrv));
-                    Add(new KeyValuePair<string, decimal>("Funded - Travel", FundTrv));
-                    Add(new KeyValuePair<string, decimal>("Expended - Travel", ExpTrv));
-                    Add(new KeyValuePair<string, decimal>("Funds Remaining - Travel", FundBalTrv));
-                    Add(new KeyValuePair<string, decimal>("Budget Remaining - Travel", BudgBalTrv));      
-                    // Material
-                    Add(new KeyValuePair<string, decimal>("Budget - Material", BudgMat));
-                    Add(new KeyValuePair<string, decimal>("Funded - Material", FundMat));
-                    Add(new KeyValuePair<string, decimal>("Expended - Material", ExpMat));
-                    Add(new KeyValuePair<string, decimal>("Funds Remaining - Material", FundBalMat));
-                    Add(new KeyValuePair<string, decimal>("Budget Remaining - Material", BudgBalMat));          
-                    // Totals 
-                    Add(new KeyValuePair<string, decimal>("Budget - Total", BudgTotal));
-                    Add(new KeyValuePair<string, decimal>("Funded - Total", FundTotal));
-                    Add(new KeyValuePair<string, decimal>("Expended - Total", ExpTotal));
-                    Add(new KeyValuePair<string, decimal>("Funds Remaining - Total", FundBalTotal));
-                    Add(new KeyValuePair<string, decimal>("Budget Remaining - Total", BudgBalTotal));
-                    break;
-                default:
-                    break;
-            }
         }
         private void clearValues()
         {

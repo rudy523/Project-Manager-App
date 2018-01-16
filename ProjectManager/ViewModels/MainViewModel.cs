@@ -12,7 +12,7 @@ using System;
 namespace ProjectManager.ViewModels
 {
     [Serializable]
-    public class MainViewModel 
+    public class MainViewModel : ObservableCollection<KeyValuePair<string, decimal>>
     {
         #region Properties
         private LoadData MyData { get; set; }
@@ -35,7 +35,13 @@ namespace ProjectManager.ViewModels
         public LoadTDL myTDL { get; set; }
         public string SelectedCat { get; set; }
         public TDLViewModel SelectedTDL { get; set; }
+        public ObservableCollection<KeyValuePair<string,decimal>> Budget { get; set; }
+        public ObservableCollection<KeyValuePair<string, decimal>> Funded { get; set; }
+        public ObservableCollection<KeyValuePair<string, decimal>> Expended { get; set; }
+        public ObservableCollection<KeyValuePair<string, decimal>> FundBalance { get; set; }
+        public ObservableCollection<KeyValuePair<string, decimal>> BudgetBalance { get; set; }
         #endregion
+
         public MainViewModel()    
         {
             this.ProjectNumbers = new ObservableCollection<MIPR>();
@@ -54,6 +60,11 @@ namespace ProjectManager.ViewModels
             ContractList = new ObservableCollection<string>();
             filteredTDLs = new ObservableCollection<TDLViewModel>();
             TrackedTDLs = new ObservableCollection<TDLViewModel>();
+            Budget = new ObservableCollection<KeyValuePair<string, decimal>>();
+            Funded = new ObservableCollection<KeyValuePair<string, decimal>>();
+            Expended = new ObservableCollection<KeyValuePair<string, decimal>>();
+            FundBalance = new ObservableCollection<KeyValuePair<string, decimal>>();
+            BudgetBalance = new ObservableCollection<KeyValuePair<string, decimal>>();
 
             EngineerList = myTDL.EngList;
             ContractList = myTDL.ContractList;

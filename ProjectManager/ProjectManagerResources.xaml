@@ -322,29 +322,34 @@
         <Setter Property="Height" Value="15"/>
     </Style>
 
-    <Style x:Key="LaborColumns" TargetType="DVC:ColumnDataPoint">
+    <Style x:Key="BudgetColumns" TargetType="DVC:ColumnDataPoint">
         <Setter Property="Background" Value="{StaticResource Brush1}"/>
-
+        <Setter Property="MaxWidth" Value="125"/>
+        <Setter Property="Margin" Value="90,0,0,0"/>
     </Style>
 
-    <Style x:Key="TravelColumns" TargetType="DVC:ColumnDataPoint">
-        <Setter Property="Background" Value="{StaticResource Brush2}"/>
-
+    <Style x:Key="FundedColumns" TargetType="DVC:ColumnDataPoint">
+        <Setter Property="Background" Value="{StaticResource TDLfund}"/>
+        <Setter Property="MaxWidth" Value="125"/>
+        <Setter Property="Margin" Value="90,0,0,0"/>
     </Style>
 
-    <Style x:Key="MaterialColumns" TargetType="DVC:ColumnDataPoint">
-        <Setter Property="Background" Value="{StaticResource Brush3}"/>
-
+    <Style x:Key="ExpendedColumns" TargetType="DVC:ColumnDataPoint">
+        <Setter Property="Background" Value="{StaticResource TDLexp}"/>
+        <Setter Property="Margin" Value="90,0,0,0"/>
+        <Setter Property="MaxWidth" Value="125"/>
     </Style>
 
-    <Style x:Key="TotalsColumns" TargetType="DVC:ColumnDataPoint">
+    <Style x:Key="FundBalanceColumns" TargetType="DVC:ColumnDataPoint">
         <Setter Property="Background" Value="{StaticResource Brush4}"/>
-
+        <Setter Property="Margin" Value="90,0,0,0"/>
+        <Setter Property="MaxWidth" Value="125"/>
     </Style>
 
     <Style x:Key="BudgBalanceColumns" TargetType="DVC:ColumnDataPoint">
         <Setter Property="Background" Value="{StaticResource Brush5}"/>
-
+        <Setter Property="Margin" Value="90,0,0,0"/>
+        <Setter Property="MaxWidth" Value="125"/>
     </Style>
 
     <Style x:Key="ExpendedDataPointStyle" TargetType="DVC:LineDataPoint">
@@ -406,6 +411,12 @@
         <Setter Property="FontSize" Value="12"/>
         <Setter Property="FontWeight" Value="Light"/>
         <Setter Property="Foreground" Value="{StaticResource LegendItem}"/>
+    </Style>
+
+    <Style x:Key="TDLChartAxisLabel" TargetType="DVC:AxisLabel">
+        <Setter Property="FontSize" Value="16"/>
+        <Setter Property="FontWeight" Value="Bold"/>
+        <Setter Property="Foreground" Value="White"/>
     </Style>
 
     <Style x:Key="LineChart" TargetType="DVC:Chart">
