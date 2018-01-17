@@ -320,13 +320,16 @@ namespace ProjectManager
                     break;
                     */
                 }
-
+                if (_viewModel.SelectedTDL.TDL_No != null)
+            {
                 StringBuilder sb = new StringBuilder();
                 sb.Append("TDL ");
                 sb.Append(_viewModel.SelectedTDL.TDL_No);
                 sb.Append(" : ");
                 sb.Append(_viewModel.SelectedTDL.Description);
                 TDLChart.Title = sb;
+            } 
+            
             }
 
             

@@ -79,6 +79,22 @@
             </Setter>
         </Style>
 
+        <Style x:Key="TDLtooltip" TargetType="ToolTip">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ToolTip">
+                        <Border Background="{TemplateBinding Background}" 
+                            BorderBrush="Red" 
+                            BorderThickness="5">
+                            <ContentPresenter HorizontalAlignment="Center"
+                                          VerticalAlignment="Center"
+                                          ContentTemplate="{StaticResource TDLtooltiptemplate}"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
 
     </Window.Resources>
 
@@ -247,14 +263,24 @@
                                     </ListBox>
                                 </StackPanel>
                             </Expander>
+                            
                             <DVC:Chart x:Name="TDLChart" Margin="10,5,5,5" Style="{StaticResource BarChart}" PlotAreaStyle="{StaticResource LineChartPlotArea}" 
-                                        LegendStyle="{StaticResource ChartLegend}" TitleStyle="{StaticResource LineChartTitle}" Background="#FF3A3838" Padding="25,20,25,5" Grid.Row="2">
+                                        LegendStyle="{StaticResource ChartLegend}" TitleStyle="{StaticResource LineChartTitle}" Background="#FF3A3838" Padding="25,20,25,5" Grid.Row="2"
+                                        >
                                 <DVC:Chart.Axes>
                                     <DVC:LinearAxis AxisLabelStyle="{StaticResource LineChartAxisLabel}" Orientation="Y" ShowGridLines="True" ExtendRangeToOrigin="True" Minimum="0"/>
                                     <DVC:CategoryAxis AxisLabelStyle="{StaticResource TDLChartAxisLabel}" Orientation="X" ShowGridLines="True"/>
                                 </DVC:Chart.Axes>
+
                                 <DVC:ColumnSeries x:Name="TDLSeriesBudg" ItemsSource ="{Binding Budget}"  IndependentValuePath="Key" DependentValuePath="Value" 
-                                                  DataPointStyle="{StaticResource BudgetColumns}" Title="Budget" />
+                                                  DataPointStyle="{StaticResource BudgetColumns}" Title="Budget">
+                         
+                                  
+                                      
+                                       
+                            
+                                </DVC:ColumnSeries>
+                                
                                 <DVC:ColumnSeries x:Name="TDLSeriesFund" ItemsSource="{Binding Funded}" IndependentValuePath="Key" DependentValuePath="Value"
                                                   DataPointStyle="{StaticResource FundedColumns}" Title="Funded"/>
                                 <DVC:ColumnSeries x:Name="TDLSeriesExp" ItemsSource="{Binding Expended}" IndependentValuePath="Key" DependentValuePath="Value"

@@ -315,17 +315,53 @@
         <Setter Property="Opacity" Value="0.75"/>
     </Style>
 
+    <DataTemplate x:Key="TDLtooltiptemplate">
+        <StackPanel Orientation="Vertical">
+            <TextBlock Text="{Binding Path=Series.Title}"/>
+            <TextBlock Text="{Binding Path=Series.DependentValuePath}"/>
+        </StackPanel>
+    </DataTemplate>
+
+  
+
     <Style x:Key="FundedDataPointStyle" TargetType="DVC:LineDataPoint">
         <Setter Property="Background" Value="{StaticResource Brush2}"/>
         <Setter Property="BorderBrush" Value="Transparent"/>
         <Setter Property="Width" Value="15"/>
         <Setter Property="Height" Value="15"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="DVC:ColumnDataPoint">
+                    <Grid>
+                        <Rectangle Fill="{TemplateBinding Background}" Stroke="Black"/>
+                        <Grid HorizontalAlignment="Center" VerticalAlignment="Top">
+                            <TextBlock Text="{TemplateBinding DependentValueStringFormat}"/>
+                        </Grid>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
     </Style>
 
     <Style x:Key="BudgetColumns" TargetType="DVC:ColumnDataPoint">
         <Setter Property="Background" Value="{StaticResource Brush1}"/>
         <Setter Property="MaxWidth" Value="125"/>
         <Setter Property="Margin" Value="90,0,0,0"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="DVC:ColumnDataPoint">
+                    <Border BorderBrush="White" BorderThickness="1">
+                        <Rectangle Fill="{TemplateBinding Background}"/>
+                        <ToolTipService.ToolTip>
+                            <StackPanel Orientation="Vertical" Background="{StaticResource ChartBackground}">
+                                <ContentControl Content="{TemplateBinding IndependentValue}" VerticalContentAlignment="Center" HorizontalAlignment="Center"/>
+                                <ContentControl Content="{TemplateBinding DependentValue}" VerticalContentAlignment="Center" HorizontalAlignment="Center"/>
+                            </StackPanel>
+                        </ToolTipService.ToolTip>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
     </Style>
 
     <Style x:Key="FundedColumns" TargetType="DVC:ColumnDataPoint">
