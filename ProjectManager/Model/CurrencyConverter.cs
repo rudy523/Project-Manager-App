@@ -15,8 +15,11 @@ namespace ProjectManager.Model
         #region Methods
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            decimal amount = (decimal)value;
-            return amount.ToString("C", culture);
+
+                decimal amount = (decimal)value;
+                return amount.ToString("C", culture);
+       
+        
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

@@ -235,58 +235,41 @@ namespace ProjectManager
         {
             if (_viewModel.SelectedTDL != null)
             {
-           
-
+                _viewModel.Budget.Clear();
+                _viewModel.Funded.Clear();
+                _viewModel.Expended.Clear();
+                _viewModel.FundBalance.Clear();
+                _viewModel.BudgetBalance.Clear();
 
                 switch (_viewModel.SelectedCat)
                 {
                     case "Labor":
-                        _viewModel.Budget.Clear();
                         _viewModel.Budget.Add(new KeyValuePair<string, decimal>("Labor", _viewModel.SelectedTDL.BudgLab));
-                        _viewModel.Funded.Clear();
                         _viewModel.Funded.Add(new KeyValuePair<string, decimal>("Labor", _viewModel.SelectedTDL.FundLab));
-                        _viewModel.Expended.Clear();
                         _viewModel.Expended.Add(new KeyValuePair<string, decimal>("Labor", _viewModel.SelectedTDL.ExpLab));
-                        _viewModel.FundBalance.Clear();
                         _viewModel.FundBalance.Add(new KeyValuePair<string, decimal>("Labor", _viewModel.SelectedTDL.FundBalLab));
-                        _viewModel.BudgetBalance.Clear();
                         _viewModel.BudgetBalance.Add(new KeyValuePair<string, decimal>("Labor", _viewModel.SelectedTDL.BudgBalLab));
                         break;
                     case "Travel":
-                        _viewModel.Budget.Clear();
-                        _viewModel.Budget.Add(new KeyValuePair<string, decimal>("Budget - Labor", _viewModel.SelectedTDL.BudgTrv));
-                        _viewModel.Funded.Clear();
-                        _viewModel.Funded.Add(new KeyValuePair<string, decimal>("Funded - Labor", _viewModel.SelectedTDL.FundTrv));
-                        _viewModel.Expended.Clear();
-                        _viewModel.Expended.Add(new KeyValuePair<string, decimal>("Expended - Labor", _viewModel.SelectedTDL.ExpTrv));
-                        _viewModel.FundBalance.Clear();
-                        _viewModel.FundBalance.Add(new KeyValuePair<string, decimal>("Funds Remaining - Labor", _viewModel.SelectedTDL.FundBalTrv));
-                        _viewModel.BudgetBalance.Clear();
-                        _viewModel.BudgetBalance.Add(new KeyValuePair<string, decimal>("Budget Remaining - Labor", _viewModel.SelectedTDL.BudgBalTrv));
+                        _viewModel.Budget.Add(new KeyValuePair<string, decimal>("Travel", _viewModel.SelectedTDL.BudgTrv));
+                        _viewModel.Funded.Add(new KeyValuePair<string, decimal>("Travel", _viewModel.SelectedTDL.FundTrv));
+                        _viewModel.Expended.Add(new KeyValuePair<string, decimal>("Travel", _viewModel.SelectedTDL.ExpTrv));
+                        _viewModel.FundBalance.Add(new KeyValuePair<string, decimal>("Travel", _viewModel.SelectedTDL.FundBalTrv));
+                        _viewModel.BudgetBalance.Add(new KeyValuePair<string, decimal>("Travel", _viewModel.SelectedTDL.BudgBalTrv));
                         break;
                     case "Material":
-                        _viewModel.Budget.Clear();
-                        _viewModel.Budget.Add(new KeyValuePair<string, decimal>("Budget - Labor", _viewModel.SelectedTDL.BudgMat));
-                        _viewModel.Funded.Clear();
-                        _viewModel.Funded.Add(new KeyValuePair<string, decimal>("Funded - Labor", _viewModel.SelectedTDL.FundMat));
-                        _viewModel.Expended.Clear();
-                        _viewModel.Expended.Add(new KeyValuePair<string, decimal>("Expended - Labor", _viewModel.SelectedTDL.ExpMat));
-                        _viewModel.FundBalance.Clear();
-                        _viewModel.FundBalance.Add(new KeyValuePair<string, decimal>("Funds Remaining - Labor", _viewModel.SelectedTDL.FundBalMat));
-                        _viewModel.BudgetBalance.Clear();
-                        _viewModel.BudgetBalance.Add(new KeyValuePair<string, decimal>("Budget Remaining - Labor", _viewModel.SelectedTDL.BudgBalMat));
+                        _viewModel.Budget.Add(new KeyValuePair<string, decimal>("Material", _viewModel.SelectedTDL.BudgMat));
+                        _viewModel.Funded.Add(new KeyValuePair<string, decimal>("Material", _viewModel.SelectedTDL.FundMat));
+                        _viewModel.Expended.Add(new KeyValuePair<string, decimal>("Material", _viewModel.SelectedTDL.ExpMat));
+                        _viewModel.FundBalance.Add(new KeyValuePair<string, decimal>("Material", _viewModel.SelectedTDL.FundBalMat));
+                        _viewModel.BudgetBalance.Add(new KeyValuePair<string, decimal>("Material", _viewModel.SelectedTDL.BudgBalMat));
                         break;
                     case "Totals":
-                        _viewModel.Budget.Clear();
-                        _viewModel.Budget.Add(new KeyValuePair<string, decimal>("Budget - Labor", _viewModel.SelectedTDL.BudgTotal));
-                        _viewModel.Funded.Clear();
-                        _viewModel.Funded.Add(new KeyValuePair<string, decimal>("Funded - Labor", _viewModel.SelectedTDL.FundTotal));
-                        _viewModel.Expended.Clear();
-                        _viewModel.Expended.Add(new KeyValuePair<string, decimal>("Expended - Labor", _viewModel.SelectedTDL.ExpTotal));
-                        _viewModel.FundBalance.Clear();
-                        _viewModel.FundBalance.Add(new KeyValuePair<string, decimal>("Funds Remaining - Labor", _viewModel.SelectedTDL.FundBalTotal));
-                        _viewModel.BudgetBalance.Clear();
-                        _viewModel.BudgetBalance.Add(new KeyValuePair<string, decimal>("Budget Remaining - Labor", _viewModel.SelectedTDL.BudgBalTotal));
+                        _viewModel.Budget.Add(new KeyValuePair<string, decimal>("Total", _viewModel.SelectedTDL.BudgTotal));
+                        _viewModel.Funded.Add(new KeyValuePair<string, decimal>("Total", _viewModel.SelectedTDL.FundTotal));
+                        _viewModel.Expended.Add(new KeyValuePair<string, decimal>("Total", _viewModel.SelectedTDL.ExpTotal));
+                        _viewModel.FundBalance.Add(new KeyValuePair<string, decimal>("Total", _viewModel.SelectedTDL.FundBalTotal));
+                        _viewModel.BudgetBalance.Add(new KeyValuePair<string, decimal>("Total", _viewModel.SelectedTDL.BudgBalTotal));
                         break;
                     default:
                         break;

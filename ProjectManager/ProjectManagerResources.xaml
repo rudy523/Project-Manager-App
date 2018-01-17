@@ -7,6 +7,8 @@
                     xmlns:System ="clr-namespace:System;assembly=mscorlib"
                     xmlns:Model="clr-namespace:ProjectManager.Model">
 
+    <Model:CurrencyConverter x:Key="CurrencyConverter"/>
+
     <SolidColorBrush x:Key="Brush1" Color="#FF007C9C" />
 
     <SolidColorBrush x:Key="Brush2" Color="#FF019FCC" />
@@ -315,16 +317,7 @@
         <Setter Property="Opacity" Value="0.75"/>
     </Style>
 
-    <DataTemplate x:Key="TDLtooltiptemplate">
-        <StackPanel Orientation="Vertical">
-            <TextBlock Text="{Binding Path=Series.Title}"/>
-            <TextBlock Text="{Binding Path=Series.DependentValuePath}"/>
-        </StackPanel>
-    </DataTemplate>
-
-  
-
-    <Style x:Key="FundedDataPointStyle" TargetType="DVC:LineDataPoint">
+        <Style x:Key="FundedDataPointStyle" TargetType="DVC:LineDataPoint">
         <Setter Property="Background" Value="{StaticResource Brush2}"/>
         <Setter Property="BorderBrush" Value="Transparent"/>
         <Setter Property="Width" Value="15"/>
@@ -344,7 +337,7 @@
     </Style>
 
     <Style x:Key="BudgetColumns" TargetType="DVC:ColumnDataPoint">
-        <Setter Property="Background" Value="{StaticResource Brush1}"/>
+        <Setter Property="Background" Value="{StaticResource Brush2}"/>
         <Setter Property="MaxWidth" Value="125"/>
         <Setter Property="Margin" Value="90,0,0,0"/>
         <Setter Property="Template">
@@ -353,13 +346,26 @@
                     <Border BorderBrush="White" BorderThickness="1">
                         <Rectangle Fill="{TemplateBinding Background}"/>
                         <ToolTipService.ToolTip>
-                            <StackPanel Orientation="Vertical" Background="{StaticResource ChartBackground}">
-                                <ContentControl Content="{TemplateBinding IndependentValue}" VerticalContentAlignment="Center" HorizontalAlignment="Center"/>
-                                <ContentControl Content="{TemplateBinding DependentValue}" VerticalContentAlignment="Center" HorizontalAlignment="Center"/>
-                            </StackPanel>
-                        </ToolTipService.ToolTip>
-                    </Border>
-                </ControlTemplate>
+                        <ToolTip Background="{StaticResource ChartBackground}">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+                                    <Rectangle Width="10" Height="10" Fill="{TemplateBinding Background}" Margin="0,0,10,0"/>
+                                    <ContentControl Content="Budget : "  VerticalContentAlignment="Center" HorizontalAlignment="Center" Foreground="White" Grid.Column="1"/>
+                                    <ContentControl Content="{TemplateBinding IndependentValue}" VerticalContentAlignment="Center" HorizontalAlignment="Center"  Foreground="White" Grid.Column="2"/>
+                                <ContentControl Content="{TemplateBinding DependentValue, Converter={StaticResource CurrencyConverter}}" VerticalContentAlignment="Center" HorizontalAlignment="Left" Grid.ColumnSpan="2" Foreground="White" Grid.Row="1"/>
+                            </Grid>
+                        </ToolTip>
+                    </ToolTipService.ToolTip>
+                </Border>
+            </ControlTemplate>
             </Setter.Value>
         </Setter>
     </Style>
@@ -368,24 +374,136 @@
         <Setter Property="Background" Value="{StaticResource TDLfund}"/>
         <Setter Property="MaxWidth" Value="125"/>
         <Setter Property="Margin" Value="90,0,0,0"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="DVC:ColumnDataPoint">
+                    <Border BorderBrush="White" BorderThickness="1">
+                        <Rectangle Fill="{TemplateBinding Background}"/>
+                        <ToolTipService.ToolTip>
+                            <ToolTip Background="{StaticResource ChartBackground}">
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Rectangle Width="10" Height="10" Fill="{TemplateBinding Background}" Margin="0,0,10,0"/>
+                                    <ContentControl Content="Funded : "  VerticalContentAlignment="Center" HorizontalAlignment="Center" Foreground="White" Grid.Column="1" />
+                                    <ContentControl Content="{TemplateBinding IndependentValue}" VerticalContentAlignment="Center" HorizontalAlignment="Center"  Foreground="White" Grid.Column="2"/>
+                                    <ContentControl Content="{TemplateBinding DependentValue, Converter={StaticResource CurrencyConverter}}" VerticalContentAlignment="Center" HorizontalAlignment="Left" Grid.ColumnSpan="2" Foreground="White" Grid.Row="1"/>
+                                </Grid>
+                            </ToolTip>
+                        </ToolTipService.ToolTip>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
     </Style>
 
     <Style x:Key="ExpendedColumns" TargetType="DVC:ColumnDataPoint">
-        <Setter Property="Background" Value="{StaticResource TDLexp}"/>
+        <Setter Property="Background" Value="{StaticResource Brush6}"/>
         <Setter Property="Margin" Value="90,0,0,0"/>
         <Setter Property="MaxWidth" Value="125"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="DVC:ColumnDataPoint">
+                    <Border BorderBrush="White" BorderThickness="1">
+                        <Rectangle Fill="{TemplateBinding Background}"/>
+                        <ToolTipService.ToolTip>
+                            <ToolTip Background="{StaticResource ChartBackground}">
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Rectangle Width="10" Height="10" Fill="{TemplateBinding Background}" Margin="0,0,10,0"/>
+                                    <ContentControl Content="Expended : "  VerticalContentAlignment="Center" HorizontalAlignment="Center" Foreground="White" Grid.Column="1"/>
+                                    <ContentControl Content="{TemplateBinding IndependentValue}" VerticalContentAlignment="Center" HorizontalAlignment="Center" Foreground="White" Grid.Column="2"/>
+                                    <ContentControl Content="{TemplateBinding DependentValue, Converter={StaticResource CurrencyConverter}}" VerticalContentAlignment="Center" HorizontalAlignment="Left" Grid.ColumnSpan="2" Foreground="White" Grid.Row="1"/>
+                                </Grid>
+                            </ToolTip>
+                        </ToolTipService.ToolTip>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
     </Style>
 
     <Style x:Key="FundBalanceColumns" TargetType="DVC:ColumnDataPoint">
-        <Setter Property="Background" Value="{StaticResource Brush4}"/>
+        <Setter Property="Background" Value="#FF2AFDFD"/>
         <Setter Property="Margin" Value="90,0,0,0"/>
         <Setter Property="MaxWidth" Value="125"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="DVC:ColumnDataPoint">
+                    <Border BorderBrush="White" BorderThickness="1">
+                        <Rectangle Fill="{TemplateBinding Background}"/>
+                        <ToolTipService.ToolTip>
+                            <ToolTip Background="{StaticResource ChartBackground}">
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Rectangle Width="10" Height="10" Fill="{TemplateBinding Background}" Margin="0,0,10,0"/>
+                                    <ContentControl Content="Funding Balance : "  VerticalContentAlignment="Center" HorizontalAlignment="Center" Foreground="White" Grid.Column="1"/>
+                                    <ContentControl Content="{TemplateBinding IndependentValue}" VerticalContentAlignment="Center" HorizontalAlignment="Center"  Foreground="White" Grid.Column="2"/>
+                                    <ContentControl Content="{TemplateBinding DependentValue, Converter={StaticResource CurrencyConverter}}" VerticalContentAlignment="Center" HorizontalAlignment="Left" Grid.ColumnSpan="2" Foreground="White" Grid.Row="1"/>
+                                </Grid>
+                            </ToolTip>
+                        </ToolTipService.ToolTip>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
     </Style>
 
     <Style x:Key="BudgBalanceColumns" TargetType="DVC:ColumnDataPoint">
-        <Setter Property="Background" Value="{StaticResource Brush5}"/>
+        <Setter Property="Background" Value="#FFBA2AFD"/>
         <Setter Property="Margin" Value="90,0,0,0"/>
         <Setter Property="MaxWidth" Value="125"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="DVC:ColumnDataPoint">
+                    <Border BorderBrush="White" BorderThickness="1">
+                        <Rectangle Fill="{TemplateBinding Background}"/>
+                        <ToolTipService.ToolTip>
+                            <ToolTip Background="{StaticResource ChartBackground}">
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Rectangle Width="10" Height="10" Fill="{TemplateBinding Background}" Margin="0,0,10,0"/>
+                                    <ContentControl Content="Budget Balance : "  VerticalContentAlignment="Center" HorizontalAlignment="Center" Foreground="White" Grid.Column="1"/>
+                                    <ContentControl Content="{TemplateBinding IndependentValue}" VerticalContentAlignment="Center" HorizontalAlignment="Center"  Foreground="White" Grid.Column="2"/>
+                                    <ContentControl Content="{TemplateBinding DependentValue, Converter={StaticResource CurrencyConverter}}" VerticalContentAlignment="Center" HorizontalAlignment="Left" Grid.ColumnSpan="2" Foreground="White" Grid.Row="1"/>
+                                </Grid>
+                            </ToolTip>
+                        </ToolTipService.ToolTip>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
     </Style>
 
     <Style x:Key="ExpendedDataPointStyle" TargetType="DVC:LineDataPoint">

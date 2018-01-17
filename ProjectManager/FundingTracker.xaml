@@ -11,10 +11,10 @@
         xmlns:System ="clr-namespace:System;assembly=mscorlib"
         xmlns:Visualization="clr-namespace:System.Windows.Controls.DataVisualization;assembly=System.Windows.Controls.DataVisualization.Toolkit"
         xmlns:Primitives="clr-namespace:System.Windows.Controls.DataVisualization.Charting.Primitives;assembly=System.Windows.Controls.DataVisualization.Toolkit"
-        Title="Funding Tracker" Background="#FFF5AA3C">
+        Title="Funding Tracker" Background="#FF413F42">
 
     <Window.Resources>
-        
+
         <CollectionViewSource x:Key="cvGridData" Source="{Binding Path=GridData}">
             <CollectionViewSource.SortDescriptions>
                 <scm:SortDescription PropertyName="MIPRnum"/>
@@ -31,7 +31,7 @@
                 <PropertyGroupDescription PropertyName="Contract" x:Name="Contractgroup"/>
             </CollectionViewSource.GroupDescriptions>
         </CollectionViewSource>
-        
+
         <Model:CurrencyConverter x:Key="CurrencyConverter"/>
         <Model:PercentageConverter x:Key="PercentageConverter"/>
         <Model:DateConverter x:Key="DateConverter"/>
@@ -79,23 +79,6 @@
             </Setter>
         </Style>
 
-        <Style x:Key="TDLtooltip" TargetType="ToolTip">
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="ToolTip">
-                        <Border Background="{TemplateBinding Background}" 
-                            BorderBrush="Red" 
-                            BorderThickness="5">
-                            <ContentPresenter HorizontalAlignment="Center"
-                                          VerticalAlignment="Center"
-                                          ContentTemplate="{StaticResource TDLtooltiptemplate}"/>
-                        </Border>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
-
-
     </Window.Resources>
 
     <Window.CommandBindings>
@@ -110,9 +93,10 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="311*"/>
+            <ColumnDefinition Width="449*"/>
         </Grid.ColumnDefinitions>
-        <Menu Style="{StaticResource StandardMenu}">
+        <Menu Style="{StaticResource StandardMenu}" Grid.ColumnSpan="2">
             <MenuItem Template="{DynamicResource MenuItemControlTemplate1}" Header="File">
                 <MenuItem Header="New" />
                 <MenuItem Command="Open"/>
@@ -120,7 +104,7 @@
                 <MenuItem Command="SaveAs"/>
             </MenuItem>
         </Menu>
-        <TabControl x:Name="FundingTabControl" Grid.Row="1" Background="{StaticResource StandardBackground}"  BorderBrush="Transparent">
+        <TabControl x:Name="FundingTabControl" Grid.Row="1" Background="{StaticResource StandardBackground}"  BorderBrush="Transparent" Grid.ColumnSpan="2">
             <TabItem Header="Dashboard" Style="{StaticResource TabItemTemplate}">
                 <Grid>
                     <Grid.RowDefinitions>
@@ -130,7 +114,7 @@
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
                     <ScrollViewer VerticalAlignment="Stretch" Foreground="#FF1CCD0B">
-                        <Grid>
+                        <Grid Background="{StaticResource StandardBackground}">
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="*"/>
                                 <RowDefinition Height="*"/>
@@ -263,7 +247,7 @@
                                     </ListBox>
                                 </StackPanel>
                             </Expander>
-                            
+
                             <DVC:Chart x:Name="TDLChart" Margin="10,5,5,5" Style="{StaticResource BarChart}" PlotAreaStyle="{StaticResource LineChartPlotArea}" 
                                         LegendStyle="{StaticResource ChartLegend}" TitleStyle="{StaticResource LineChartTitle}" Background="#FF3A3838" Padding="25,20,25,5" Grid.Row="2"
                                         >
@@ -273,16 +257,9 @@
                                 </DVC:Chart.Axes>
 
                                 <DVC:ColumnSeries x:Name="TDLSeriesBudg" ItemsSource ="{Binding Budget}"  IndependentValuePath="Key" DependentValuePath="Value" 
-                                                  DataPointStyle="{StaticResource BudgetColumns}" Title="Budget">
-                         
-                                  
-                                      
-                                       
-                            
-                                </DVC:ColumnSeries>
-                                
+                                                  DataPointStyle="{StaticResource BudgetColumns}" Title="Budget" Background="{StaticResource Brush2}"/>
                                 <DVC:ColumnSeries x:Name="TDLSeriesFund" ItemsSource="{Binding Funded}" IndependentValuePath="Key" DependentValuePath="Value"
-                                                  DataPointStyle="{StaticResource FundedColumns}" Title="Funded"/>
+                                                  DataPointStyle="{StaticResource FundedColumns}" Title="Funded" Background="{StaticResource Brush1}"/>
                                 <DVC:ColumnSeries x:Name="TDLSeriesExp" ItemsSource="{Binding Expended}" IndependentValuePath="Key" DependentValuePath="Value"
                                                   DataPointStyle="{StaticResource ExpendedColumns}" Title="Expended"/>
                                 <DVC:ColumnSeries x:Name="TDLSeriesFundBal" ItemsSource="{Binding FundBalance}" IndependentValuePath="Key" DependentValuePath="Value"
@@ -290,7 +267,7 @@
                                 <DVC:ColumnSeries x:Name="TDLSeriesBudgBal" ItemsSource="{Binding BudgetBalance}" IndependentValuePath="Key" DependentValuePath="Value"
                                                   DataPointStyle="{StaticResource BudgBalanceColumns}" Title="Budget Balance"/>
                             </DVC:Chart>
-                            
+
                             <Expander Grid.Row="3">
                                 <StackPanel Orientation="Horizontal">
                                     <ListBox Name="TDLselection" 
@@ -1370,5 +1347,5 @@
             </TabItem>
         </TabControl>
     </Grid>
-    
+
 </Window>
