@@ -247,7 +247,6 @@
                                     </ListBox>
                                 </StackPanel>
                             </Expander>
-
                             <DVC:Chart x:Name="TDLChart" Margin="10,5,5,5" Style="{StaticResource BarChart}" PlotAreaStyle="{StaticResource LineChartPlotArea}" 
                                         LegendStyle="{StaticResource ChartLegend}" TitleStyle="{StaticResource LineChartTitle}" Background="#FF3A3838" Padding="25,20,25,5" Grid.Row="2"
                                         >
@@ -257,17 +256,16 @@
                                 </DVC:Chart.Axes>
 
                                 <DVC:ColumnSeries x:Name="TDLSeriesBudg" ItemsSource ="{Binding Budget}"  IndependentValuePath="Key" DependentValuePath="Value" 
-                                                  DataPointStyle="{StaticResource BudgetColumns}" Title="Budget" Background="{StaticResource Brush2}"/>
+                                                  DataPointStyle="{StaticResource BudgetColumns}" Title="Budget" LegendItemStyle="{StaticResource BudgetTDLLegendItem}" Background="{StaticResource Brush2}"/>
                                 <DVC:ColumnSeries x:Name="TDLSeriesFund" ItemsSource="{Binding Funded}" IndependentValuePath="Key" DependentValuePath="Value"
-                                                  DataPointStyle="{StaticResource FundedColumns}" Title="Funded" Background="{StaticResource Brush1}"/>
+                                                  DataPointStyle="{StaticResource FundedColumns}" Title="Funded" LegendItemStyle="{StaticResource FundedTDLLegendItem}" Background="{StaticResource TDLfund}" />
                                 <DVC:ColumnSeries x:Name="TDLSeriesExp" ItemsSource="{Binding Expended}" IndependentValuePath="Key" DependentValuePath="Value"
-                                                  DataPointStyle="{StaticResource ExpendedColumns}" Title="Expended"/>
+                                                  DataPointStyle="{StaticResource ExpendedColumns}" Title="Expended" LegendItemStyle="{StaticResource ExpendedTDLLegendItem}" Background="{StaticResource Brush6}"/>
                                 <DVC:ColumnSeries x:Name="TDLSeriesFundBal" ItemsSource="{Binding FundBalance}" IndependentValuePath="Key" DependentValuePath="Value"
-                                                  DataPointStyle="{StaticResource FundBalanceColumns}" Title="Funding Balance"/>
+                                                  DataPointStyle="{StaticResource FundBalanceColumns}" Title="Funding Balance" LegendItemStyle="{StaticResource FundedBalTDLLegendItem}" Background="#FF2AFDFD"/>
                                 <DVC:ColumnSeries x:Name="TDLSeriesBudgBal" ItemsSource="{Binding BudgetBalance}" IndependentValuePath="Key" DependentValuePath="Value"
-                                                  DataPointStyle="{StaticResource BudgBalanceColumns}" Title="Budget Balance"/>
+                                                  DataPointStyle="{StaticResource BudgBalanceColumns}" Title="Budget Balance" LegendItemStyle="{StaticResource BudgetBalTDLLegendItem}" Background="#FFBA2AFD"/>
                             </DVC:Chart>
-
                             <Expander Grid.Row="3">
                                 <StackPanel Orientation="Horizontal">
                                     <ListBox Name="TDLselection" 

@@ -274,36 +274,9 @@ namespace ProjectManager
                     default:
                         break;
                 }
-                    /*
-                case "All":
-                    // Labor
-                    Add(new KeyValuePair<string, decimal>("Budget - Labor", BudgLab));
-                    Add(new KeyValuePair<string, decimal>("Funded - Labor", FundLab));
-                    Add(new KeyValuePair<string, decimal>("Expended - Labor", ExpLab));
-                    Add(new KeyValuePair<string, decimal>("Funds Remaining - Labor", FundBalLab));
-                    Add(new KeyValuePair<string, decimal>("Budget Remaining - Labor", BudgBalLab));
-                    // Travel
-                    Add(new KeyValuePair<string, decimal>("Budget - Travel", BudgTrv));
-                    Add(new KeyValuePair<string, decimal>("Funded - Travel", FundTrv));
-                    Add(new KeyValuePair<string, decimal>("Expended - Travel", ExpTrv));
-                    Add(new KeyValuePair<string, decimal>("Funds Remaining - Travel", FundBalTrv));
-                    Add(new KeyValuePair<string, decimal>("Budget Remaining - Travel", BudgBalTrv));
-                    // Material
-                    Add(new KeyValuePair<string, decimal>("Budget - Material", BudgMat));
-                    Add(new KeyValuePair<string, decimal>("Funded - Material", FundMat));
-                    Add(new KeyValuePair<string, decimal>("Expended - Material", ExpMat));
-                    Add(new KeyValuePair<string, decimal>("Funds Remaining - Material", FundBalMat));
-                    Add(new KeyValuePair<string, decimal>("Budget Remaining - Material", BudgBalMat));
-                    // Totals 
-                    Add(new KeyValuePair<string, decimal>("Budget - Total", BudgTotal));
-                    Add(new KeyValuePair<string, decimal>("Funded - Total", FundTotal));
-                    Add(new KeyValuePair<string, decimal>("Expended - Total", ExpTotal));
-                    Add(new KeyValuePair<string, decimal>("Funds Remaining - Total", FundBalTotal));
-                    Add(new KeyValuePair<string, decimal>("Budget Remaining - Total", BudgBalTotal));
-                    break;
-                    */
+           
                 }
-                if (_viewModel.SelectedTDL.TDL_No != null)
+                if (_viewModel.SelectedTDL != null)
             {
                 StringBuilder sb = new StringBuilder();
                 sb.Append("TDL ");
@@ -316,26 +289,7 @@ namespace ProjectManager
             }
 
             
-           
-            /*
-            switch (_viewModel.SelectedCat)
-            {
-                case "Labor":
-                    TDLSeries.DataPointStyle = Application.Current.FindResource("LaborColumns") as Style;
-                    break;
-                case "Travel":
-                    TDLSeries.DataPointStyle = Application.Current.FindResource("TravelColumns") as Style;
-                    break;
-                case "Material":
-                    TDLSeries.DataPointStyle = Application.Current.FindResource("MaterialColumns") as Style;
-                    break;
-                case "Totals":
-                    TDLSeries.DataPointStyle = Application.Current.FindResource("TotalsColumns") as Style;
-                    break;
-                default:
-                    break;
-            }
-            */
+     
         
     }
 }
