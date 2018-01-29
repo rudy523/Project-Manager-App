@@ -134,7 +134,7 @@
     <Style x:Key="NormalText" TargetType="TextBlock">
         <Setter Property="FontSize" Value="12" />
         <Setter Property="FontFamily" Value="Segoe UI"/>
-        <Setter Property="Foreground" Value="Black"/>
+        <Setter Property="Foreground" Value="White"/>
         <Setter Property="Margin" Value="10,5,5,5"/>
     </Style>
     

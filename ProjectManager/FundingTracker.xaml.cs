@@ -102,16 +102,6 @@ namespace ProjectManager
             _viewModel.UpdateFunding();
         }
 
-        private void ProjNum_MouseEnter(object sender, MouseEventArgs e)
-        {
-
-        }
-
-        private void CollectionViewSource_Filter(object sender, FilterEventArgs e)
-        {
-
-        }
-
         private void Filter_Button_Click(object sender, RoutedEventArgs e)
         {
             List<string> selectedEngineers = new List<string>();
@@ -288,8 +278,106 @@ namespace ProjectManager
             
             }
 
-            
-     
-        
+        private void MIPRFilter_Click(object sender, RoutedEventArgs e)
+        {
+            //   DateTime endDate
+            _viewModel.MIPRList.Clear();
+            _viewModel.miprsum.Clear();
+            bool current = false;
+            bool useWCD = false;
+            DateTime WCD = DateTime.Parse("1/1/1900");
+
+            if (FundCurrentCheck.IsChecked == true)
+            {
+                current = true;
+            }
+
+            if (FundCustomDateCheck.IsChecked == true)
+            {
+                useWCD = true;
+                WCD = (DateTime)WCDPick.SelectedDate;
+            }
+
+            List<string> SelectedEngineers = new List<string>();
+            foreach (var item in FundEngList.SelectedItems)
+            {
+                SelectedEngineers.Add(item.ToString());
+            }
+            _viewModel.myFunding.GenerateMIPRList(SelectedEngineers, current, useWCD, WCD);     
+
+            if (_viewModel.myFunding.MIPRs.Count == 0)
+            {
+                MIPRSummaryViewModel noresult = new MIPRSummaryViewModel("No Results! Check Search Parameters");
+                _viewModel.miprsum.Add(noresult);
+            }
+            else
+            {
+                foreach (var item in _viewModel.myFunding.MIPRs)
+                {
+                    _viewModel.MIPRList.Add(item);
+                }
+                foreach (var item in _viewModel.MIPRList)
+                {
+                    _viewModel.miprsum.Add(new MIPRSummaryViewModel(item));
+                }
+            }    
+        }
+
+        private void FundCurrentCheck_Click(object sender, RoutedEventArgs e)
+        {
+            FundCustomDateCheck.IsChecked = false;
+            WCDPick.IsEnabled = false;
+        }
+
+        private void FundCustomDateCheck_Click(object sender, RoutedEventArgs e)
+        {
+            FundCurrentCheck.IsChecked = false;
+            WCDPick.IsEnabled = true;
+        }
+
+        private void Show_Nums_Button_Click(object sender, RoutedEventArgs e)
+        {
+            _viewModel.ProjNumList.Clear();
+            List<string> SelectedMIPRs = new List<string>();
+            foreach (var num in MIPRList.SelectedItems)
+            {
+                MIPRSummaryViewModel mipr = (MIPRSummaryViewModel)num;
+                string miprnum = mipr.MIPRnum;
+                foreach (var item in _viewModel.MIPRList)
+                {
+                    if (item.MIPRnum == miprnum)
+                    {
+                        foreach (var projnum in item.ProjectNums)
+                        {
+                            _viewModel.ProjNumList.Add(projnum);
+                        }
+                    }
+                }
+            }        
+        }
+
+        private void Track_Nums_Button_Click(object sender, RoutedEventArgs e)
+        {
+            foreach (var item in ProjNumList.SelectedItems)
+            {
+                ProjNum num = (ProjNum)item;
+                _viewModel.TrackedProjNums.Add(num);
+            }
+            FundsGrid.Visibility = Visibility.Visible;
+            TrackedFunds.Visibility = Visibility.Visible;
+        }
+
+        private void Fund_Reset_Param_Button_Click(object sender, RoutedEventArgs e)
+        {
+            _viewModel.MIPRList.Clear();
+            _viewModel.miprsum.Clear();
+            _viewModel.ProjNumList.Clear();
+            FundCurrentCheck.IsChecked = false;
+            FundCustomDateCheck.IsChecked = false;
+            WCDPick.IsEnabled = false;
+            FundEngList.SelectedItems.Clear();
+            MIPRList.SelectedItem = null;
+            ProjNumList.SelectedItems.Clear();
+        }
     }
 }

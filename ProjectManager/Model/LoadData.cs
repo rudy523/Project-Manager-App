@@ -25,7 +25,20 @@ namespace ProjectManager.Model
         public ObservableCollection<MIPRNumber> UpdateProjectNumbersView { get; set; }
         public ObservableCollection<MIPR> MIPRcollection { get; set; }
         public ObservableCollection<MIPR> UpdateMIPRcollection { get; set; }
+        // Revamp properties
+        public ObservableCollection<string> EngineerList { get; set; }
+        public ObservableCollection<string> MIPRList { get; set; }
+        public ObservableCollection<MIPR> MIPRs { get; set; }
+        public ObservableCollection<ProjNum> ProjectNums { get; set; }
 
+        public LoadData()
+        {
+            //revamp
+            this.MIPRList = new ObservableCollection<string>();
+            this.ProjectNums = new ObservableCollection<ProjNum>();
+            this.MIPRs = new ObservableCollection<MIPR>();
+            GetFinancialData();
+        }
         public LoadData(string[] input)
         { 
             this.DistinctMIPRs = new List<string>();
@@ -38,7 +51,7 @@ namespace ProjectManager.Model
             DistinctMIPRs.Clear();
             ProjectNumbersView.Clear();
             MIPRcollection.Clear();
-            GetViewProjectNumbers(input);
+            GetViewProjectNumbers(input);                  
         }
 
         public void UpdateFunding()
@@ -47,11 +60,189 @@ namespace ProjectManager.Model
             UpdateProjectNumbersView.Clear();
             UpdateMIPRcollection.Clear();
             UpdateMIPRs.Clear();
-            //IEnumerable<string> nums = UpdateMIPRs.Distinct();
-            //UpdateMIPRs = nums.ToList();
             GetUpdateNumbers();
             UpdateMIPRs = DistinctMIPR(UpdateProjectNumbersView);
             GetUpdateMIPRs();
+            //revamp
+
+        }
+
+        private void GetFinancialData()
+        {
+            FinancialFeed = @"\\Scrdata\bah\Rudy\Workbook Development\Programming\Financial Workbook Project Totals.xml";
+            this.FinanceRoot = XElement.Load(FinancialFeed);
+            this.ProjectNumbers = FinanceRoot.Descendants();
+            this.ProjNumDetails = ProjectNumbers.Attributes();
+        }
+
+        private void GenerateEngineerList (IEnumerable<XElement> input)
+        {
+            List<string> allEngineers = new List<string>();
+            for (int i = 2; i < ProjectNumbers.Count(); i++)
+            {
+                IEnumerable<XAttribute> atts = input.ElementAt(i).Attributes();
+                allEngineers.Add(atts.ElementAt(14).ToString());
+            }
+            allEngineers.Sort();
+            IEnumerable<string> distinctEngineers = allEngineers.Distinct();
+            foreach (var item in distinctEngineers)
+            {
+                EngineerList.Add(item);
+            }
+        }
+
+        public void GenerateMIPRList(List<string> input, bool Current, bool useWCD, DateTime endDate)
+        {
+            // Generates list of MIPRs to display to UI for selection
+            if (Current == true)
+            {
+                MIPRList.Clear();
+                List<string> allMIPRs = new List<string>();
+                foreach (var item in input)
+                {
+                    IEnumerable<XElement> matches = from match in ProjNumDetails
+                                                    where match.Value == item
+                                                    select match.Parent;
+                    foreach (var data in matches)
+                    {
+                        IEnumerable<XAttribute> atts = data.Attributes();
+                        ProjNum num = new ProjNum(atts);
+                        if (num.WCD >= DateTime.Today)
+                        {
+                            allMIPRs.Add(num.MIPRnum);
+                        }
+                    }
+                }
+                allMIPRs.Sort();
+                IEnumerable<string> distinctMIPRs = allMIPRs.Distinct();
+                foreach (var item in distinctMIPRs)
+                {
+                    MIPRList.Add(item);
+                }
+                MIPRs.Clear();
+                foreach (var item in MIPRList)
+                {
+                    IEnumerable<XElement> matches = from match in ProjNumDetails
+                                                    where match.Value == item
+                                                    select match.Parent;
+                    List<ProjNum> nums = new List<ProjNum>();
+                    foreach (var data in matches)
+                    {
+                        IEnumerable<XAttribute> atts = data.Attributes();
+                        ProjNum num = new ProjNum(atts);
+                        nums.Add(num);
+                    }
+                    MIPR mipr = new Model.MIPR(item, nums);
+                    MIPRs.Add(mipr);
+                }
+                return;
+            }
+            if (useWCD == true)
+            {
+                MIPRList.Clear();
+                List<string> allMIPRs = new List<string>();
+                foreach (var item in input)
+                {
+                    IEnumerable<XElement> matches = from match in ProjNumDetails
+                                                    where match.Value == item
+                                                    select match.Parent;
+                    foreach (var data in matches)
+                    {
+                        IEnumerable<XAttribute> atts = data.Attributes();
+                        ProjNum num = new ProjNum(atts);
+                        if (num.WCD >= endDate)
+                        {
+                            allMIPRs.Add(num.MIPRnum);
+                        }
+                    }
+                }
+                allMIPRs.Sort();
+                IEnumerable<string> distinctMIPRs = allMIPRs.Distinct();
+                foreach (var item in distinctMIPRs)
+                {
+                    MIPRList.Add(item);
+                }
+                foreach (var item in distinctMIPRs)
+                {
+                    MIPRList.Add(item);
+                }
+                MIPRs.Clear();
+                foreach (var item in MIPRList)
+                {
+                    IEnumerable<XElement> matches = from match in ProjNumDetails
+                                                    where match.Value == item
+                                                    select match.Parent;
+                    List<ProjNum> nums = new List<ProjNum>();
+                    foreach (var data in matches)
+                    {
+                        IEnumerable<XAttribute> atts = data.Attributes();
+                        ProjNum num = new ProjNum(atts);
+                        nums.Add(num);
+                    }
+                    MIPR mipr = new Model.MIPR(item, nums);
+                    MIPRs.Add(mipr);
+                }
+                return;
+            }
+            else
+            {
+                MIPRList.Clear();
+                List<string> allMIPRs = new List<string>();
+                foreach (var item in input)
+                {
+                    IEnumerable<XElement> matches = from match in ProjNumDetails
+                                                    where match.Value == item
+                                                    select match.Parent;
+                    foreach (var data in matches)
+                    {
+                        IEnumerable<XAttribute> atts = data.Attributes();
+                        ProjNum num = new ProjNum(atts);
+                        allMIPRs.Add(num.MIPRnum);
+                    }
+                }
+                allMIPRs.Sort();
+                IEnumerable<string> distinctMIPRs = allMIPRs.Distinct();
+                foreach (var item in distinctMIPRs)
+                {
+                    MIPRList.Add(item);
+                }
+                foreach (var item in distinctMIPRs)
+                {
+                    MIPRList.Add(item);
+                }
+                MIPRs.Clear();
+                foreach (var item in MIPRList)
+                {
+                    IEnumerable<XElement> matches = from match in ProjNumDetails
+                                                    where match.Value == item
+                                                    select match.Parent;
+                    List<ProjNum> nums = new List<ProjNum>();
+                    foreach (var data in matches)
+                    {
+                        IEnumerable<XAttribute> atts = data.Attributes();
+                        ProjNum num = new ProjNum(atts);
+                        nums.Add(num);
+                    }
+                    MIPR mipr = new Model.MIPR(item, nums);
+                    MIPRs.Add(mipr);
+                }
+            }                      
+        }
+
+        public void GenerateProjNumList(List<string> input)
+        {
+            ProjectNums.Clear();
+            foreach (var item in input)
+            {
+                IEnumerable<XElement> matches = from match in ProjNumDetails
+                                                where match.Value == item
+                                                select match.Parent;
+                foreach (var data in matches)
+                {
+                    IEnumerable<XAttribute> atts = data.Attributes();
+                    ProjectNums.Add(new ProjNum(atts));
+                }
+            }
         }
 
         private void GetUpdateNumbers()
@@ -191,14 +382,6 @@ namespace ProjectManager.Model
             DistinctMIPRs = DistinctMIPR(ProjectNumbersView);
 
             GetMIPRcollection();
-        }
-
-        private void GetFinancialData()
-        {
-            FinancialFeed = @"\\Scrdata\bah\Rudy\Workbook Development\Programming\Financial Workbook Project Totals.xml";
-            this.FinanceRoot = XElement.Load(FinancialFeed);
-            this.ProjectNumbers = FinanceRoot.Descendants();
-            this.ProjNumDetails = ProjectNumbers.Attributes();
         }
 
         private void GetProjectNumberDetails(List<XAttribute> source, List<string> output)

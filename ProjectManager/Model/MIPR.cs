@@ -17,6 +17,7 @@ namespace ProjectManager.Model
 #region Properties
         public string MIPRnum { get; set; }
         public ObservableCollection<ProjectNumber> MIPRdetails { get; set; }
+        public List<ProjNum> ProjectNums { get; set; }
         #endregion
 
         #region Constructors
@@ -27,6 +28,17 @@ namespace ProjectManager.Model
         {
             MIPRnum = miprNum;
             MIPRdetails = miprDetails;
+        }
+
+        public MIPR(string miprNum, List<ProjNum> miprDetails)
+        {
+            MIPRnum = miprNum;
+            ProjectNums = miprDetails;
+        }
+
+        public MIPR(string miprNum)
+        {
+            MIPRnum = miprNum;
         }
 
         #endregion

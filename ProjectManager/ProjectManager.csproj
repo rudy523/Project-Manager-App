@@ -80,6 +80,7 @@
     <Compile Include="FundingTracker.xaml.cs">
       <DependentUpon>FundingTracker.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Model\ProjNum.cs" />
     <Compile Include="Model\tdlCat.cs" />
     <Compile Include="Model\DateConverter.cs" />
     <Compile Include="Model\LoadTDL.cs" />

@@ -3,6 +3,7 @@ using System.Windows.Data;
 using System.Collections.Generic;
 using System.Linq;
 using System.Globalization;
+using ProjectManager.Model;
 using System.Text.RegularExpressions;
 
 namespace ProjectManager.ViewModels
@@ -60,7 +61,78 @@ namespace ProjectManager.ViewModels
         // Empty constructor for XML Serializer (save function)
         public MIPRSummaryViewModel() { }
 
-            public MIPRSummaryViewModel(string name, IEnumerable<DataGridViewModel> input)
+        public MIPRSummaryViewModel(string Name)
+        {
+            MIPRnum = Name;
+        }
+
+        public MIPRSummaryViewModel (MIPR input)
+        {
+            MIPRnum = input.MIPRnum;
+            ProjNum num = input.ProjectNums.ElementAt(0);
+            MIPRtotals = new decimal[24];
+            foreach (var item in input.ProjectNums)
+            {
+                MIPRtotals[0] += item.LabAlloc;
+                MIPRtotals[1] += item.MatAlloc;
+                MIPRtotals[2] += item.TrvAlloc;
+                MIPRtotals[3] += item.SvcAlloc;
+                MIPRtotals[4] += item.DivAlloc;
+                MIPRtotals[5] += item.CBAlloc;
+                MIPRtotals[6] += item.OtherAlloc;
+                MIPRtotals[7] += item.TotalAlloc;
+                MIPRtotals[8] += item.LabExp;
+                MIPRtotals[9] += item.MatExp;
+                MIPRtotals[10] += item.TrvExp;
+                MIPRtotals[11] += item.SvcExp;
+                MIPRtotals[12] += item.DivExp;
+                MIPRtotals[13] += item.CBExp;
+                MIPRtotals[14] += item.OtherExp;
+                MIPRtotals[15] += item.TotalExp;
+                MIPRtotals[16] += item.LabBal;
+                MIPRtotals[17] += item.MatBal;
+                MIPRtotals[18] += item.TrvBal;
+                MIPRtotals[19] += item.SvcBal;
+                MIPRtotals[20] += item.DivBal;
+                MIPRtotals[21] += item.CBBal;
+                MIPRtotals[22] += item.OtherBal;
+                MIPRtotals[23] += item.TotalBal;
+            }
+            BillingElem = num.BillingElem;
+            Appn = num.Appn;
+            AppnNo = num.AppnNo;
+            Program = num.Program;
+            Sponsor = num.Sponsor;
+            LabAlloc = MIPRtotals[0];
+            MatAlloc = MIPRtotals[1];
+            TrvAlloc = MIPRtotals[2];
+            SvcAlloc = MIPRtotals[3];
+            DivAlloc = MIPRtotals[4];
+            CBAlloc = MIPRtotals[5];
+            OtherAlloc = MIPRtotals[6];
+            TotalAlloc = MIPRtotals[7];
+            LabExp = MIPRtotals[8];
+            MatExp = MIPRtotals[9];
+            TrvExp = MIPRtotals[10];
+            SvcExp = MIPRtotals[11];
+            DivExp = MIPRtotals[12];
+            CBExp = MIPRtotals[13];
+            OtherExp = MIPRtotals[14];
+            TotalExp = MIPRtotals[15];
+            LabBal = MIPRtotals[16];
+            MatBal = MIPRtotals[17];
+            TrvBal = MIPRtotals[18];
+            SvcBal = MIPRtotals[19];
+            DivBal = MIPRtotals[20];
+            CBBal = MIPRtotals[21];
+            OtherBal = MIPRtotals[22];
+            TotalBal = MIPRtotals[23];
+            WCD = num.WCD;
+            AppnExp = num.AppnExp;
+            AcceptDate = num.AcceptDate;
+        }
+
+        public MIPRSummaryViewModel(string name, IEnumerable<DataGridViewModel> input)
             {
             MIPRnum = name;
             MIPRtotals = new decimal[24];

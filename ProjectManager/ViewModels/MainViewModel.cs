@@ -40,6 +40,15 @@ namespace ProjectManager.ViewModels
         public ObservableCollection<KeyValuePair<string, decimal>> Expended { get; set; }
         public ObservableCollection<KeyValuePair<string, decimal>> FundBalance { get; set; }
         public ObservableCollection<KeyValuePair<string, decimal>> BudgetBalance { get; set; }
+        //Funding revamp
+        public LoadData myFunding { get; set; }
+        public ObservableCollection<MIPR> MIPRList { get; set; }
+        public ObservableCollection<MIPRSummaryViewModel> miprsum { get; set; }
+        public ObservableCollection<ProjNum> ProjNumList { get; set; }
+        public ObservableCollection<ProjNum> TrackedProjNums { get; set; }
+
+
+        public string Tester { get; set; }
         #endregion
 
         public MainViewModel()    
@@ -51,6 +60,12 @@ namespace ProjectManager.ViewModels
             this.UpdateMIPRnums = new ObservableCollection<MIPRViewModel>();
             MIPRsummary = new ObservableCollection<MIPRSummaryViewModel>();
             TDLsetup();
+            // Funding revamp
+            this.myFunding = new LoadData();
+            MIPRList = new ObservableCollection<MIPR>();
+            this.ProjNumList = new ObservableCollection<ProjNum>();
+            this.miprsum = new ObservableCollection<MIPRSummaryViewModel>();
+            this.TrackedProjNums = new ObservableCollection<ProjNum>();
         }
 
         private void TDLsetup()
