@@ -8,6 +8,9 @@ using Microsoft.Win32;
 using ProjectManager.Model;
 using System.Collections.Generic;
 using System.Text;
+using System.Windows.Forms;
+using System.Linq;
+using System.Collections.ObjectModel;
 using System.Windows.Forms.DataVisualization.Charting;
 using System.IO;
 
@@ -28,39 +31,39 @@ namespace ProjectManager
             InitializeComponent();
             _viewModel = new MainViewModel();
             base.DataContext = _viewModel;
-            
+
         }
 
         private void SaveCommand_Executed(object sender, ExecutedRoutedEventArgs e)
-        {         
-                SaveLoadState.Save("SaveData.xml", _viewModel);               
+        {
+            SaveLoadState.Save("SaveData.xml", _viewModel);
         }
 
         private void SaveAsCommand_Executed(object sender, ExecutedRoutedEventArgs e)
         {
-            SaveFileDialog saveDlg = new SaveFileDialog();
+            Microsoft.Win32.SaveFileDialog saveDlg = new Microsoft.Win32.SaveFileDialog();
             saveDlg.RestoreDirectory = true;
             saveDlg.ShowDialog();
         }
 
         private void OpenCommand_Executed(object sender, ExecutedRoutedEventArgs e)
-        {           
-                _viewModel = SaveLoadState.Load("SaveData.xml");
-                _viewModel.ReinstateParentObjects();
-                DataContext = _viewModel;
-                FundingGrid.Visibility = Visibility.Visible;
-                MIPRdisplay.Visibility = Visibility.Visible;
+        {
+            _viewModel = SaveLoadState.Load("SaveData.xml");
+            _viewModel.ReinstateParentObjects();
+            DataContext = _viewModel;
+            FundingGrid.Visibility = Visibility.Visible;
+            //MIPRdisplay.Visibility = Visibility.Visible;
         }
 
         private void GetData_Click(object sender, RoutedEventArgs e)
         {
-   
+
             this.SearchCriteria = SearchBox.Text.Split(' ');
             _viewModel.SearchData(SearchCriteria);
             //base.DataContext = _viewModel;
-          
+
             //MIPRdisplay.ItemsSource = _viewModel.MIPRnums;
-            MIPRdisplay.Visibility = Visibility.Visible;         
+            //MIPRdisplay.Visibility = Visibility.Visible;         
         }
 
         private void ProjectNumberSelected(object sender, MouseButtonEventArgs e)
@@ -75,7 +78,7 @@ namespace ProjectManager
             {
                 FundingGrid.Visibility = Visibility.Visible;
             }
-            
+
         }
 
         private void Clear_Click(object sender, RoutedEventArgs e)
@@ -87,7 +90,7 @@ namespace ProjectManager
             _viewModel.MIPRsummary.Clear();
             SearchBox.Clear();
             FundingGrid.Visibility = Visibility.Hidden;
-            MIPRdisplay.Visibility = Visibility.Hidden;
+            //MIPRdisplay.Visibility = Visibility.Hidden;
         }
 
         private void ShowTree_Click(object sender, RoutedEventArgs e)
@@ -135,28 +138,28 @@ namespace ProjectManager
             {
                 selectedStart = (DateTime)StartDatePick.SelectedDate;
             }
-            
+
             else
             {
                 selectedStart = DateTime.Parse("1/1/1900");
             }
-         
+
             if (EndDatePick.SelectedDate != null)
             {
                 selectedEnd = (DateTime)EndDatePick.SelectedDate;
             }
-           
+
             else
             {
                 selectedEnd = DateTime.Parse("1/1/1900");
             }
-         
+
             _viewModel.myTDL.RunQuery(selectedEngineers, selectedContracts, useCurrent, selectedStart, selectedEnd);
 
             foreach (var item in _viewModel.myTDL.FilteredTDLs)
             {
                 _viewModel.filteredTDLs.Add(item);
-            }        
+            }
         }
 
         private void CurrentCheck_Click(object sender, RoutedEventArgs e)
@@ -264,9 +267,9 @@ namespace ProjectManager
                     default:
                         break;
                 }
-           
-                }
-                if (_viewModel.SelectedTDL != null)
+
+            }
+            if (_viewModel.SelectedTDL != null)
             {
                 StringBuilder sb = new StringBuilder();
                 sb.Append("TDL ");
@@ -274,9 +277,9 @@ namespace ProjectManager
                 sb.Append(" : ");
                 sb.Append(_viewModel.SelectedTDL.Description);
                 TDLChart.Title = sb;
-            } 
-            
             }
+
+        }
 
         private void MIPRFilter_Click(object sender, RoutedEventArgs e)
         {
@@ -303,7 +306,7 @@ namespace ProjectManager
             {
                 SelectedEngineers.Add(item.ToString());
             }
-            _viewModel.myFunding.GenerateMIPRList(SelectedEngineers, current, useWCD, WCD);     
+            _viewModel.myFunding.GenerateMIPRList(SelectedEngineers, current, useWCD, WCD);
 
             if (_viewModel.myFunding.MIPRs.Count == 0)
             {
@@ -320,7 +323,7 @@ namespace ProjectManager
                 {
                     _viewModel.miprsum.Add(new MIPRSummaryViewModel(item));
                 }
-            }    
+            }
         }
 
         private void FundCurrentCheck_Click(object sender, RoutedEventArgs e)
@@ -353,18 +356,58 @@ namespace ProjectManager
                         }
                     }
                 }
-            }        
+            }
         }
 
         private void Track_Nums_Button_Click(object sender, RoutedEventArgs e)
         {
-            foreach (var item in ProjNumList.SelectedItems)
+            if (ProjNumList.SelectedItems.Count > 0)
             {
-                ProjNum num = (ProjNum)item;
-                _viewModel.TrackedProjNums.Add(num);
+                List<ProjNum> tracklist = new List<ProjNum>();
+                // Move selected project numbers to Tracked Project Numbers
+                foreach (var item in ProjNumList.SelectedItems)
+                {
+                    ProjNum num = (ProjNum)item;
+                    _viewModel.TrackedProjNums.Add(num);
+                    tracklist.Add(num);
+                }
+                // Generate MIPR summary for selected project numbers
+                _viewModel.TrackedMIPR.Add(new MIPRSummaryViewModel(tracklist));
+                List<MIPRSummaryViewModel> miprsum = new List<MIPRSummaryViewModel>();
+                if (_viewModel.TrackedMIPR.Count() == 1)
+                {
+                    foreach (var item in _viewModel.TrackedMIPR)
+                    {
+                        miprsum.Add(item);
+                    }
+                    _viewModel.TrackedMIPR.Add(new MIPRSummaryViewModel(miprsum));
+                }
+
+                else if (_viewModel.TrackedMIPR.ElementAt(1).MIPRnum == "Project Total")
+                {
+                    _viewModel.TrackedMIPR.RemoveAt(1);
+                    foreach (var item in _viewModel.TrackedMIPR)
+                    {
+                        miprsum.Add(item);
+                    }
+                    _viewModel.TrackedMIPR.Add(new MIPRSummaryViewModel(miprsum));
+                }
+
+                // Unhide UI elements
+                FundsGrid.Visibility = Visibility.Visible;
+                TrackedFunds.Visibility = Visibility.Visible;
             }
-            FundsGrid.Visibility = Visibility.Visible;
-            TrackedFunds.Visibility = Visibility.Visible;
+            else
+            {
+                System.Windows.Forms.MessageBox.Show("Select Project Numbers to Track");
+            }
+
+            // Add inital key value pairs (totals) for graphing
+            /*
+            _viewModel.FundingFunded.Add(new KeyValuePair<string, decimal>("Labor", _viewModel.SelectedMIPR.FundLab));
+            _viewModel.FundingExpended.Add(new KeyValuePair<string, decimal>("Labor", _viewModel.SelectedMIPR.ExpLab));
+            _viewModel.FundingBalance.Add(new KeyValuePair<string, decimal>("Labor", _viewModel.SelectedMIPR.FundBalLab));
+            */
         }
 
         private void Fund_Reset_Param_Button_Click(object sender, RoutedEventArgs e)
@@ -378,6 +421,76 @@ namespace ProjectManager
             FundEngList.SelectedItems.Clear();
             MIPRList.SelectedItem = null;
             ProjNumList.SelectedItems.Clear();
+        }
+
+        private void TrackedMIPRdisplay_SelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
+        {
+            try
+            {
+                MIPRSummaryViewModel selection = (MIPRSummaryViewModel)TrackedMIPRdisplay.SelectedItem;
+                _viewModel.SelectedMIPR = selection;
+            }
+            catch (Exception)
+            {
+                ProjNum selection = (ProjNum)TrackedMIPRdisplay.SelectedItem;
+                _viewModel.SelectedProjNum = selection;
+            }
+        }
+
+        private void FundCategoryPick_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
+        {
+            if (_viewModel.SelectedMIPR != null)
+            {
+                _viewModel.FundingFunded.Clear();
+                _viewModel.FundingExpended.Clear();
+                _viewModel.FundingBalance.Clear();
+
+                switch (_viewModel.SelectedCat)
+                {
+                    case "Labor":
+                        _viewModel.FundingFunded.Add(new KeyValuePair<string, decimal>("Labor", _viewModel.SelectedMIPR.LabAlloc));
+                        _viewModel.FundingExpended.Add(new KeyValuePair<string, decimal>("Labor", _viewModel.SelectedMIPR.LabExp));
+                        _viewModel.FundingBalance.Add(new KeyValuePair<string, decimal>("Labor", _viewModel.SelectedMIPR.LabBal));
+                        break;
+                    case "Travel":
+                        _viewModel.FundingFunded.Add(new KeyValuePair<string, decimal>("Travel", _viewModel.SelectedMIPR.TrvAlloc));
+                        _viewModel.FundingExpended.Add(new KeyValuePair<string, decimal>("Travel", _viewModel.SelectedMIPR.TrvExp));
+                        _viewModel.FundingBalance.Add(new KeyValuePair<string, decimal>("Travel", _viewModel.SelectedMIPR.TrvBal));
+                        break;
+                    case "Material":
+                        _viewModel.FundingFunded.Add(new KeyValuePair<string, decimal>("Material", _viewModel.SelectedMIPR.MatAlloc));
+                        _viewModel.FundingExpended.Add(new KeyValuePair<string, decimal>("Material", _viewModel.SelectedMIPR.MatExp));
+                        _viewModel.FundingBalance.Add(new KeyValuePair<string, decimal>("Material", _viewModel.SelectedMIPR.MatBal));
+                        break;
+                    case "Services":
+                        _viewModel.FundingFunded.Add(new KeyValuePair<string, decimal>("Services", _viewModel.SelectedMIPR.SvcAlloc));
+                        _viewModel.FundingExpended.Add(new KeyValuePair<string, decimal>("Services", _viewModel.SelectedMIPR.SvcExp));
+                        _viewModel.FundingBalance.Add(new KeyValuePair<string, decimal>("Services", _viewModel.SelectedMIPR.SvcBal));
+                        break;
+                    case "Division":
+                        _viewModel.FundingFunded.Add(new KeyValuePair<string, decimal>("Division", _viewModel.SelectedMIPR.DivAlloc));
+                        _viewModel.FundingExpended.Add(new KeyValuePair<string, decimal>("Division", _viewModel.SelectedMIPR.DivExp));
+                        _viewModel.FundingBalance.Add(new KeyValuePair<string, decimal>("Division", _viewModel.SelectedMIPR.DivBal));
+                        break;
+                    case "CB":
+                        _viewModel.FundingFunded.Add(new KeyValuePair<string, decimal>("CB", _viewModel.SelectedMIPR.CBAlloc));
+                        _viewModel.FundingExpended.Add(new KeyValuePair<string, decimal>("CB", _viewModel.SelectedMIPR.CBExp));
+                        _viewModel.FundingBalance.Add(new KeyValuePair<string, decimal>("CB", _viewModel.SelectedMIPR.CBBal));
+                        break;
+                    case "Other":
+                        _viewModel.FundingFunded.Add(new KeyValuePair<string, decimal>("Other", _viewModel.SelectedMIPR.OtherAlloc));
+                        _viewModel.FundingExpended.Add(new KeyValuePair<string, decimal>("Other", _viewModel.SelectedMIPR.OtherExp));
+                        _viewModel.FundingBalance.Add(new KeyValuePair<string, decimal>("Other", _viewModel.SelectedMIPR.OtherBal));
+                        break;
+                    case "Total":
+                        _viewModel.FundingFunded.Add(new KeyValuePair<string, decimal>("Total", _viewModel.SelectedMIPR.TotalAlloc));
+                        _viewModel.FundingExpended.Add(new KeyValuePair<string, decimal>("Total", _viewModel.SelectedMIPR.TotalExp));
+                        _viewModel.FundingBalance.Add(new KeyValuePair<string, decimal>("Total", _viewModel.SelectedMIPR.TotalBal));
+                        break;
+                    default:
+                        break;
+                }
+            }
         }
     }
 }

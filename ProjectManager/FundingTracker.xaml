@@ -14,9 +14,11 @@
         Title="Funding Tracker" Background="#FF413F42">
 
     <Window.Resources>
+        
         <Model:CurrencyConverter x:Key="CurrencyConverter"/>
         <Model:PercentageConverter x:Key="PercentageConverter"/>
         <Model:DateConverter x:Key="DateConverter"/>
+
         <CollectionViewSource x:Key="cvGridData" Source="{Binding Path=GridData}">
             <CollectionViewSource.SortDescriptions>
                 <scm:SortDescription PropertyName="MIPRnum"/>
@@ -25,7 +27,6 @@
                 <PropertyGroupDescription PropertyName="MIPRnum" x:Name="MIPRgroup"/>
             </CollectionViewSource.GroupDescriptions>
         </CollectionViewSource>
-        
         <CollectionViewSource x:Key="cvTDLData" Source="{Binding Path=TrackedTDLs}">
             <CollectionViewSource.SortDescriptions>
                 <scm:SortDescription PropertyName="Contract"/>
@@ -34,7 +35,6 @@
                 <PropertyGroupDescription PropertyName="Contract" x:Name="Contractgroup"/>
             </CollectionViewSource.GroupDescriptions>
         </CollectionViewSource>
-
         <CollectionViewSource x:Key="cvFundData" Source="{Binding Path=TrackedProjNums}">
             <CollectionViewSource.SortDescriptions>
                 <scm:SortDescription PropertyName="MIPRnum"/>
@@ -43,10 +43,15 @@
                 <PropertyGroupDescription PropertyName="MIPRnum" x:Name="Fundgroup"/>
             </CollectionViewSource.GroupDescriptions>
         </CollectionViewSource>
-
+        
         <ObjectDataProvider x:Key="tdlCatProvider" ObjectType="{x:Type System:Enum}" MethodName="GetValues">
             <ObjectDataProvider.MethodParameters>
                 <x:Type TypeName="Model:tdlCat"/>
+            </ObjectDataProvider.MethodParameters>
+        </ObjectDataProvider>
+        <ObjectDataProvider x:Key="fundCatProvider" ObjectType="{x:Type System:Enum}" MethodName="GetValues">
+            <ObjectDataProvider.MethodParameters>
+                <x:Type TypeName="Model:fundCat"/>
             </ObjectDataProvider.MethodParameters>
         </ObjectDataProvider>
 
@@ -124,50 +129,79 @@
                     <ScrollViewer VerticalAlignment="Stretch" Foreground="#FF1CCD0B">
                         <Grid Background="{StaticResource StandardBackground}">
                             <Grid.RowDefinitions>
-                                <RowDefinition Height="*"/>
-                                <RowDefinition Height="*"/>
-                                <RowDefinition Height="*"/>
-                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
                             </Grid.RowDefinitions>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
-                            <DVC:Chart Name="FundingChart" Margin="10,5,5,5" Title="Current Project Funding" Style="{StaticResource LineChart}" PlotAreaStyle="{StaticResource LineChartPlotArea}"
-                       LegendStyle="{StaticResource ChartLegend}" TitleStyle="{StaticResource LineChartTitle}" Background="#FF3A3838" Padding="25,20,25,5" Grid.ColumnSpan="6">
-                                <DVC:Chart.Axes>
-                                    <DVC:LinearAxis AxisLabelStyle="{StaticResource LineChartAxisLabel}" Orientation="Y" ShowGridLines="True" ExtendRangeToOrigin="True"/>
-                                    <DVC:DateTimeAxis AxisLabelStyle="{StaticResource LineChartAxisLabel}" Orientation="X" Interval="1" IntervalType="Months"/>
-                                </DVC:Chart.Axes>
-                                <DVC:LineSeries x:Name="FundingSeries" ItemsSource="{Binding ChartDataModel}" IndependentValueBinding="{Binding Date}" DependentValueBinding="{Binding FundedPointValue}" 
-                                    Title="Funded Amount" DataPointStyle="{StaticResource FundedDataPointStyle}" LegendItemStyle="{StaticResource FundedLineChartLegendItem}"/>
-                                <DVC:LineSeries x:Name="ExpendedSeries" ItemsSource="{Binding ChartDataModel}" IndependentValueBinding="{Binding Date}" DependentValueBinding="{Binding ExpendedPointValue}" 
-                                Title="Expended Amount" LegendItemStyle="{StaticResource ExpendedLineChartLegendItem}" DataPointStyle="{StaticResource ExpendedDataPointStyle}"/>
-                                <DVC:LineSeries x:Name="BalanceSeries" ItemsSource="{Binding ChartDataModel}" IndependentValueBinding="{Binding Date}" DependentValueBinding="{Binding BalancePointValue}" 
-                                Title="Balance Amount" LegendItemStyle="{StaticResource BalanceLineChartLegendItem}" DataPointStyle="{StaticResource BalanceDataPointStyle}"/>
-                            </DVC:Chart>
                             <Expander Grid.Row="1">
-                                <StackPanel Orientation="Horizontal">
-                                    <ListBox Name="MIPRselection" 
-                            Background="#FF3A3838"
-                            Margin="10,0,5,5"
-                            BorderBrush="Black"
-                            BorderThickness="1,1,0,1"
-                            Foreground="FloralWhite"
-                            ItemsSource="{Binding MIPRsummary}" 
-                            DisplayMemberPath="MIPRnum"
-                            ItemContainerStyle="{StaticResource MIPRselector}"
-                            >
-                                    </ListBox>
-                                    <ListBox Name="MIPRdetails1" 
-                            Grid.Column="1"
-                            Background="#FF3A3838"
-                            Margin="-6,0,5,5"
-                            BorderBrush="Black"
-                            BorderThickness="0,1,0,1"
-                            Foreground="FloralWhite"
-                            FontSize="14"    
-                            DataContext="{Binding ElementName=MIPRselection, Path=SelectedItem}"           
-                            >
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                    </Grid.ColumnDefinitions>
+                                    
+                                    <StackPanel Orientation="Vertical">
+                                        <Label Content="Project Funding" FontSize="16" Foreground="White" Background="Transparent"/>
+                                        <TreeView   x:Name="TrackedMIPRdisplay" Background="Transparent" Visibility="Visible" AlternationCount="2" BorderBrush="Transparent"
+                                                ItemsSource="{Binding TrackedMIPR}" ScrollViewer.VerticalScrollBarVisibility="Auto" Margin="10,5,5,5" SelectedItemChanged="TrackedMIPRdisplay_SelectedItemChanged">
+                                            <TreeView.ItemContainerStyle>
+                                                <Style TargetType="{x:Type TreeViewItem}">
+                                                    <Setter Property="IsExpanded" Value="{Binding IsExpanded, Mode=TwoWay}"/>
+                                                    <Setter Property="FontSize" Value="14" />
+                                                    <Setter Property="FontFamily" Value="Segoe UI"/>
+                                                    <Setter Property="Background" Value="Transparent"/>
+                                                    <Setter Property="Foreground" Value="White"/>
+                                                    <Setter Property="IsSelected" Value="{Binding SelectedMIPR}"/>
+                                                    <Style.Triggers>
+                                                        <Trigger Property="IsSelected" Value="True">
+                                                            <Setter Property="FontWeight" Value="Bold"/>
+                                                        </Trigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </TreeView.ItemContainerStyle>
+                                            <TreeView.ItemTemplate>
+                                                <HierarchicalDataTemplate ItemsSource="{Binding Children}" x:Name="ProjNumTreelist">
+                                                    <StackPanel Orientation="Horizontal">
+                                                        <TextBlock Text="{Binding MIPRnum}"/>
+                                                    </StackPanel>
+                                                    <HierarchicalDataTemplate.ItemTemplate>
+                                                        <DataTemplate>
+                                                            <StackPanel Orientation="Horizontal">
+                                                                <TextBlock Text="{Binding Projnum}"/>
+                                                            </StackPanel>
+                                                        </DataTemplate>
+                                                    </HierarchicalDataTemplate.ItemTemplate>
+                                                </HierarchicalDataTemplate>
+                                            </TreeView.ItemTemplate>
+                                        </TreeView>
+                                    </StackPanel>
+
+                                    <StackPanel Orientation="Vertical" Grid.Column="1" Grid.ColumnSpan="6">
+                                    <Label Content="Funding Details" FontSize="16" Foreground="White" Background="Transparent" BorderBrush="White" BorderThickness="0,0,0,1" />
+                                        <StackPanel Orientation="Horizontal" Grid.ColumnSpan="6">
+                                    <ListBox Name="DBMIPRfunddetails1"     
+                                        BorderBrush="Transparent"
+                                        Background="Transparent"
+                                        Foreground="White"
+                                        FontSize="12"                                               
+                                        DataContext="{Binding ElementName=TrackedMIPRdisplay, Path=SelectedItem}"
+                                        >
+                                        <TextBlock Text="{Binding MIPRnum, StringFormat= MIPR Number: {0}}"/>
+                                        <TextBlock Text="{Binding Projnum, StringFormat= Project Number: {0}}"/>
                                         <TextBlock Text="{Binding BillingElem, StringFormat= Billing Element: {0}}"/>
                                         <TextBlock Text="{Binding Appn, StringFormat= Appn: {0}}"/>
                                         <TextBlock Text="{Binding AppnNo, StringFormat= Appn No: {0}}"/>
@@ -177,83 +211,75 @@
                                         <TextBlock Text="{Binding AppnExp, StringFormat= Appn Expiration: {0}, Converter={StaticResource DateConverter}}"/>
                                         <TextBlock Text="{Binding AcceptDate, StringFormat= Acceptance Date: {0}, Converter={StaticResource DateConverter}}"/>
                                     </ListBox>
-                                    <ListBox Name="MIPRdetails2" 
-                            Grid.Column="2"
-                            Background="#FF3A3838"
-                            Margin="-6,0,5,5"
-                            BorderBrush="Black"
-                            BorderThickness="0,1,0,1"
-                            Foreground="FloralWhite"
-                            FontSize="14"    
-                            DataContext="{Binding ElementName=MIPRselection, Path=SelectedItem}"           
-                            >
-                                        <TextBlock Text="{Binding LabAlloc, StringFormat= Labor Allocated: {0}, Converter={StaticResource CurrencyConverter}}"/>
-                                        <TextBlock Text="{Binding MatAlloc, StringFormat= Material Allocated: {0}, Converter={StaticResource CurrencyConverter}}"/>
-                                        <TextBlock Text="{Binding TrvAlloc, StringFormat= Travel Allocated: {0}, Converter={StaticResource CurrencyConverter}}"/>
-                                        <TextBlock Text="{Binding SvcAlloc, StringFormat= Services Allocated: {0}, Converter={StaticResource CurrencyConverter}}"/>
-                                        <TextBlock Text="{Binding DivAlloc, StringFormat= Division Allocated: {0}, Converter={StaticResource CurrencyConverter}}"/>
-                                        <TextBlock Text="{Binding CBAlloc, StringFormat= Charge Back Allocated: {0}, Converter={StaticResource CurrencyConverter}}"/>
-                                        <TextBlock Text="{Binding OtherAlloc, StringFormat= Other Allocated: {0}, Converter={StaticResource CurrencyConverter}}"/>
-                                        <TextBlock Text="{Binding TotalAlloc, StringFormat= Total Allocated: {0}, Converter={StaticResource CurrencyConverter}}"/>
+                                    <ListBox Name="DBMIPRfunddetails2" 
+                                                BorderBrush="Transparent"
+                                                Background="Transparent"
+                                                Foreground="White"
+                                                FontSize="12"    
+                                                DataContext="{Binding ElementName=TrackedMIPRdisplay, Path=SelectedItem}"       
+                                                >
+                                        <TextBlock Text="{Binding LabAlloc, StringFormat= Project Labor Allocated: {0}, Converter={StaticResource CurrencyConverter}}"/>
+                                        <TextBlock Text="{Binding MatAlloc, StringFormat= Project Material Allocated: {0}, Converter={StaticResource CurrencyConverter}}"/>
+                                        <TextBlock Text="{Binding TrvAlloc, StringFormat= Project Travel Allocated: {0}, Converter={StaticResource CurrencyConverter}}"/>
+                                        <TextBlock Text="{Binding SvcAlloc, StringFormat= Project Services Allocated: {0}, Converter={StaticResource CurrencyConverter}}"/>
+                                        <TextBlock Text="{Binding DivAlloc, StringFormat= Project Division Allocated: {0}, Converter={StaticResource CurrencyConverter}}"/>
+                                        <TextBlock Text="{Binding CBAlloc, StringFormat= Project Charge Back Allocated: {0}, Converter={StaticResource CurrencyConverter}}"/>
+                                        <TextBlock Text="{Binding OtherAlloc, StringFormat= Project Other Allocated: {0}, Converter={StaticResource CurrencyConverter}}"/>
+                                        <TextBlock Text="{Binding TotalAlloc, StringFormat= Project Total Allocated: {0}, Converter={StaticResource CurrencyConverter}}"/>
                                     </ListBox>
-                                    <ListBox Name="MIPRdetails3"   
-                            Grid.Column="3"
-                            Background="#FF3A3838"
-                            Margin="-6,0,5,5"
-                            BorderBrush="Black"
-                            BorderThickness="0,1,0,1"
-                            Foreground="FloralWhite"
-                            FontSize="14"    
-                            DataContext="{Binding ElementName=MIPRselection, Path=SelectedItem}"           
-                            >
-                                        <TextBlock Text="{Binding LabExp, StringFormat= Labor Expended: {0}, Converter={StaticResource CurrencyConverter}}"/>
-                                        <TextBlock Text="{Binding MatExp, StringFormat= Material Expended: {0}, Converter={StaticResource CurrencyConverter}}"/>
-                                        <TextBlock Text="{Binding TrvExp, StringFormat= Travel Expended: {0}, Converter={StaticResource CurrencyConverter}}"/>
-                                        <TextBlock Text="{Binding SvcExp, StringFormat= Services Expended: {0}, Converter={StaticResource CurrencyConverter}}"/>
-                                        <TextBlock Text="{Binding DivExp, StringFormat= Division Expended: {0}, Converter={StaticResource CurrencyConverter}}"/>
-                                        <TextBlock Text="{Binding CBExp, StringFormat= Charge Back Expended: {0}, Converter={StaticResource CurrencyConverter}}"/>
-                                        <TextBlock Text="{Binding OtherExp, StringFormat= Other Expended: {0}, Converter={StaticResource CurrencyConverter}}"/>
-                                        <TextBlock Text="{Binding TotalExp, StringFormat= Total Expended: {0}, Converter={StaticResource CurrencyConverter}}"/>
+                                    <ListBox Name="DBMIPRfunddetails3"   
+                                                BorderBrush="Transparent"
+                                                Background="Transparent"
+                                                Foreground="White"
+                                                FontSize="12"    
+                                                DataContext="{Binding ElementName=TrackedMIPRdisplay, Path=SelectedItem}"       
+                                                >
+                                        <TextBlock Text="{Binding LabExp, StringFormat= Project Labor Expended: {0}, Converter={StaticResource CurrencyConverter}}"/>
+                                        <TextBlock Text="{Binding MatExp, StringFormat= Project Material Expended: {0}, Converter={StaticResource CurrencyConverter}}"/>
+                                        <TextBlock Text="{Binding TrvExp, StringFormat= Project Travel Expended: {0}, Converter={StaticResource CurrencyConverter}}"/>
+                                        <TextBlock Text="{Binding SvcExp, StringFormat= Project Services Expended: {0}, Converter={StaticResource CurrencyConverter}}"/>
+                                        <TextBlock Text="{Binding DivExp, StringFormat= Project Division Expended: {0}, Converter={StaticResource CurrencyConverter}}"/>
+                                        <TextBlock Text="{Binding CBExp, StringFormat= Project Charge Back Expended: {0}, Converter={StaticResource CurrencyConverter}}"/>
+                                        <TextBlock Text="{Binding OtherExp, StringFormat= Project Other Expended: {0}, Converter={StaticResource CurrencyConverter}}"/>
+                                        <TextBlock Text="{Binding TotalExp, StringFormat= Project Total Expended: {0}, Converter={StaticResource CurrencyConverter}}"/>
                                     </ListBox>
-                                    <ListBox Name="MIPRdetails4" 
-                            Grid.Column="4" 
-                            Background="#FF3A3838"
-                            Margin="-6,0,5,5"
-                            BorderBrush="Black"
-                            BorderThickness="0,1,0,1"
-                            Foreground="FloralWhite"
-                            FontSize="14"    
-                            DataContext="{Binding ElementName=MIPRselection, Path=SelectedItem}"           
-                            >
-                                        <TextBlock Text="{Binding LabBal, StringFormat= Labor Balance: {0}, Converter={StaticResource CurrencyConverter}}"/>
-                                        <TextBlock Text="{Binding MatBal, StringFormat= Material Balance: {0}, Converter={StaticResource CurrencyConverter}}"/>
-                                        <TextBlock Text="{Binding TrvBal, StringFormat= Travel Balance: {0}, Converter={StaticResource CurrencyConverter}}"/>
-                                        <TextBlock Text="{Binding SvcBal, StringFormat= Services Balance: {0}, Converter={StaticResource CurrencyConverter}}"/>
-                                        <TextBlock Text="{Binding DivBal, StringFormat= Division Balance: {0}, Converter={StaticResource CurrencyConverter}}"/>
-                                        <TextBlock Text="{Binding CBBal, StringFormat= Charge Back Balance: {0}, Converter={StaticResource CurrencyConverter}}"/>
-                                        <TextBlock Text="{Binding OtherBal, StringFormat= Other Balance: {0}, Converter={StaticResource CurrencyConverter}}"/>
-                                        <TextBlock Text="{Binding TotalBal, StringFormat= Total Balance: {0}, Converter={StaticResource CurrencyConverter}}"/>
+                                    <ListBox Name="DBMIPRfunddetails4" 
+                                                BorderBrush="Transparent"
+                                                Background="Transparent"
+                                                Foreground="White"
+                                                FontSize="12"    
+                                                DataContext="{Binding ElementName=TrackedMIPRdisplay, Path=SelectedItem}"    
+                                                >
+                                        <TextBlock Text="{Binding LabBal, StringFormat= Project Labor Balance: {0}, Converter={StaticResource CurrencyConverter}}"/>
+                                        <TextBlock Text="{Binding MatBal, StringFormat= Project Material Balance: {0}, Converter={StaticResource CurrencyConverter}}"/>
+                                        <TextBlock Text="{Binding TrvBal, StringFormat= Project Travel Balance: {0}, Converter={StaticResource CurrencyConverter}}"/>
+                                        <TextBlock Text="{Binding SvcBal, StringFormat= Project Services Balance: {0}, Converter={StaticResource CurrencyConverter}}"/>
+                                        <TextBlock Text="{Binding DivBal, StringFormat= Project Division Balance: {0}, Converter={StaticResource CurrencyConverter}}"/>
+                                        <TextBlock Text="{Binding CBBal, StringFormat= Project Charge Back Balance: {0}, Converter={StaticResource CurrencyConverter}}"/>
+                                        <TextBlock Text="{Binding OtherBal, StringFormat= Project Other Balance: {0}, Converter={StaticResource CurrencyConverter}}"/>
+                                        <TextBlock Text="{Binding TotalBal, StringFormat= Project Total Balance: {0}, Converter={StaticResource CurrencyConverter}}"/>
                                     </ListBox>
-                                    <ListBox Name="MIPRdetails5" 
-                            Grid.Column="5" 
-                            Background="#FF3A3838"
-                            Margin="-6,0,5,5"
-                            BorderBrush="Black"
-                            BorderThickness="0,1,1,1"
-                            Foreground="FloralWhite"
-                            FontSize="14"    
-                            DataContext="{Binding ElementName=MIPRselection, Path=SelectedItem}"           
-                            >
-                                        <TextBlock Text="{Binding TotalWR, StringFormat= Total Reimbursable: {0}, Converter={StaticResource CurrencyConverter}}"/>
-                                        <TextBlock Text="{Binding TotalDC, StringFormat= Total Direct Cite: {0}, Converter={StaticResource CurrencyConverter}}"/>
-                                        <TextBlock Text="{Binding TotalPO, StringFormat= Total Project Order: {0}, Converter={StaticResource CurrencyConverter}}"/>
-                                        <TextBlock Text="{Binding PercentWR, StringFormat= Percent Reimbursable: {0}, Converter={StaticResource PercentageConverter}}"/>
-                                        <TextBlock Text="{Binding PercentDC, StringFormat= Percent Direct Cite: {0}, Converter={StaticResource PercentageConverter}}"/>
-                                        <TextBlock Text="{Binding PercentPO, StringFormat= Percent Project Order: {0}, Converter={StaticResource PercentageConverter}}"/>
-                                        <TextBlock Text="{Binding PercentExp, StringFormat= Percent Expended: {0}, Converter={StaticResource PercentageConverter}}"/>
-                                        <TextBlock Text="{Binding PercentRem, StringFormat= Percent Remaining: {0}, Converter={StaticResource PercentageConverter}}"/>
-                                    </ListBox>
-                                </StackPanel>
+                                        </StackPanel>
+                                        <DVC:Chart x:Name="MIPRSnapChart" Margin="10,5,5,5" Style="{StaticResource MIPRsnapChart}" PlotAreaStyle="{StaticResource LineChartPlotArea}" 
+                                        LegendStyle="{StaticResource ChartLegend}" TitleStyle="{StaticResource LineChartTitle}" Background="#FF3A3838" Padding="25,20,25,5" 
+                                        >
+                                            <DVC:Chart.Axes>
+                                                <DVC:LinearAxis AxisLabelStyle="{StaticResource LineChartAxisLabel}" Orientation="Y" ShowGridLines="True" ExtendRangeToOrigin="True" Minimum="0"/>
+                                                <DVC:CategoryAxis AxisLabelStyle="{StaticResource TDLChartAxisLabel}" Orientation="X" ShowGridLines="True"/>
+                                            </DVC:Chart.Axes>
+
+                                            <DVC:ColumnSeries x:Name="FundSeriesAllocated" ItemsSource ="{Binding FundingFunded}"  IndependentValuePath="Key" DependentValuePath="Value" 
+                                                  DataPointStyle="{StaticResource BudgetColumns}" Title="Allocated" LegendItemStyle="{StaticResource BudgetTDLLegendItem}" Background="{StaticResource Brush1}"/>
+                                            <DVC:ColumnSeries x:Name="FundSeriesExp" ItemsSource="{Binding FundingExpended}" IndependentValuePath="Key" DependentValuePath="Value"
+                                                  DataPointStyle="{StaticResource FundedColumns}" Title="Expended" LegendItemStyle="{StaticResource FundedTDLLegendItem}" Background="{StaticResource Brush2}" />
+                                            <DVC:ColumnSeries x:Name="FundSeriesBal" ItemsSource="{Binding FundingBalance}" IndependentValuePath="Key" DependentValuePath="Value"
+                                                  DataPointStyle="{StaticResource ExpendedColumns}" Title="Balance" LegendItemStyle="{StaticResource ExpendedTDLLegendItem}" Background="{StaticResource Brush3}"/>
+                                        </DVC:Chart>
+                                    </StackPanel>
+                                   
+
+
+                                </Grid>
                             </Expander>
                             <DVC:Chart x:Name="TDLChart" Margin="10,5,5,5" Style="{StaticResource BarChart}" PlotAreaStyle="{StaticResource LineChartPlotArea}" 
                                         LegendStyle="{StaticResource ChartLegend}" TitleStyle="{StaticResource LineChartTitle}" Background="#FF3A3838" Padding="25,20,25,5" Grid.Row="2"
@@ -461,7 +487,6 @@
                                 <ColumnDefinition Width="Auto"/>
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
-
                             <Label Content="MIPR Details" FontSize="16" Foreground="White" Background="Transparent" BorderBrush="White" BorderThickness="0,0,0,1" Grid.ColumnSpan="5"/>
                             <ListBox Name="MIPRfunddetails1"     
                             BorderBrush="Transparent"
@@ -1061,7 +1086,7 @@
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
                         <GridSplitter Grid.Column="1" Width="3" HorizontalAlignment="Center" Grid.Row="1" Margin="0,0,5,0" Background="DodgerBlue"/>
-                        <TreeView Name="MIPRdisplay" Background="Transparent" BorderBrush="Transparent"  Visibility="Hidden" AlternationCount="2" 
+                        <TreeView Name="FundingDisplay" Background="Transparent" BorderBrush="Transparent"  Visibility="Hidden" AlternationCount="2" 
                         ItemsSource="{Binding MIPRnums}" ScrollViewer.VerticalScrollBarVisibility="Auto" Margin="10,5,5,5" Grid.Row="1">
                             <TreeView.ItemContainerStyle>
                                 <Style TargetType="{x:Type TreeViewItem}">

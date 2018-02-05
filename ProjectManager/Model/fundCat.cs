@@ -6,8 +6,9 @@ using System.Threading.Tasks;
 
 namespace ProjectManager.Model
 {
-    public enum tdlCat
+    public enum fundCat
     {
-        Labor, Travel, Material, Totals
+        Labor, Travel, Material, Services, Division, CB, Other, Total
     }
 }
+

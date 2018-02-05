@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Globalization;
 using ProjectManager.Model;
+using System.Collections.ObjectModel;
 using System.Text.RegularExpressions;
 
 namespace ProjectManager.ViewModels
@@ -54,18 +55,17 @@ namespace ProjectManager.ViewModels
         public decimal PercentPO { get; set; }
         public decimal PercentExp { get; set; }
         public decimal PercentRem { get; set; }
+        public List<ProjNum> Children { get; set; }
+        public string Projnum { get; set; }
         #endregion
 
         #region Constructors
-
         // Empty constructor for XML Serializer (save function)
         public MIPRSummaryViewModel() { }
-
         public MIPRSummaryViewModel(string Name)
         {
             MIPRnum = Name;
         }
-
         public MIPRSummaryViewModel (MIPR input)
         {
             MIPRnum = input.MIPRnum;
@@ -127,11 +127,155 @@ namespace ProjectManager.ViewModels
             CBBal = MIPRtotals[21];
             OtherBal = MIPRtotals[22];
             TotalBal = MIPRtotals[23];
+            GetFundingTypes(input);
+            PercentDC = TotalDC / TotalAlloc;
+            PercentWR = TotalWR / TotalAlloc;
+            PercentPO = TotalPO / TotalAlloc;
+            PercentExp = TotalExp / TotalAlloc;
+            PercentRem = TotalBal / TotalAlloc;
             WCD = num.WCD;
             AppnExp = num.AppnExp;
             AcceptDate = num.AcceptDate;
         }
-
+        public MIPRSummaryViewModel(List<ProjNum> input)
+        {
+            this.Children = new List<ProjNum>();
+            ProjNum num = input.ElementAt(0);
+            MIPRnum = num.MIPRnum;
+            MIPRtotals = new decimal[24];
+            foreach (var item in input)
+            {
+                MIPRtotals[0] += item.LabAlloc;
+                MIPRtotals[1] += item.MatAlloc;
+                MIPRtotals[2] += item.TrvAlloc;
+                MIPRtotals[3] += item.SvcAlloc;
+                MIPRtotals[4] += item.DivAlloc;
+                MIPRtotals[5] += item.CBAlloc;
+                MIPRtotals[6] += item.OtherAlloc;
+                MIPRtotals[7] += item.TotalAlloc;
+                MIPRtotals[8] += item.LabExp;
+                MIPRtotals[9] += item.MatExp;
+                MIPRtotals[10] += item.TrvExp;
+                MIPRtotals[11] += item.SvcExp;
+                MIPRtotals[12] += item.DivExp;
+                MIPRtotals[13] += item.CBExp;
+                MIPRtotals[14] += item.OtherExp;
+                MIPRtotals[15] += item.TotalExp;
+                MIPRtotals[16] += item.LabBal;
+                MIPRtotals[17] += item.MatBal;
+                MIPRtotals[18] += item.TrvBal;
+                MIPRtotals[19] += item.SvcBal;
+                MIPRtotals[20] += item.DivBal;
+                MIPRtotals[21] += item.CBBal;
+                MIPRtotals[22] += item.OtherBal;
+                MIPRtotals[23] += item.TotalBal;
+                GetFundingTypes(item);
+                Children.Add(item);
+            }
+            BillingElem = num.BillingElem;
+            Appn = num.Appn;
+            AppnNo = num.AppnNo;
+            Program = num.Program;
+            Sponsor = num.Sponsor;
+            LabAlloc = MIPRtotals[0];
+            MatAlloc = MIPRtotals[1];
+            TrvAlloc = MIPRtotals[2];
+            SvcAlloc = MIPRtotals[3];
+            DivAlloc = MIPRtotals[4];
+            CBAlloc = MIPRtotals[5];
+            OtherAlloc = MIPRtotals[6];
+            TotalAlloc = MIPRtotals[7];
+            LabExp = MIPRtotals[8];
+            MatExp = MIPRtotals[9];
+            TrvExp = MIPRtotals[10];
+            SvcExp = MIPRtotals[11];
+            DivExp = MIPRtotals[12];
+            CBExp = MIPRtotals[13];
+            OtherExp = MIPRtotals[14];
+            TotalExp = MIPRtotals[15];
+            LabBal = MIPRtotals[16];
+            MatBal = MIPRtotals[17];
+            TrvBal = MIPRtotals[18];
+            SvcBal = MIPRtotals[19];
+            DivBal = MIPRtotals[20];
+            CBBal = MIPRtotals[21];
+            OtherBal = MIPRtotals[22];
+            TotalBal = MIPRtotals[23];
+            PercentDC = TotalDC / TotalAlloc;
+            PercentWR = TotalWR / TotalAlloc;
+            PercentPO = TotalPO / TotalAlloc;
+            PercentExp = TotalExp / TotalAlloc;
+            PercentRem = TotalBal / TotalAlloc;
+            WCD = num.WCD;
+            AppnExp = num.AppnExp;
+            AcceptDate = num.AcceptDate;
+            Projnum = "ALL";
+        }
+        public MIPRSummaryViewModel(List<MIPRSummaryViewModel> input)
+        {
+            MIPRnum = "Project Total";
+            MIPRtotals = new decimal[27];
+            foreach (var item in input)
+            {
+                MIPRtotals[0] += item.LabAlloc;
+                MIPRtotals[1] += item.MatAlloc;
+                MIPRtotals[2] += item.TrvAlloc;
+                MIPRtotals[3] += item.SvcAlloc;
+                MIPRtotals[4] += item.DivAlloc;
+                MIPRtotals[5] += item.CBAlloc;
+                MIPRtotals[6] += item.OtherAlloc;
+                MIPRtotals[7] += item.TotalAlloc;
+                MIPRtotals[8] += item.LabExp;
+                MIPRtotals[9] += item.MatExp;
+                MIPRtotals[10] += item.TrvExp;
+                MIPRtotals[11] += item.SvcExp;
+                MIPRtotals[12] += item.DivExp;
+                MIPRtotals[13] += item.CBExp;
+                MIPRtotals[14] += item.OtherExp;
+                MIPRtotals[15] += item.TotalExp;
+                MIPRtotals[16] += item.LabBal;
+                MIPRtotals[17] += item.MatBal;
+                MIPRtotals[18] += item.TrvBal;
+                MIPRtotals[19] += item.SvcBal;
+                MIPRtotals[20] += item.DivBal;
+                MIPRtotals[21] += item.CBBal;
+                MIPRtotals[22] += item.OtherBal;
+                MIPRtotals[23] += item.TotalBal;
+                MIPRtotals[24] += item.TotalDC;
+                MIPRtotals[25] += item.TotalWR;
+                MIPRtotals[26] += item.TotalPO;
+            }
+            LabAlloc = MIPRtotals[0];
+            MatAlloc = MIPRtotals[1];
+            TrvAlloc = MIPRtotals[2];
+            SvcAlloc = MIPRtotals[3];
+            DivAlloc = MIPRtotals[4];
+            CBAlloc = MIPRtotals[5];
+            OtherAlloc = MIPRtotals[6];
+            TotalAlloc = MIPRtotals[7];
+            LabExp = MIPRtotals[8];
+            MatExp = MIPRtotals[9];
+            TrvExp = MIPRtotals[10];
+            SvcExp = MIPRtotals[11];
+            DivExp = MIPRtotals[12];
+            CBExp = MIPRtotals[13];
+            OtherExp = MIPRtotals[14];
+            TotalExp = MIPRtotals[15];
+            LabBal = MIPRtotals[16];
+            MatBal = MIPRtotals[17];
+            TrvBal = MIPRtotals[18];
+            SvcBal = MIPRtotals[19];
+            DivBal = MIPRtotals[20];
+            CBBal = MIPRtotals[21];
+            OtherBal = MIPRtotals[22];
+            TotalBal = MIPRtotals[23];
+            PercentDC = TotalDC / TotalAlloc;
+            PercentWR = TotalWR / TotalAlloc;
+            PercentPO = TotalPO / TotalAlloc;
+            PercentExp = TotalExp / TotalAlloc;
+            PercentRem = TotalBal / TotalAlloc;
+            Projnum = "ALL";
+        }
         public MIPRSummaryViewModel(string name, IEnumerable<DataGridViewModel> input)
             {
             MIPRnum = name;
@@ -204,18 +348,55 @@ namespace ProjectManager.ViewModels
 
 
         }
-
-            #endregion
+        #endregion
 
         #region Methods
 
-            private static decimal Parse(string input)
+        private static decimal Parse(string input)
             {
                 string pattern = @"[\$\,]";
                 return decimal.Parse(Regex.Replace(input, pattern, ""));
             }
+        private void GetFundingTypes(ProjNum input)
+        {
+            switch (input.DocType)
+            {
+                case "WR":
+                    TotalWR += -input.TotalAlloc;
+                    break;
+                case "RC":
+                    TotalDC += input.TotalAlloc;
+                    break;
+                case "PO":
+                    TotalPO += input.TotalAlloc;
+                    break;
+                default:
+                    break;
+            }
+        }
+        private void GetFundingTypes(MIPR input)
+        {
+            foreach (var item in input.ProjectNums)
+            {
+                switch (item.DocType)
+                {
+                    case "WR":
+                        TotalWR += item.TotalAlloc;
+                        break;
+                    case "RC":
+                        TotalDC += item.TotalAlloc;
+                        break;
+                    case "PO":
+                        TotalPO += item.TotalAlloc;
+                        break;
+                    default:
+                        break;
+                }
+            }
 
-            private void GetFundingTypes(DataGridViewModel input)
+            
+        }
+        private void GetFundingTypes(DataGridViewModel input)
         {
             switch (input.DocType)
             {
@@ -232,8 +413,6 @@ namespace ProjectManager.ViewModels
                     break;
             }
         }
-       
-
 
         #endregion
     }

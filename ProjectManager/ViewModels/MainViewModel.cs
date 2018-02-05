@@ -2,11 +2,9 @@
 using System.Runtime.CompilerServices;
 using ProjectManager.Model;
 using System.Collections.ObjectModel;
-using System.IO;
 using System.Collections.Generic;
 using System.Linq;
 using System.Xml.Serialization;
-using System.Windows.Data;
 using System;
 
 namespace ProjectManager.ViewModels
@@ -46,9 +44,16 @@ namespace ProjectManager.ViewModels
         public ObservableCollection<MIPRSummaryViewModel> miprsum { get; set; }
         public ObservableCollection<ProjNum> ProjNumList { get; set; }
         public ObservableCollection<ProjNum> TrackedProjNums { get; set; }
+        public MIPRSummaryViewModel SelectedMIPR { get; set; }
+        public ProjNum SelectedProjNum { get; set; }
+        public string FundingSelectedCat { get; set; }
+        public ObservableCollection<MIPRSummaryViewModel> TrackedMIPR { get; set; }
+        public ObservableCollection<KeyValuePair<string, decimal>> FundingFunded { get; set; }
+        public ObservableCollection<KeyValuePair<string, decimal>> FundingExpended { get; set; }
+        public ObservableCollection<KeyValuePair<string, decimal>> FundingBalance { get; set; }
+        public List<string> Tester { get; set; }
 
 
-        public string Tester { get; set; }
         #endregion
 
         public MainViewModel()    
@@ -66,6 +71,10 @@ namespace ProjectManager.ViewModels
             this.ProjNumList = new ObservableCollection<ProjNum>();
             this.miprsum = new ObservableCollection<MIPRSummaryViewModel>();
             this.TrackedProjNums = new ObservableCollection<ProjNum>();
+            //Dashboard
+            this.TrackedMIPR = new ObservableCollection<MIPRSummaryViewModel>();
+            //Testing
+            this.Tester = new List<string>();
         }
 
         private void TDLsetup()

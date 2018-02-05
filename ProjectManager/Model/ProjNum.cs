@@ -99,7 +99,7 @@ namespace ProjectManager.Model
                     AppnExp = DateTime.Parse(source.ElementAt(39).Value.ToString());
                     AcceptDate = DateTime.Parse(source.ElementAt(40).Value.ToString());
                 }
-                if (source.Count() == 40)
+                else if (source.Count() == 40)
                 {
                     MIPRnum = source.ElementAt(0).Value.ToString();
                     Projnum = source.ElementAt(1).Value.ToString();
@@ -143,10 +143,14 @@ namespace ProjectManager.Model
                     AppnExp = DateTime.Parse(source.ElementAt(38).Value.ToString());
                     AcceptDate = DateTime.Parse(source.ElementAt(39).Value.ToString());
                 }
+                else
+                {
+                    System.Windows.Forms.MessageBox.Show(string.Format("Project Number {0} is missing data, and will not be included. Verify MIS entry includes all fields.",source.ElementAt(1).ToString()));
+                }
             }
             catch (Exception e)
             {
-                throw;
+                
             }
            
             

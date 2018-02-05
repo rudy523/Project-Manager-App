@@ -162,10 +162,6 @@ namespace ProjectManager.Model
                 {
                     MIPRList.Add(item);
                 }
-                foreach (var item in distinctMIPRs)
-                {
-                    MIPRList.Add(item);
-                }
                 MIPRs.Clear();
                 foreach (var item in MIPRList)
                 {
@@ -202,10 +198,6 @@ namespace ProjectManager.Model
                 }
                 allMIPRs.Sort();
                 IEnumerable<string> distinctMIPRs = allMIPRs.Distinct();
-                foreach (var item in distinctMIPRs)
-                {
-                    MIPRList.Add(item);
-                }
                 foreach (var item in distinctMIPRs)
                 {
                     MIPRList.Add(item);
