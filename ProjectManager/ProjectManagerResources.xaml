@@ -349,6 +349,105 @@
         <Setter Property="Height" Value="15"/>
     </Style>
 
+    <Style x:Key="FundingAllocColumns" TargetType="DVC:ColumnDataPoint">
+        <Setter Property="MaxWidth" Value="200"/>
+        <Setter Property="Margin" Value="130,0,0,0"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="DVC:ColumnDataPoint">
+                    <Border BorderBrush="White" BorderThickness="1">
+                        <Rectangle Fill="{StaticResource Brush2}"/>
+                        <ToolTipService.ToolTip>
+                            <ToolTip Background="{StaticResource ChartBackground}">
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Rectangle Width="10" Height="10" Fill="{StaticResource Brush2}" Margin="0,0,10,0"/>
+                                    <ContentControl Content="Allocated : "  VerticalContentAlignment="Center" HorizontalAlignment="Center" Foreground="White" Grid.Column="1" />
+                                    <ContentControl Content="{TemplateBinding IndependentValue}" VerticalContentAlignment="Center" HorizontalAlignment="Center"  Foreground="White" Grid.Column="2"/>
+                                    <ContentControl Content="{TemplateBinding DependentValue, Converter={StaticResource CurrencyConverter}}" VerticalContentAlignment="Center" HorizontalAlignment="Left" Grid.ColumnSpan="2" Foreground="White" Grid.Row="1"/>
+                                </Grid>
+                            </ToolTip>
+                        </ToolTipService.ToolTip>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="FundingExpColumns" TargetType="DVC:ColumnDataPoint">
+        <Setter Property="MaxWidth" Value="200"/>
+        <Setter Property="Margin" Value="130,0,0,0"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="DVC:ColumnDataPoint">
+                    <Border BorderBrush="White" BorderThickness="1">
+                        <Rectangle Fill="{StaticResource TDLfund}"/>
+                        <ToolTipService.ToolTip>
+                            <ToolTip Background="{StaticResource ChartBackground}">
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Rectangle Width="10" Height="10" Fill="{StaticResource TDLfund}" Margin="0,0,10,0"/>
+                                    <ContentControl Content="Expended : "  VerticalContentAlignment="Center" HorizontalAlignment="Center" Foreground="White" Grid.Column="1" />
+                                    <ContentControl Content="{TemplateBinding IndependentValue}" VerticalContentAlignment="Center" HorizontalAlignment="Center"  Foreground="White" Grid.Column="2"/>
+                                    <ContentControl Content="{TemplateBinding DependentValue, Converter={StaticResource CurrencyConverter}}" VerticalContentAlignment="Center" HorizontalAlignment="Left" Grid.ColumnSpan="2" Foreground="White" Grid.Row="1"/>
+                                </Grid>
+                            </ToolTip>
+                        </ToolTipService.ToolTip>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="FundingBalColumns" TargetType="DVC:ColumnDataPoint">
+        <Setter Property="MaxWidth" Value="200"/>
+        <Setter Property="Margin" Value="130,0,0,0"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="DVC:ColumnDataPoint">
+                    <Border BorderBrush="White" BorderThickness="1">
+                        <Rectangle Fill="{StaticResource Brush6}"/>
+                        <ToolTipService.ToolTip>
+                            <ToolTip Background="{StaticResource ChartBackground}">
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Rectangle Width="10" Height="10" Fill="{StaticResource Brush6}" Margin="0,0,10,0"/>
+                                    <ContentControl Content="Balance : "  VerticalContentAlignment="Center" HorizontalAlignment="Center" Foreground="White" Grid.Column="1" />
+                                    <ContentControl Content="{TemplateBinding IndependentValue}" VerticalContentAlignment="Center" HorizontalAlignment="Center"  Foreground="White" Grid.Column="2"/>
+                                    <ContentControl Content="{TemplateBinding DependentValue, Converter={StaticResource CurrencyConverter}}" VerticalContentAlignment="Center" HorizontalAlignment="Left" Grid.ColumnSpan="2" Foreground="White" Grid.Row="1"/>
+                                </Grid>
+                            </ToolTip>
+                        </ToolTipService.ToolTip>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
     <Style x:Key="BudgetColumns" TargetType="DVC:ColumnDataPoint">
         <Setter Property="MaxWidth" Value="125"/>
         <Setter Property="Margin" Value="90,0,0,0"/>
@@ -514,6 +613,48 @@
         </Setter>
     </Style>
 
+    <Style x:Key="FundingAllocLegendItem" TargetType="DVC:LegendItem">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="DVC:LegendItem">
+                    <StackPanel Orientation="Horizontal" Margin="0,0,10,5">
+                        <Border Width="10" Height="20" Background="{StaticResource Brush2}"/>
+                        <TextBlock VerticalAlignment="Center" Text="{Binding ElementName=FundSeriesAllocated, Path=Title}" FontWeight="Light" FontSize="12" 
+                                   Foreground="{StaticResource LegendItem}" Margin="10"/>
+                    </StackPanel>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="FundingExpLegendItem" TargetType="DVC:LegendItem">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="DVC:LegendItem">
+                    <StackPanel Orientation="Horizontal" Margin="0,0,10,5">
+                        <Border Width="10" Height="20" Background="{StaticResource TDLfund}"/>
+                        <TextBlock VerticalAlignment="Center" Text="{Binding ElementName=FundSeriesExp, Path=Title}" FontWeight="Light" FontSize="12" 
+                                   Foreground="{StaticResource LegendItem}" Margin="10"/>
+                    </StackPanel>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="FundingBalLegendItem" TargetType="DVC:LegendItem">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="DVC:LegendItem">
+                    <StackPanel Orientation="Horizontal" Margin="0,0,10,5">
+                        <Border Width="10" Height="20" Background="{StaticResource Brush6}"/>
+                        <TextBlock VerticalAlignment="Center" Text="{Binding ElementName=FundSeriesBal, Path=Title}" FontWeight="Light" FontSize="12" 
+                                   Foreground="{StaticResource LegendItem}" Margin="10"/>
+                    </StackPanel>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
     <Style x:Key="BudgetTDLLegendItem" TargetType="DVC:LegendItem">
         <Setter Property="Template">
             <Setter.Value>
@@ -671,42 +812,7 @@
         </Setter>
     </Style>
 
-    <Style x:Key="MIPRsnapChart" TargetType="DVC:Chart">
-        <Setter Property="Background" Value="{StaticResource ChartBackground}"/>
-        <Setter Property="MinHeight" Value="500"/>
-        <Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate TargetType="DVC:Chart">
-                    <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}"
-                                        Padding="{TemplateBinding Padding}">
-                        <Grid>
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="auto"/>
-                                <RowDefinition Height="*"/>
-                            </Grid.RowDefinitions>
-                            <Visualization:Title Style="{StaticResource LineChartTitle}" Content="{TemplateBinding Title}"/>
-                            <Grid Grid.Row="1" Margin="0,15,0,15">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="*"/>
-                                    <ColumnDefinition Width="Auto"/>
-                                </Grid.ColumnDefinitions>
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="*"/>
-                                    <RowDefinition Height="Auto"/>
-                                    <RowDefinition Height="Auto"/>
-                                </Grid.RowDefinitions>
-                                <Primitives:EdgePanel x:Name="ChartArea" Style="{TemplateBinding ChartAreaStyle}"/>
-                                <Visualization:Legend x:Name="Legend" Style="{TemplateBinding LegendStyle}" Grid.Row="1"/>
-                                <ComboBox x:Name="FundCategoryPick" Grid.Row="2" Background="#FF3A3838" BorderBrush="Black" Width="100" HorizontalAlignment="Left" BorderThickness="1" 
-                                              ItemsSource="{Binding Source={StaticResource fundCatProvider}}" SelectedItem="{Binding FundingSelectedCat}" SelectionChanged="FundCategoryPick_SelectionChanged" >
-                                </ComboBox>
-                            </Grid>
-                        </Grid>
-                    </Border>
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
-    </Style>
+   
 
     <Style x:Key="ChartComboBox" TargetType="ComboBox">
         <Setter Property="Background" Value="Transparent"/>

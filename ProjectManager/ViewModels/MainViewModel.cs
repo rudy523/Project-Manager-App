@@ -71,6 +71,9 @@ namespace ProjectManager.ViewModels
             this.ProjNumList = new ObservableCollection<ProjNum>();
             this.miprsum = new ObservableCollection<MIPRSummaryViewModel>();
             this.TrackedProjNums = new ObservableCollection<ProjNum>();
+            this.FundingFunded = new ObservableCollection<KeyValuePair<string, decimal>>();
+            this.FundingExpended = new ObservableCollection<KeyValuePair<string, decimal>>();
+            this.FundingBalance = new ObservableCollection<KeyValuePair<string, decimal>>();
             //Dashboard
             this.TrackedMIPR = new ObservableCollection<MIPRSummaryViewModel>();
             //Testing
@@ -260,10 +263,9 @@ namespace ProjectManager.ViewModels
             }
         }
 
-        public void OnPropertyChanged([CallerMemberName]string propertyName = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
+      
+
+       
 
     }
 }

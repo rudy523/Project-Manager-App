@@ -128,11 +128,46 @@ namespace ProjectManager.ViewModels
             OtherBal = MIPRtotals[22];
             TotalBal = MIPRtotals[23];
             GetFundingTypes(input);
-            PercentDC = TotalDC / TotalAlloc;
-            PercentWR = TotalWR / TotalAlloc;
-            PercentPO = TotalPO / TotalAlloc;
-            PercentExp = TotalExp / TotalAlloc;
-            PercentRem = TotalBal / TotalAlloc;
+            try
+            {
+                PercentDC = TotalDC / TotalAlloc;
+            }
+            catch (DivideByZeroException)
+            {
+                PercentDC = 0;
+            }
+            try
+            {
+                PercentWR = TotalWR / TotalAlloc;
+            }
+            catch (DivideByZeroException)
+            {
+                PercentWR = 0;
+            }
+            try
+            {
+                PercentPO = TotalPO / TotalAlloc;
+            }
+            catch (DivideByZeroException)
+            {
+                PercentPO = 0;
+            }
+            try
+            {
+                PercentExp = TotalExp / TotalAlloc;
+            }
+            catch (DivideByZeroException)
+            {
+                PercentExp = 0;
+            }
+            try
+            {
+                PercentRem = TotalBal / TotalAlloc;
+            }
+            catch (DivideByZeroException)
+            {
+                PercentRem = 0;
+            }
             WCD = num.WCD;
             AppnExp = num.AppnExp;
             AcceptDate = num.AcceptDate;
@@ -213,7 +248,7 @@ namespace ProjectManager.ViewModels
         }
         public MIPRSummaryViewModel(List<MIPRSummaryViewModel> input)
         {
-            MIPRnum = "Project Total";
+            MIPRnum = "Project Totals";
             MIPRtotals = new decimal[27];
             foreach (var item in input)
             {
@@ -274,6 +309,7 @@ namespace ProjectManager.ViewModels
             PercentPO = TotalPO / TotalAlloc;
             PercentExp = TotalExp / TotalAlloc;
             PercentRem = TotalBal / TotalAlloc;
+            Sponsor = "All Sponsors";
             Projnum = "ALL";
         }
         public MIPRSummaryViewModel(string name, IEnumerable<DataGridViewModel> input)
