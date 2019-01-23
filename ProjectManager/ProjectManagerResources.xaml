@@ -349,6 +349,62 @@
         <Setter Property="Height" Value="15"/>
     </Style>
 
+    <Style x:Key="PiePiece" TargetType="DVC:PieDataPoint">
+        <Setter Property="BorderBrush" Value="White" />
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="IsTabStop" Value="False" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="DVC:PieDataPoint">
+                    <Canvas x:Name="Root">
+                        <Path x:Name="Slice" Data="{TemplateBinding Geometry}" Fill="{Binding RelativeSource={RelativeSource FindAncestor,AncestorType=DVC:PieSeries}, Path=Background}"  Stroke="{TemplateBinding BorderBrush}" StrokeMiterLimit="1"/>
+                        <Path x:Name="LabelLine" Data="{TemplateBinding LineGeometry}" StrokeThickness="1" StrokeMiterLimit="1" Stroke="{TemplateBinding Foreground}"/>
+                        <Border x:Name="PART_Label">
+                            <TextBlock TextAlignment="Center" FontWeight="Bold" Margin="2" Opacity="0.75" Text="{Binding RelativeSource={RelativeSource FindAncestor,AncestorType=DVC:PieSeries}, Path=DependentValue}"/>
+                        </Border>
+                    </Canvas>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="DCPiePiece" TargetType="DVC:PieDataPoint">
+        <Setter Property="BorderBrush" Value="White" />
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="IsTabStop" Value="False" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="DVC:PieDataPoint">
+                    <Canvas x:Name="Root">
+                        <Path x:Name="Slice" Data="{TemplateBinding Geometry}" Fill="{StaticResource TDLfund}"  Stroke="{TemplateBinding BorderBrush}" StrokeMiterLimit="1"/>
+                        <Border x:Name="PART_Label">
+                            <TextBlock TextAlignment="Center" FontWeight="Bold" Margin="2" Opacity="0.75" Text="{Binding Path=Value}"/>
+                        </Border>
+                    </Canvas>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="POPiePiece" TargetType="DVC:PieDataPoint">
+        <Setter Property="BorderBrush" Value="White" />
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="IsTabStop" Value="False" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="DVC:PieDataPoint">
+                    <Canvas x:Name="Root">
+                        <Path x:Name="Slice" Data="{TemplateBinding Geometry}" Fill="{StaticResource Brush6}"  Stroke="{TemplateBinding BorderBrush}" StrokeMiterLimit="1"/>
+                        <Border x:Name="PART_Label">
+                            <TextBlock TextAlignment="Center" FontWeight="Bold" Margin="2" Opacity="0.75" Text="{Binding Path=Value}"/>
+                        </Border>
+                    </Canvas>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+
     <Style x:Key="FundingAllocColumns" TargetType="DVC:ColumnDataPoint">
         <Setter Property="MaxWidth" Value="200"/>
         <Setter Property="Margin" Value="130,0,0,0"/>
@@ -613,6 +669,45 @@
         </Setter>
     </Style>
 
+    <Style x:Key="WRPieChartLegendItem" TargetType="DVC:LegendItem">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="DVC:LegendItem">
+                    <StackPanel Orientation="Horizontal" Margin="0,0,10,5">
+                        <Border Width="10" Height="20" Background="{Binding ElementName=FundingWRpie, Path=Background}" />
+                        <TextBlock VerticalAlignment="Center" FontWeight="Light" FontSize="12" Foreground="{StaticResource LegendItem}" Text="{Binding ElementName=FundingWRpie, Path=Title}" Margin="10"/>
+                    </StackPanel>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="DCPieChartLegendItem" TargetType="DVC:LegendItem">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="DVC:LegendItem">
+                    <StackPanel Orientation="Horizontal" Margin="0,0,10,5">
+                        <Border Width="10" Height="20" Background="{Binding ElementName=FundingDCpie, Path=Background}" />
+                        <TextBlock VerticalAlignment="Center" FontWeight="Light" FontSize="12" Foreground="{StaticResource LegendItem}" Text="{Binding ElementName=FundingDCpie, Path=Title}" Margin="10"/>
+                    </StackPanel>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="POPieChartLegendItem" TargetType="DVC:LegendItem">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="DVC:LegendItem">
+                    <StackPanel Orientation="Horizontal" Margin="0,0,10,5">
+                        <Border Width="10" Height="20" Background="{Binding ElementName=FundingPOpie, Path=Background}" />
+                        <TextBlock VerticalAlignment="Center" FontWeight="Light" FontSize="12" Foreground="{StaticResource LegendItem}" Text="{Binding ElementName=FundingPOpie, Path=Title}" Margin="10"/>
+                    </StackPanel>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
     <Style x:Key="FundingAllocLegendItem" TargetType="DVC:LegendItem">
         <Setter Property="Template">
             <Setter.Value>
@@ -812,7 +907,40 @@
         </Setter>
     </Style>
 
-   
+    <Style x:Key="PieChart" TargetType="DVC:Chart">
+        <Setter Property="Background" Value="{StaticResource ChartBackground}"/>
+        <Setter Property="MinHeight" Value="500"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="DVC:Chart">
+                    <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}"
+                                        Padding="{TemplateBinding Padding}">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="auto"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+                            <Visualization:Title Style="{TemplateBinding TitleStyle}" Content="{Binding RelativeSource={RelativeSource FindAncestor,AncestorType=DVC:Chart}, Path=Title}" Grid.Row="0"/>
+                            <Grid Grid.Row="1" Margin="0,15,0,15">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="*"/>
+                                    <RowDefinition Height="Auto"/>
+                                </Grid.RowDefinitions>
+                                <Primitives:EdgePanel x:Name="ChartArea" Style="{TemplateBinding ChartAreaStyle}"/>
+                                <Visualization:Legend x:Name="Legend" Style="{TemplateBinding LegendStyle}" Grid.Row="1"/>
+                            </Grid>
+                        </Grid>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+
 
     <Style x:Key="ChartComboBox" TargetType="ComboBox">
         <Setter Property="Background" Value="Transparent"/>

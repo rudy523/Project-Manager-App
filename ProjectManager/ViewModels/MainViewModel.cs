@@ -51,6 +51,9 @@ namespace ProjectManager.ViewModels
         public ObservableCollection<KeyValuePair<string, decimal>> FundingFunded { get; set; }
         public ObservableCollection<KeyValuePair<string, decimal>> FundingExpended { get; set; }
         public ObservableCollection<KeyValuePair<string, decimal>> FundingBalance { get; set; }
+        public ObservableCollection<KeyValuePair<string, decimal>> WRfund { get; set; }
+        public ObservableCollection<KeyValuePair<string, decimal>> DCfund { get; set; }
+        public ObservableCollection<KeyValuePair<string, decimal>> POfund { get; set; }
         public List<string> Tester { get; set; }
 
 
@@ -74,6 +77,9 @@ namespace ProjectManager.ViewModels
             this.FundingFunded = new ObservableCollection<KeyValuePair<string, decimal>>();
             this.FundingExpended = new ObservableCollection<KeyValuePair<string, decimal>>();
             this.FundingBalance = new ObservableCollection<KeyValuePair<string, decimal>>();
+            this.WRfund = new ObservableCollection<KeyValuePair<string, decimal>>();
+            this.DCfund = new ObservableCollection<KeyValuePair<string, decimal>>();
+            this.POfund = new ObservableCollection<KeyValuePair<string, decimal>>();
             //Dashboard
             this.TrackedMIPR = new ObservableCollection<MIPRSummaryViewModel>();
             //Testing

@@ -126,6 +126,7 @@
                 </Setter.Value>
             </Setter>
         </Style>
+        
 
     </Window.Resources>
 
@@ -225,6 +226,7 @@
                                             <RowDefinition Height="Auto"/>
                                             <RowDefinition Height="Auto"/>
                                             <RowDefinition Height="Auto"/>
+                                            <RowDefinition Height="Auto"/>
                                         </Grid.RowDefinitions>
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="*"/>
@@ -239,7 +241,7 @@
                                         FontSize="12" 
                                         DataContext="{Binding ElementName=TrackedMIPRdisplay, Path=SelectedItem}"
                                         >
-                                                <TextBlock Text="{Binding MIPRnum, StringFormat= MIPR Number: {0}}"/>
+                                                <TextBlock x:Name="MIPRnumbertxtblk" Text="{Binding MIPRnum, StringFormat= MIPR Number: {0}}"/>
                                                 <TextBlock Text="{Binding Projnum, StringFormat= Project Number: {0}}"/>
                                                 <TextBlock Text="{Binding BillingElem, StringFormat= Billing Element: {0}}"/>
                                                 <TextBlock Text="{Binding Appn, StringFormat= Appn: {0}}"/>
@@ -301,6 +303,23 @@
                                                 <TextBlock Text="{Binding OtherBal, StringFormat= Project Other Balance: {0}, Converter={StaticResource CurrencyConverter}}"/>
                                                 <TextBlock Text="{Binding TotalBal, StringFormat= Project Total Balance: {0}, Converter={StaticResource CurrencyConverter}}"/>
                                             </ListBox>
+                                            <ListBox Name="DBMIPRfunddetails5" 
+                                                BorderBrush="Transparent"
+                                                Background="Transparent"
+                                                Foreground="White"
+                                                FontSize="12" 
+                                                Margin="35,0,0,0"    
+                                                DataContext="{Binding ElementName=TrackedMIPRdisplay, Path=SelectedItem}"    
+                                                >
+                                                <TextBlock Text="{Binding TotalWR, StringFormat= Project Funding Reimbursable: {0}, Converter={StaticResource CurrencyConverter}}"/>
+                                                <TextBlock Text="{Binding TotalDC, StringFormat= Project Funding Direct Cite: {0}, Converter={StaticResource CurrencyConverter}}"/>
+                                                <TextBlock Text="{Binding TotalPO, StringFormat= Project Funding Project Order: {0}, Converter={StaticResource CurrencyConverter}}"/>
+                                                <TextBlock Text="{Binding PercentWR, StringFormat=  Reimbursable Percentage: {0}, Converter={StaticResource PercentageConverter}}"/>
+                                                <TextBlock Text="{Binding PercentDC, StringFormat= Direct Cite Percentage: {0}, Converter={StaticResource PercentageConverter}}"/>
+                                                <TextBlock Text="{Binding PercentPO, StringFormat= Project Order Percentage: {0}, Converter={StaticResource PercentageConverter}}"/>
+                                                <TextBlock Text="{Binding PercentExp, StringFormat= Percent Expended: {0}, Converter={StaticResource PercentageConverter}}"/>
+                                                <TextBlock Text="{Binding PercentRem, StringFormat= Percent Remaining: {0}, Converter={StaticResource PercentageConverter}}"/>
+                                            </ListBox>
                                         </StackPanel>
                                         
                                         <Label Content="Visualization" FontSize="16" Foreground="White" Background="Transparent" BorderBrush="White" BorderThickness="0,0,0,1" Grid.Row="2" Margin="0,20,0,0"/>
@@ -316,6 +335,19 @@
                                                   DataPointStyle="{StaticResource FundingExpColumns}" Title="Expended" LegendItemStyle="{StaticResource FundingExpLegendItem}"/>
                                             <DVC:ColumnSeries x:Name="FundSeriesBal" ItemsSource="{Binding FundingBalance}" IndependentValuePath="Key" DependentValuePath="Value"
                                                   DataPointStyle="{StaticResource FundingBalColumns}" Title="Balance" LegendItemStyle="{StaticResource FundingBalLegendItem}"/>
+                                        </DVC:Chart>
+                                        
+                                        <DVC:Chart x:Name="TypeDist" Grid.Row="4" Style="{StaticResource PieChart}" LegendStyle="{StaticResource ChartLegend}" TitleStyle="{StaticResource LineChartTitle}" 
+                                                   Background="Transparent" Padding="25,20,25,5">
+                                            <DVC:Chart.Axes>
+                                                <DVC:CategoryAxis AxisLabelStyle="{StaticResource TDLChartAxisLabel}"/>
+                                            </DVC:Chart.Axes>
+                                            <DVC:PieSeries x:Name="FundingWRpie" IndependentValuePath="Key" DependentValuePath="Value" ItemsSource="{Binding WRfund}" Title="Reimbursable"
+                                                           DataPointStyle="{StaticResource PiePiece}" Background="{StaticResource Brush2}" LegendItemStyle="{StaticResource WRPieChartLegendItem}"/>
+                                            <DVC:PieSeries x:Name="FundingDCpie" IndependentValuePath="Key" DependentValuePath="Value" ItemsSource="{Binding DCfund}" Title="Direct Cite"
+                                                           DataPointStyle="{StaticResource PiePiece}" Background="{StaticResource TDLfund}" LegendItemStyle="{StaticResource DCPieChartLegendItem}"/>
+                                            <DVC:PieSeries x:Name="FundingPOpie" IndependentValuePath="Key" DependentValuePath="Value" ItemsSource="{Binding POfund}" Title="Project Order"
+                                                           DataPointStyle="{StaticResource PiePiece}" Background="{StaticResource Brush6}" LegendItemStyle="{StaticResource POPieChartLegendItem}"/>
                                         </DVC:Chart>
                                     </Grid>
                                 </Grid>
@@ -512,7 +544,7 @@
                             <Button x:Name="Show_Nums_Button" Content="Show Project Number"  Style="{StaticResource TDLButton}" MaxHeight="50" MaxWidth="200" Click="Show_Nums_Button_Click"/>
                             <Button x:Name="Track_Nums_Button" Content="Track Project Number"  Style="{StaticResource TDLButton}" MaxHeight="50" MaxWidth="200" Click="Track_Nums_Button_Click"/>
                             <Button x:Name="Fund_Reset_Param_Button" Content="Reset Parameters"  Style="{StaticResource TDLButton}" MaxHeight="50" MaxWidth="200" Click="Fund_Reset_Param_Button_Click"/>
-                            <Button x:Name="Clear_Nums_Button" Content="Clear Tracked"  Style="{StaticResource TDLButton}" MaxHeight="50" MaxWidth="200"/>
+                            <Button x:Name="Clear_Nums_Button" Content="Clear Tracked"  Style="{StaticResource TDLButton}" MaxHeight="50" MaxWidth="200" Click="Clear_Nums_Button_Click"/>
                         </StackPanel>
                         <Grid Grid.Row="1" Grid.ColumnSpan="5">
                             <Grid.RowDefinitions>

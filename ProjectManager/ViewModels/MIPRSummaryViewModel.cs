@@ -279,6 +279,7 @@ namespace ProjectManager.ViewModels
                 MIPRtotals[24] += item.TotalDC;
                 MIPRtotals[25] += item.TotalWR;
                 MIPRtotals[26] += item.TotalPO;
+                GetFundingTypes(item);
             }
             LabAlloc = MIPRtotals[0];
             MatAlloc = MIPRtotals[1];
@@ -398,7 +399,7 @@ namespace ProjectManager.ViewModels
             switch (input.DocType)
             {
                 case "WR":
-                    TotalWR += -input.TotalAlloc;
+                    TotalWR += input.TotalAlloc;
                     break;
                 case "RC":
                     TotalDC += input.TotalAlloc;
@@ -409,6 +410,12 @@ namespace ProjectManager.ViewModels
                 default:
                     break;
             }
+        }
+        private void GetFundingTypes(MIPRSummaryViewModel input)
+        {                          
+                TotalWR += input.TotalWR;
+                TotalDC += input.TotalDC;
+                TotalPO += input.TotalPO;        
         }
         private void GetFundingTypes(MIPR input)
         {

@@ -364,7 +364,6 @@ namespace ProjectManager
         {
             if (ProjNumList.SelectedItems.Count > 0)
             {
-                
                 List<ProjNum> tracklist = new List<ProjNum>();
                 // Move selected project numbers to Tracked Project Numbers
                 foreach (var item in ProjNumList.SelectedItems)
@@ -440,6 +439,9 @@ namespace ProjectManager
                 _viewModel.FundingFunded.Clear();
                 _viewModel.FundingExpended.Clear();
                 _viewModel.FundingBalance.Clear();
+                _viewModel.WRfund.Clear();
+                _viewModel.DCfund.Clear();
+                _viewModel.POfund.Clear();
 
                 switch (_viewModel.FundingSelectedCat)
                 {
@@ -482,15 +484,26 @@ namespace ProjectManager
                         _viewModel.FundingFunded.Add(new KeyValuePair<string, decimal>("Total", _viewModel.SelectedMIPR.TotalAlloc));
                         _viewModel.FundingExpended.Add(new KeyValuePair<string, decimal>("Total", _viewModel.SelectedMIPR.TotalExp));
                         _viewModel.FundingBalance.Add(new KeyValuePair<string, decimal>("Total", _viewModel.SelectedMIPR.TotalBal));
+                        // Pie charts
+                        _viewModel.WRfund.Add(new KeyValuePair<string, decimal>("Reimbursable", _viewModel.SelectedMIPR.TotalWR));
+                        _viewModel.DCfund.Add(new KeyValuePair<string, decimal>("Direct Cite", _viewModel.SelectedMIPR.TotalDC));
+                        _viewModel.POfund.Add(new KeyValuePair<string, decimal>("Project Order", _viewModel.SelectedMIPR.TotalPO));
                         break;
                     default:
                         break;
                 }
                 StringBuilder sb = new StringBuilder();
+                StringBuilder sb1 = new StringBuilder();
                 sb.Append(_viewModel.SelectedMIPR.MIPRnum);
+                sb1.Append(_viewModel.SelectedMIPR.MIPRnum);
                 sb.Append(" : ");
+                sb1.Append(" : ");
                 sb.Append(_viewModel.SelectedMIPR.Sponsor);
+                sb1.Append("Funding Distribution");
                 MIPRSnapChart.Title = sb;
+                TypeDist.Title = sb1;
+              
+
             }
             else if (_viewModel.SelectedProjNum != null)
             {
@@ -555,16 +568,23 @@ namespace ProjectManager
         {
             if (_viewModel.SelectedMIPR != null)
             {
+                // clear key value pairs so new data can be displayed
+                // Column chart
                 _viewModel.FundingFunded.Clear();
                 _viewModel.FundingExpended.Clear();
                 _viewModel.FundingBalance.Clear();
+                // Pie Chart
+                _viewModel.WRfund.Clear();
+                _viewModel.DCfund.Clear();
+                _viewModel.POfund.Clear();
 
                 switch (_viewModel.FundingSelectedCat)
                 {
                     case "Labor":
+                        // Line chart
                         _viewModel.FundingFunded.Add(new KeyValuePair<string, decimal>("Labor", _viewModel.SelectedMIPR.LabAlloc));
                         _viewModel.FundingExpended.Add(new KeyValuePair<string, decimal>("Labor", _viewModel.SelectedMIPR.LabExp));
-                        _viewModel.FundingBalance.Add(new KeyValuePair<string, decimal>("Labor", _viewModel.SelectedMIPR.LabBal));
+                        _viewModel.FundingBalance.Add(new KeyValuePair<string, decimal>("Labor", _viewModel.SelectedMIPR.LabBal));             
                         break;
                     case "Travel":
                         _viewModel.FundingFunded.Add(new KeyValuePair<string, decimal>("Travel", _viewModel.SelectedMIPR.TrvAlloc));
@@ -600,11 +620,21 @@ namespace ProjectManager
                         _viewModel.FundingFunded.Add(new KeyValuePair<string, decimal>("Total", _viewModel.SelectedMIPR.TotalAlloc));
                         _viewModel.FundingExpended.Add(new KeyValuePair<string, decimal>("Total", _viewModel.SelectedMIPR.TotalExp));
                         _viewModel.FundingBalance.Add(new KeyValuePair<string, decimal>("Total", _viewModel.SelectedMIPR.TotalBal));
+                        // Pie charts
+                        _viewModel.WRfund.Add(new KeyValuePair<string, decimal>("Reimbursable", _viewModel.SelectedMIPR.TotalWR));
+                        _viewModel.DCfund.Add(new KeyValuePair<string, decimal>("Direct Cite", _viewModel.SelectedMIPR.TotalDC));
+                        _viewModel.POfund.Add(new KeyValuePair<string, decimal>("Project Order", _viewModel.SelectedMIPR.TotalPO));
                         break;
                     default:
                         break;
                 }
             }
+        }
+
+        private void Clear_Nums_Button_Click(object sender, RoutedEventArgs e)
+        {
+            _viewModel.TrackedProjNums.Clear();
+            _viewModel.TrackedMIPR.Clear();
         }
     }
 }
